@@ -1,0 +1,68 @@
+<ng-container *ngIf="movieDetails?.poster_path"
+  ><img src="{{ posterPath + movieDetails?.poster_path }}" alt=""
+/></ng-container>
+<h1>{{ movieDetails?.title }}</h1>
+<p>{{ movieDetails?.vote_average }}</p>
+<p>zewnetrzny ratingImdb</p>
+<p>{{ movieDetails?.overview }}</p>
+<p>{{ movieDetails?.tagline }}</p>
+<p>{{ movieDetails?.runtime }}</p>
+<p>mpaa</p>
+<p>{{ movieDetails?.id }}</p>
+<p>{{ movieDetails?.imdb_id }}</p>
+<p>
+  Gatunek:
+  <ng-container *ngIf="movieDetails?.genres">
+    <ng-container *ngFor="let genre of movieDetails?.genres; let last = last">
+      <span *ngIf="!last">{{ genre?.name }}, </span>
+      <span *ngIf="last">{{ genre?.name }}.</span></ng-container
+    >
+  </ng-container>
+</p>
+
+<p>
+  Kraje:
+  <ng-container *ngIf="movieDetails?.production_countries">
+    <ng-container
+      *ngFor="
+        let country of movieDetails?.production_countries;
+        let last = last
+      "
+    >
+      <span *ngIf="!last">{{ country?.name }}, </span>
+      <span *ngIf="last">{{ country?.name }}.</span>
+    </ng-container>
+  </ng-container>
+</p>
+<p>zewnetrzny credits</p>
+<p>zewnetrzny director</p>
+<p>{{ movieDetails?.release_date }}</p>
+<p>{{ movieDetails?.release_date.slice(0, 4) }}</p>
+<p>{{ movieDetails?.status }}</p>
+<p>
+  Studia filmowe:
+  <ng-container *ngIf="movieDetails?.production_companies">
+    <ng-container
+      *ngFor="
+        let company of movieDetails?.production_companies;
+        let last = last
+      "
+    >
+      <span *ngIf="!last">{{ company?.name }}, </span>
+      <span *ngIf="last">{{ company?.name }}.</span>
+    </ng-container>
+  </ng-container>
+</p>
+<p>zewnetrzny Obsada</p>
+<ng-container *ngIf="movieDetails?.belongs_to_collection?.poster_path">
+  <p>Kolekcja: {{ movieDetails?.belongs_to_collection?.name }}</p>
+
+  <img
+    src="{{ posterPath + movieDetails?.belongs_to_collection.poster_path }}"
+    alt=""
+/></ng-container>
+<a href="{{ movieDetails?.homepage }}" target="_blank"
+  ><p>{{ movieDetails?.homepage }}</p></a
+>
+
+<button (click)="goToResults()">Cofnij do listy wyszukiwania</button>
