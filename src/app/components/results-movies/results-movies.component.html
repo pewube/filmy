@@ -1,1 +1,38 @@
-<p>results-movies works!</p>
+<article>
+  <h1 *ngIf="query && movies?.total_results > 0">
+    Filmy: rezultat wyszukiwania "{{ query }}"
+  </h1>
+  <section class="results__movies">
+    <mat-paginator
+      *ngIf="length > 0"
+      [length]="length"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      hidePageSize
+      showFirstLastButtons
+      (page)="changePage($event)"
+    ></mat-paginator>
+    <ul *ngIf="movies && movies?.total_results > 0">
+      <li *ngFor="let movie of movies.results">
+        <a [routerLink]="['/movie', movie.id]">
+          <app-result-link
+            [imgsrc]="movie.poster_path ? urlImg94 + movie.poster_path : ''"
+            [title]="movie.title"
+            [originalTitle]="movie.original_title"
+            [overview]="movie.overview"
+            [date]="movie.release_date"
+          ></app-result-link>
+        </a>
+      </li>
+    </ul>
+    <mat-paginator
+      *ngIf="length > 0"
+      [length]="length"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      hidePageSize
+      showFirstLastButtons
+      (page)="changePage($event)"
+    ></mat-paginator>
+  </section>
+</article>

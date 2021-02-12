@@ -1,1 +1,130 @@
-<p>show-details works!</p>
+<ng-container *ngIf="showDetails?.poster_path"
+  ><img src="{{ posterPath + showDetails?.poster_path }}" alt=""
+/></ng-container>
+<ng-container *ngIf="showDetails?.backdrop_path"
+  ><img
+    src="{{ backdropPath + showDetails?.backdrop_path }}"
+    height="141px"
+    alt=""
+/></ng-container>
+<h1>{{ showDetails?.name }}</h1>
+<p>
+  {{ showDetails?.tagline }}
+</p>
+<p>
+  Ocena TMDB:
+  {{
+    showDetails?.vote_average
+      ? showDetails?.vote_average + " (" + showDetails?.vote_count + " głosów)"
+      : "brak ocen"
+  }}
+</p>
+<p>Ocena IMDB: zewnetrzny ratingImdb</p>
+<p>
+  {{ showDetails?.overview ? showDetails?.overview : showDetailsEn?.overview }}
+</p>
+
+<p>
+  Sezony:
+  {{
+    showDetails?.number_of_seasons
+      ? showDetails?.number_of_seasons
+      : "brak danych"
+  }}
+</p>
+<p>
+  Odcinki:
+  {{
+    showDetails?.number_of_episodes
+      ? showDetails?.number_of_episodes
+      : "brak danych"
+  }}
+</p>
+<p>zewnętrzny MPAA</p>
+<p>TMDB Id: {{ showDetails?.id ? showDetails?.id : "brak danych" }}</p>
+<p>
+  IMDB Id: {{ showDetails?.imdb_id ? showDetails?.imdb_id : "brak danych" }}
+</p>
+
+<ng-container *ngIf="showDetails?.genres.length > 0">
+  <p>
+    Gatunek:
+    <ng-container *ngFor="let genre of showDetails?.genres; let last = last">
+      <span *ngIf="!last">{{ genre?.name }}, </span>
+      <span *ngIf="last">{{ genre?.name }}</span></ng-container
+    >
+  </p>
+</ng-container>
+
+<ng-container *ngIf="showDetails?.production_countries.length > 0">
+  <p>
+    Kraje:
+    <ng-container
+      *ngFor="let country of showDetails?.production_countries; let last = last"
+    >
+      <span *ngIf="!last">{{ country?.name }}, </span>
+      <span *ngIf="last">{{ country?.name }}</span>
+    </ng-container>
+  </p>
+</ng-container>
+
+<ng-container *ngIf="showDetails?.created_by.length > 0">
+  <p>
+    Twórcy:
+    <ng-container
+      *ngFor="let creator of showDetails?.created_by; let last = last"
+    >
+      <span *ngIf="!last">{{ creator?.name }}, </span>
+      <span *ngIf="last">{{ creator?.name }}.</span>
+    </ng-container>
+  </p>
+</ng-container>
+
+<p>
+  Emisja pierwszego odcinka:
+  {{ showDetails?.first_air_date ? showDetails?.imdb_id : "brak danych" }}
+</p>
+<p>
+  Rok:
+  {{
+    showDetails?.first_air_date
+      ? showDetails?.first_air_date?.slice(0, 4)
+      : "brak danych"
+  }}
+</p>
+<p>Status: {{ showDetails?.status ? showDetails?.status : "brak danych" }}</p>
+<p>
+  Emisja ostatniego odcinka:
+  {{ showDetails?.last_air_date ? showDetails?.last_air_date : "brak danych" }}
+</p>
+
+<ng-container *ngIf="showDetails?.networks.length > 0">
+  <p>
+    Sieci TV:
+    <ng-container
+      *ngFor="let network of showDetails?.networks; let last = last"
+    >
+      <span *ngIf="!last">{{ network?.name }}, </span>
+      <span *ngIf="last">{{ network?.name }}.</span>
+    </ng-container>
+  </p>
+</ng-container>
+<ng-container *ngIf="actors.length > 0">
+  <p>Wystąpili m.in.:</p>
+  <ng-container *ngFor="let actor of actors">
+    <article>
+      <ng-container *ngIf="actor.profile_path"
+        ><img src="{{ posterPath + actor.profile_path }}" alt=""
+      /></ng-container>
+      <p>{{ actor.name }}</p>
+      <p>jako: {{ actor.character }}</p>
+    </article>
+  </ng-container>
+</ng-container>
+<a href="{{ showDetails?.homepage }}" target="_blank"
+  ><p>{{ showDetails?.homepage }}</p></a
+>
+
+<div>--- TUTAJ BEDZIE ZAWARTOŚĆ DO PLIKU NFO KODI ---</div>
+
+<button (click)="goToResults()">Cofnij do listy wyszukiwania</button>

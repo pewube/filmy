@@ -1,36 +1,44 @@
 export interface ShowDetails {
-  title: string;
-  originalTitle: string;
-  ratingTvdb: Array<number>;
-  ratingImdb?: Array<number>;
-  season: number;
-  episode: number;
-  plot: string;
+  name: string;
+  original_name: string;
+  vote_average: number;
+  vote_count: number;
+  ratingImdb?: number;
+  number_of_seasons: number;
+  number_of_episodes: number;
+  overview: string;
   tagline: string;
-  runtime: number;
-  posterPath: string;
+  runtime?: number;
+  poster_path: string;
+  backdrop_path: string;
   mpaa?: string;
-  episodeGuide: string;
+  episodeGuide?: string;
   id: number;
-  imdbId: string;
-  genres: Array<string>;
-  premiered: string;
-  year: string;
+  imdb_id?: string;
+  genres: Array<ShowData>;
+  production_countries: Array<ShowData>;
+  first_air_date: string;
+  last_air_date: string;
+  year?: string;
   status: string;
-  aired: string;
-  studio: string;
-  actors: Array<ShowActor>;
+  networks: Array<ShowData>;
+  created_by: Array<ShowData>;
+  actors?: Array<ShowActor>;
   homepage?: string;
 }
 
-export interface ShowCollection {
+export interface ShowCrew {
   name: string;
-  role: string;
-  posterPath: string;
+  profile_path: string;
+  job: string;
 }
 
 export interface ShowActor {
-  id: number;
   name: string;
-  posterPath: string;
+  character: string;
+  profile_path: string;
+}
+
+export interface ShowData {
+  name: string;
 }

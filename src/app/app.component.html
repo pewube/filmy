@@ -1,8 +1,8 @@
 <header>
   <mat-toolbar class="toolbar" color="primary">
-    <span>Filmy</span>
+    <a (click)="reset()" routerLink="/"><span>Filmy</span></a>
 
-    <form class="searcher" (ngSubmit)="showResults()" #form="ngForm">
+    <form class="searcher" (ngSubmit)="search()" #form="ngForm">
       <mat-form-field>
         <input
           matInput
@@ -25,10 +25,18 @@
       </button>
     </form>
   </mat-toolbar>
-  <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Filmy">Filmy: </mat-tab>
-    <mat-tab label="Seriale">Seriale: </mat-tab>
-  </mat-tab-group>
+  <nav
+    mat-tab-nav-bar
+    mat-align-tabs="center"
+    *ngIf="numberOfMovies || numberOfShows"
+  >
+    <a mat-tab-link [routerLink]="['/results-movies', query, '1']">{{
+      "Filmy: " + numberOfMovies
+    }}</a>
+    <a mat-tab-link [routerLink]="['/results-shows', query, '1']">{{
+      "Seriale: " + numberOfShows
+    }}</a>
+  </nav>
 </header>
 
 <router-outlet class="router-outlet"></router-outlet>

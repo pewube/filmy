@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-html,
 body {
+  max-width: 1200px;
   height: 100%;
-}
-body {
-  margin: 0;
+  padding: 0 20px;
+  margin: 0 auto;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fff;
 }

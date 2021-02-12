@@ -2,9 +2,10 @@ footer {
   width: 100%;
   margin-top: 50px;
   text-align: center;
+  overflow: hidden;
 
   & .construction {
-    margin: 10px 0;
+    margin: 0;
     text-transform: uppercase;
   }
 
@@ -16,12 +17,12 @@ footer {
   & svg {
     width: 50%;
     max-width: 200px;
-    margin-bottom: 2px;
+    margin-bottom: 0;
   }
 
   & p {
     padding: 0;
-    margin: 2px 0;
+    margin-bottom: 2px;
     font-size: 12px;
   }
 }

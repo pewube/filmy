@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MovieDetails } from '../models/movie-details';
+import { ShowDetails } from '../models/show-details';
 
 @Injectable({
   providedIn: 'root',
@@ -12,14 +13,13 @@ export class HttpService {
   private urlBase: string = 'https://api.themoviedb.org/3';
   private urlSearchAll: string = `${this.urlBase}/search/multi?api_key=${this.apiKey}&language=pl&query=`;
 
-  private urlSearchMovies: string = `${this.urlBase}/search/movie?api_key=${this.apiKey}&language=pl&query=`;
-  private urlSearchShows: string = `${this.urlBase}/search/tv?api_key=${this.apiKey}&language=pl&page=1&query=`;
+  private urlSearchMovies: string = `${this.urlBase}/search/movie?api_key=${this.apiKey}`;
+  private urlSearchShows: string = `${this.urlBase}/search/tv?api_key=${this.apiKey}`;
 
-  private urlImg1280: string = 'https://www.themoviedb.org/t/p/w1280';
-  public urlImg600: string =
-    'https://www.themoviedb.org/t/p/w600_and_h900_bestv2';
-  public urlImg94: string =
-    'https://www.themoviedb.org/t/p/w94_and_h141_bestv2';
+  urlImgOriginal: string = 'https://www.themoviedb.org/t/p/original';
+  urlImg1280: string = 'https://www.themoviedb.org/t/p/w1280';
+  urlImg600: string = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2';
+  urlImg94: string = 'https://www.themoviedb.org/t/p/w94_and_h141_bestv2';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -35,6 +35,8 @@ export class HttpService {
       .set('language', language)
       .set('page', page)
       .set('query', query);
+    console.log(this.urlSearchMovies + query);
+
     return this.httpClient.get<TmdbResponse>(this.urlSearchMovies, {
       params: searchParams,
     });
@@ -52,14 +54,30 @@ export class HttpService {
       params: searchParams,
     });
   }
-  getMovieDetails(movieId: string): Observable<MovieDetails> {
+  getMovieDetails(
+    movieId: string,
+    language: string = 'pl'
+  ): Observable<MovieDetails> {
+    let searchParams = new HttpParams().set('language', language);
+
     return this.httpClient.get<MovieDetails>(
-      `${this.urlBase}/movie/${movieId}?api_key=${this.apiKey}&language=pl`
+      `${this.urlBase}/movie/${movieId}?api_key=${this.apiKey}`,
+      {
+        params: searchParams,
+      }
     );
   }
-  getShowDetails(showId: string): Observable<Object> {
-    return this.httpClient.get<Object>(
-      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}&language=pl`
+  getShowDetails(
+    showId: string,
+    language: string = 'pl'
+  ): Observable<ShowDetails> {
+    let searchParams = new HttpParams().set('language', language);
+
+    return this.httpClient.get<ShowDetails>(
+      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}`,
+      {
+        params: searchParams,
+      }
     );
   }
   getMovieCredits(movieId: string): Observable<MovieDetails> {

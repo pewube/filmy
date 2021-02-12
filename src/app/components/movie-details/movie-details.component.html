@@ -1,28 +1,55 @@
 <ng-container *ngIf="movieDetails?.poster_path"
   ><img src="{{ posterPath + movieDetails?.poster_path }}" alt=""
 /></ng-container>
+<ng-container *ngIf="movieDetails?.backdrop_path"
+  ><img
+    src="{{ backdropPath + movieDetails?.backdrop_path }}"
+    height="141px"
+    alt=""
+/></ng-container>
 <h1>{{ movieDetails?.title }}</h1>
-<p>{{ movieDetails?.vote_average }}</p>
-<p>zewnetrzny ratingImdb</p>
-<p>{{ movieDetails?.overview }}</p>
 <p>{{ movieDetails?.tagline }}</p>
-<p>{{ movieDetails?.runtime }}</p>
-<p>mpaa</p>
-<p>{{ movieDetails?.id }}</p>
-<p>{{ movieDetails?.imdb_id }}</p>
 <p>
-  Gatunek:
-  <ng-container *ngIf="movieDetails?.genres">
-    <ng-container *ngFor="let genre of movieDetails?.genres; let last = last">
-      <span *ngIf="!last">{{ genre?.name }}, </span>
-      <span *ngIf="last">{{ genre?.name }}.</span></ng-container
-    >
-  </ng-container>
+  Ocena TMDB:
+  {{
+    movieDetails?.vote_average
+      ? movieDetails?.vote_average +
+        " (" +
+        movieDetails?.vote_count +
+        " głosów)"
+      : "brak ocen"
+  }}
+</p>
+<p>Ocena IMDB: zewnetrzny ratingImdb</p>
+<p>
+  {{
+    movieDetails?.overview ? movieDetails?.overview : movieDetailsEn?.overview
+  }}
 </p>
 
 <p>
-  Kraje:
-  <ng-container *ngIf="movieDetails?.production_countries">
+  Czas trwania:
+  {{ movieDetails?.runtime ? movieDetails?.runtime + " min." : "brak danych" }}
+</p>
+<p>zewnętrzny MPAA</p>
+<p>TMDB Id: {{ movieDetails?.id }}</p>
+<p>
+  IMDB Id: {{ movieDetails?.imdb_id ? movieDetails?.imdb_id : "brak danych" }}
+</p>
+
+<ng-container *ngIf="movieDetails?.genres.length > 0"
+  ><p>
+    Gatunek:
+    <ng-container *ngFor="let genre of movieDetails?.genres; let last = last">
+      <span *ngIf="!last">{{ genre?.name }}, </span>
+      <span *ngIf="last">{{ genre?.name }}</span></ng-container
+    >
+  </p>
+</ng-container>
+
+<ng-container *ngIf="movieDetails?.production_countries.length > 0">
+  <p>
+    Kraje:
     <ng-container
       *ngFor="
         let country of movieDetails?.production_countries;
@@ -32,16 +59,46 @@
       <span *ngIf="!last">{{ country?.name }}, </span>
       <span *ngIf="last">{{ country?.name }}.</span>
     </ng-container>
-  </ng-container>
-</p>
-<p>zewnetrzny credits</p>
-<p>zewnetrzny director</p>
-<p>{{ movieDetails?.release_date }}</p>
-<p>{{ movieDetails?.release_date.slice(0, 4) }}</p>
-<p>{{ movieDetails?.status }}</p>
+  </p>
+</ng-container>
+
+<ng-container *ngIf="screenwriters.length > 0">
+  <p>
+    Scenariusz:
+    <ng-container *ngFor="let screenwriter of screenwriters; let last = last">
+      <span *ngIf="!last">{{ screenwriter.name }}, </span>
+      <span *ngIf="last">{{ screenwriter.name }}.</span>
+    </ng-container>
+  </p>
+</ng-container>
+
+<ng-container *ngIf="directors.length > 0">
+  <p>
+    Reżyseria:
+    <ng-container *ngFor="let director of directors; let last = last">
+      <span *ngIf="!last">{{ director.name }}, </span>
+      <span *ngIf="last">{{ director.name }}.</span>
+    </ng-container>
+  </p>
+</ng-container>
+
 <p>
-  Studia filmowe:
-  <ng-container *ngIf="movieDetails?.production_companies">
+  Premiera:
+  {{ movieDetails?.release_date ? movieDetails?.release_date : "brak danych" }}
+</p>
+<p>
+  Rok:
+  {{
+    movieDetails?.release_date
+      ? movieDetails?.release_date?.slice(0, 4)
+      : "brak danych"
+  }}
+</p>
+<p>Status: {{ movieDetails?.status ? movieDetails?.status : "brak danych" }}</p>
+
+<ng-container *ngIf="movieDetails?.production_companies.length > 0">
+  <p>
+    Studia filmowe:
     <ng-container
       *ngFor="
         let company of movieDetails?.production_companies;
@@ -51,9 +108,20 @@
       <span *ngIf="!last">{{ company?.name }}, </span>
       <span *ngIf="last">{{ company?.name }}.</span>
     </ng-container>
+  </p>
+</ng-container>
+<ng-container *ngIf="actors.length > 0">
+  <p>Wystąpili m.in.:</p>
+  <ng-container *ngFor="let actor of actors">
+    <article>
+      <ng-container *ngIf="actor.profile_path"
+        ><img src="{{ posterPath + actor.profile_path }}" alt=""
+      /></ng-container>
+      <p>{{ actor.name }}</p>
+      <p>jako: {{ actor.character }}</p>
+    </article>
   </ng-container>
-</p>
-<p>zewnetrzny Obsada</p>
+</ng-container>
 <ng-container *ngIf="movieDetails?.belongs_to_collection?.poster_path">
   <p>Kolekcja: {{ movieDetails?.belongs_to_collection?.name }}</p>
 
@@ -64,5 +132,6 @@
 <a href="{{ movieDetails?.homepage }}" target="_blank"
   ><p>{{ movieDetails?.homepage }}</p></a
 >
+<div>--- TUTAJ BEDZIE ZAWARTOŚĆ DO PLIKU NFO KODI ---</div>
 
 <button (click)="goToResults()">Cofnij do listy wyszukiwania</button>
