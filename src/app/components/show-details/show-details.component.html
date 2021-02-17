@@ -157,8 +157,20 @@
 
 <section class="kodi-nfo">
   <h2>--- KODI NFO Maker ---</h2>
-  <button (click)="showKodiNfo()">Wygeneruj plik do Kodi</button>
-  <p *ngIf="kodiNfo">{{ kodiNfo }}</p>
+  <ng-container *ngIf="!kodiNfo">
+    <button (click)="showKodiNfo()">Wygeneruj plik do Kodi</button>
+  </ng-container>
+  <ng-container *ngIf="kodiNfo">
+    <textarea
+      class="kodi-nfo__textarea"
+      cdkTextareaAutosize
+      [value]="kodiNfo"
+      readonly
+      wrap
+    ></textarea>
+    <button (click)="saveNfoFile()">Zapisz plik NFO dla Kodi</button>
+    <button [cdkCopyToClipboard]="kodiNfo">Kopiuj zawartość do schowka</button>
+  </ng-container>
 </section>
 
 <button (click)="goToResults()">Cofnij do listy wyszukiwania</button>

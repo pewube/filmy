@@ -158,8 +158,7 @@ export class MovieDetailsComponent implements OnInit {
   // create Kodi .nfo file
 
   showKodiNfo() {
-    this.kodiNfo = `
-    <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+    this.kodiNfo = `<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
     <movie>
         <title>${this.movieDetails.title}</title>
         <originaltitle>${this.movieDetails.original_title}</originaltitle>
@@ -183,7 +182,7 @@ export class MovieDetailsComponent implements OnInit {
         <runtime>${this.movieDetails.runtime}</runtime>
         ${this.getKodiNfoPosters()}
         <fanart>
-        ${this.getKodiNfoBackdrops()}
+            ${this.getKodiNfoBackdrops()}
         </fanart>
         <mpaa>${this.getKodiNfoMpaa()}</mpaa>
         <playcount>0</playcount>
@@ -199,8 +198,8 @@ export class MovieDetailsComponent implements OnInit {
           this.movieDetails.belongs_to_collection
             ? `
         <set>
-          <name>${this.movieDetails.belongs_to_collection.name}</name>
-          <overview></overview>
+            <name>${this.movieDetails.belongs_to_collection.name}</name>
+            <overview></overview>
         </set> `
             : ''
         }
@@ -231,12 +230,16 @@ export class MovieDetailsComponent implements OnInit {
     if (posters.length > 0) {
       for (let poster of posters) {
         kodiNfoPosters += poster.file_path
-          ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${poster.file_path}">https://image.tmdb.org/t/p/original${poster.file_path}</thumb>`
+          ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${poster.file_path}">
+        https://image.tmdb.org/t/p/original${poster.file_path}</thumb>
+        `
           : '';
       }
     } else {
       kodiNfoPosters += this.movieDetails.poster_path
-        ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${this.movieDetails.poster_path}">https://image.tmdb.org/t/p/original${this.movieDetails.poster_path}</thumb>`
+        ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${this.movieDetails.poster_path}">
+      https://image.tmdb.org/t/p/original${this.movieDetails.poster_path}</thumb>
+      `
         : '';
     }
     return kodiNfoPosters;
@@ -249,12 +252,16 @@ export class MovieDetailsComponent implements OnInit {
     if (backdrops.length > 0) {
       for (let backdrop of backdrops) {
         kodiNfoBackdrops += backdrop.file_path
-          ? `<thumb dim="${backdrop.width}x${backdrop.height}" preview="https://image.tmdb.org/t/p/w780${backdrop.file_path}">https://image.tmdb.org/t/p/original${backdrop.file_path}</thumb>`
+          ? `<thumb dim="${backdrop.width}x${backdrop.height}" preview="https://image.tmdb.org/t/p/w780${backdrop.file_path}">
+            https://image.tmdb.org/t/p/original${backdrop.file_path}</thumb>
+            `
           : '';
       }
     } else {
       kodiNfoBackdrops += this.movieDetails.backdrop_path
-        ? `<thumb preview="https://image.tmdb.org/t/p/w780${this.movieDetails.backdrop_path}">https://image.tmdb.org/t/p/original${this.movieDetails.backdrop_path}</thumb>`
+        ? `<thumb preview="https://image.tmdb.org/t/p/w780${this.movieDetails.backdrop_path}">
+          https://image.tmdb.org/t/p/original${this.movieDetails.backdrop_path}</thumb>
+          `
         : '';
     }
     return kodiNfoBackdrops;
@@ -298,7 +305,8 @@ export class MovieDetailsComponent implements OnInit {
 
     if (genres.length > 0) {
       for (let genre of genres) {
-        kodiNfoGenres += `<genre>${genre.name}</genre>`;
+        kodiNfoGenres += `<genre>${genre.name}</genre>
+        `;
       }
     }
 
@@ -311,7 +319,8 @@ export class MovieDetailsComponent implements OnInit {
 
     if (countries.length > 0) {
       for (let country of countries) {
-        kodiNfoCountries += `<country>${country.name}</country>`;
+        kodiNfoCountries += `<country>${country.name}</country>
+        `;
       }
     }
 
@@ -324,7 +333,8 @@ export class MovieDetailsComponent implements OnInit {
 
     if (screenwriters.length > 0) {
       for (let screenwriter of screenwriters) {
-        kodiNfoScreenwriters += `<credits>${screenwriter.name}</credits>`;
+        kodiNfoScreenwriters += `<credits>${screenwriter.name}</credits>
+        `;
       }
     }
 
@@ -337,7 +347,8 @@ export class MovieDetailsComponent implements OnInit {
 
     if (directors.length > 0) {
       for (let director of directors) {
-        kodiNfoDirectors += `<director>${director.name}</director>`;
+        kodiNfoDirectors += `<director>${director.name}</director>
+        `;
       }
     }
 
@@ -350,7 +361,8 @@ export class MovieDetailsComponent implements OnInit {
 
     if (studios.length > 0) {
       for (let studio of studios) {
-        kodiNfoStudios += `<studio>${studio.name}</studio>`;
+        kodiNfoStudios += `<studio>${studio.name}</studio>
+        `;
       }
     }
 
@@ -363,16 +375,15 @@ export class MovieDetailsComponent implements OnInit {
 
     if (actors.length > 0) {
       actors.forEach((actor: MovieActor, index: number) => {
-        kodiNfoActors += `
-        <actor>
-          <name>${actor.name}</name>
-          <role>${actor.character}</role>
-          <order>${index}</order>
-          <thumb>${
-            actor.profile_path
-              ? 'https://image.tmdb.org/t/p/original' + actor.profile_path
-              : ''
-          }</thumb>
+        kodiNfoActors += `<actor>
+            <name>${actor.name}</name>
+            <role>${actor.character}</role>
+            <order>${index}</order>
+            <thumb>${
+              actor.profile_path
+                ? 'https://image.tmdb.org/t/p/original' + actor.profile_path
+                : ''
+            }</thumb>
         </actor>
         `;
       });
@@ -390,5 +401,17 @@ export class MovieDetailsComponent implements OnInit {
     console.log(`${year}-${month}-${day} ${time}`);
 
     return `${year}-${month}-${day} ${time}`;
+  }
+
+  saveNfoFile() {
+    const nfoContent: Blob = new Blob([this.kodiNfo], {
+      type: 'text/xml;charset=utf-8',
+    });
+    const element: HTMLElement = window.document.createElement('a');
+    element.setAttribute('href', window.URL.createObjectURL(nfoContent));
+    element.setAttribute('download', 'zmien-na-nazwe-pliku-z-filmem.nfo');
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   }
 }

@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { ResultsMoviesComponent } from './components/results-movies/results-movies.component';
 import { ResultsShowsComponent } from './components/results-shows/results-shows.component';
 
@@ -40,6 +42,8 @@ import { ResultsShowsComponent } from './components/results-shows/results-shows.
     MatIconModule,
     MatButtonModule,
     MatTabsModule,
+    ClipboardModule,
+    TextFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

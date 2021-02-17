@@ -2,7 +2,7 @@ import { ConfigService } from './../../services/config.service';
 import { ToTranslate } from './../../models/google-translation';
 import { GtranslateService } from './../../services/gtranslate.service';
 import { HttpService } from './../../services/http.service';
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import {
@@ -145,8 +145,7 @@ export class ShowDetailsComponent implements OnInit {
   // create Kodi .nfo file
 
   showKodiNfo() {
-    this.kodiNfo = `
-    <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+    this.kodiNfo = `<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
     <tvshow>
         <title>${this.showDetails.name}</title>
         <originaltitle>${this.showDetails.original_name}</originaltitle>
@@ -175,7 +174,7 @@ export class ShowDetailsComponent implements OnInit {
         ${this.getKodiNfoPosters()}
         ${this.getKodiNfoSeasonsPosters()}
         <fanart>
-        ${this.getKodiNfoBackdrops()}
+            ${this.getKodiNfoBackdrops()}
         </fanart>
         <mpaa>${this.getKodiNfoMpaa()}</mpaa>
         <playcount>0</playcount>
@@ -185,7 +184,7 @@ export class ShowDetailsComponent implements OnInit {
               this.showDetails.id
             }-pl.json">https://api.themoviedb.org/3/tv/${
       this.showDetails.id
-    }?api_key=${this.config.getTmdbKey()}&amp;language=pl&amp;append_to_response=content_ratings,credits,external_ids,images&amp;include_image_language=pl,en,null</url>
+    }?api_key=${this.config.getTmdbKey()}&amp;language=pl&amp;    append_to_response=content_ratings,credits,external_ids,images&amp;include_image_language=pl,en,null</url>
         </episodeguide>
         <id>${this.showDetails.id}</id>
         <uniqueid type="imdb">${
@@ -222,12 +221,16 @@ export class ShowDetailsComponent implements OnInit {
     if (posters.length > 0) {
       for (let poster of posters) {
         kodiNfoPosters += poster.file_path
-          ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${poster.file_path}">https://image.tmdb.org/t/p/original${poster.file_path}</thumb>`
+          ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${poster.file_path}">
+        https://image.tmdb.org/t/p/original${poster.file_path}</thumb>
+        `
           : '';
       }
     } else {
       kodiNfoPosters += this.showDetails.poster_path
-        ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${this.showDetails.poster_path}">https://image.tmdb.org/t/p/original${this.showDetails.poster_path}</thumb>`
+        ? `<thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${this.showDetails.poster_path}">
+      https://image.tmdb.org/t/p/original${this.showDetails.poster_path}</thumb>
+      `
         : '';
     }
     return kodiNfoPosters;
@@ -240,12 +243,16 @@ export class ShowDetailsComponent implements OnInit {
     if (backdrops.length > 0) {
       for (let backdrop of backdrops) {
         kodiNfoBackdrops += backdrop.file_path
-          ? `<thumb dim="${backdrop.width}x${backdrop.height}" preview="https://image.tmdb.org/t/p/w780${backdrop.file_path}">https://image.tmdb.org/t/p/original${backdrop.file_path}</thumb>`
+          ? `<thumb dim="${backdrop.width}x${backdrop.height}" preview="https://image.tmdb.org/t/p/w780${backdrop.file_path}">
+            https://image.tmdb.org/t/p/original${backdrop.file_path}</thumb>
+            `
           : '';
       }
     } else {
       kodiNfoBackdrops += this.showDetails.backdrop_path
-        ? `<thumb preview="https://image.tmdb.org/t/p/w780${this.showDetails.backdrop_path}">https://image.tmdb.org/t/p/original${this.showDetails.backdrop_path}</thumb>`
+        ? `<thumb preview="https://image.tmdb.org/t/p/w780${this.showDetails.backdrop_path}">
+          https://image.tmdb.org/t/p/original${this.showDetails.backdrop_path}</thumb>
+          `
         : '';
     }
     return kodiNfoBackdrops;
@@ -259,9 +266,9 @@ export class ShowDetailsComponent implements OnInit {
       for (let season of seasons) {
         if (season.season_number > 0) {
           kodiNfoSeasonsPosters += season.poster_path
-            ? `
-          <thumb aspect="poster" type="season" season="${season.season_number}">https://image.tmdb.org/t/p/original${season.poster_path}</thumb>
-          `
+            ? `<thumb aspect="poster" type="season" season="${season.season_number}">
+        https://image.tmdb.org/t/p/original${season.poster_path}</thumb>
+        `
             : '';
         }
       }
@@ -308,7 +315,8 @@ export class ShowDetailsComponent implements OnInit {
 
     if (genres.length > 0) {
       for (let genre of genres) {
-        kodiNfoGenres += `<genre>${genre.name}</genre>`;
+        kodiNfoGenres += `<genre>${genre.name}</genre>
+        `;
       }
     }
 
@@ -321,7 +329,8 @@ export class ShowDetailsComponent implements OnInit {
 
     if (studios.length > 0) {
       for (let studio of studios) {
-        kodiNfoStudios += `<studio>${studio.name}</studio>`;
+        kodiNfoStudios += `<studio>${studio.name}</studio>
+        `;
       }
     }
 
@@ -334,8 +343,7 @@ export class ShowDetailsComponent implements OnInit {
 
     if (actors.length > 0) {
       actors.forEach((actor: ShowActor, index: number) => {
-        kodiNfoActors += `
-          <actor>
+        kodiNfoActors += `<actor>
             <name>${actor.name}</name>
             <role>${actor.character}</role>
             <order>${index}</order>
@@ -344,8 +352,8 @@ export class ShowDetailsComponent implements OnInit {
                 ? 'https://image.tmdb.org/t/p/original' + actor.profile_path
                 : ''
             }</thumb>
-          </actor>
-          `;
+        </actor>
+        `;
       });
 
       return kodiNfoActors || '';
@@ -360,9 +368,8 @@ export class ShowDetailsComponent implements OnInit {
       for (let season of seasons) {
         if (season.season_number > 0) {
           kodiNfoSeasonsNames += season.name
-            ? `
-            <namedseason number="${season.season_number}">${season.name}</namedseason>
-          `
+            ? `<namedseason number="${season.season_number}">${season.name}<namedseason>
+        `
             : '';
         }
       }
@@ -380,5 +387,17 @@ export class ShowDetailsComponent implements OnInit {
     console.log(`${year}-${month}-${day} ${time}`);
 
     return `${year}-${month}-${day} ${time}`;
+  }
+
+  saveNfoFile() {
+    const nfoContent: Blob = new Blob([this.kodiNfo], {
+      type: 'text/xml;charset=utf-8',
+    });
+    const element: HTMLElement = window.document.createElement('a');
+    element.setAttribute('href', window.URL.createObjectURL(nfoContent));
+    element.setAttribute('download', 'tvshow.nfo');
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   }
 }
