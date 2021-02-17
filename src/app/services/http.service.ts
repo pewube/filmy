@@ -1,15 +1,20 @@
 import { TmdbResponse } from './../models/tmdb-response';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MovieDetails } from '../models/movie-details';
 import { ShowDetails } from '../models/show-details';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
-  private apiKey: string = '273b8b0772fe22af11cae8460af0d5f5';
+  private apiKey: string = this.config.getTmdbKey();
+  private imdbKey: string = this.config.getImdbKey();
+  private urlImdb: string =
+    'https://imdb8.p.rapidapi.com/title/get-ratings?tconst=';
+
   private urlBase: string = 'https://api.themoviedb.org/3';
   private urlSearchAll: string = `${this.urlBase}/search/multi?api_key=${this.apiKey}&language=pl&query=`;
 
@@ -21,7 +26,7 @@ export class HttpService {
   urlImg600: string = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2';
   urlImg94: string = 'https://www.themoviedb.org/t/p/w94_and_h141_bestv2';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
   getAll(query: string): Observable<TmdbResponse> {
     return this.httpClient.get<TmdbResponse>(this.urlSearchAll + query);
@@ -35,7 +40,6 @@ export class HttpService {
       .set('language', language)
       .set('page', page)
       .set('query', query);
-    console.log(this.urlSearchMovies + query);
 
     return this.httpClient.get<TmdbResponse>(this.urlSearchMovies, {
       params: searchParams,
@@ -58,7 +62,10 @@ export class HttpService {
     movieId: string,
     language: string = 'pl'
   ): Observable<MovieDetails> {
-    let searchParams = new HttpParams().set('language', language);
+    let searchParams = new HttpParams()
+      .set('language', language)
+      .set('append_to_response', 'credits,external_ids,release_dates,images')
+      .set('include_image_language', 'pl,en,null');
 
     return this.httpClient.get<MovieDetails>(
       `${this.urlBase}/movie/${movieId}?api_key=${this.apiKey}`,
@@ -71,23 +78,25 @@ export class HttpService {
     showId: string,
     language: string = 'pl'
   ): Observable<ShowDetails> {
-    let searchParams = new HttpParams().set('language', language);
+    let searchParams = new HttpParams()
+      .set('language', language)
+      .set('append_to_response', 'credits,external_ids,content_ratings,images')
+      .set('include_image_language', 'pl,en,null');
 
     return this.httpClient.get<ShowDetails>(
-      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}`,
+      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}&language=en`,
       {
         params: searchParams,
       }
     );
   }
-  getMovieCredits(movieId: string): Observable<MovieDetails> {
-    return this.httpClient.get<MovieDetails>(
-      `${this.urlBase}/movie/${movieId}/credits?api_key=${this.apiKey}&language=pl`
-    );
-  }
-  getShowCredits(showId: string): Observable<Object> {
-    return this.httpClient.get<Object>(
-      `${this.urlBase}/tv/${showId}/credits?api_key=${this.apiKey}&language=pl`
-    );
+
+  getImdbData(query: string): Observable<any> {
+    let imdbHeaders = new HttpHeaders({
+      'x-rapidapi-key': this.imdbKey,
+      'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+    });
+
+    return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
   }
 }

@@ -11,11 +11,9 @@ export interface MovieDetails {
   backdrop_path: string;
   mpaa?: string;
   id: number;
-  imdb_id: string;
+  external_ids: MovieIds;
   genres: Array<MovieData>;
   production_countries: Array<MovieData>;
-  credits?: Array<MovieCrew>;
-  director?: Array<MovieCrew>;
   release_date: string;
   year?: string;
   status: string;
@@ -23,12 +21,20 @@ export interface MovieDetails {
   actors?: Array<MovieActor>;
   belongs_to_collection: MovieCollection;
   homepage: string;
+  credits?: MovieCredits;
+  images?: MovieImages;
+  release_dates?: any;
 }
 
 export interface MovieCollection {
-  id: number;
   name: string;
   poster_path: string;
+  backdrop_path: string;
+}
+
+export interface MovieCredits {
+  cast: Array<MovieActor>;
+  crew: Array<MovieCrew>;
 }
 
 export interface MovieCrew {
@@ -43,5 +49,30 @@ export interface MovieActor {
 }
 
 export interface MovieData {
+  iso_3166_1?: string;
   name: string;
+}
+
+export interface MovieIds {
+  facebook_id: string;
+  imdb_id: string;
+  instagram_id: string;
+  twitter_id: string;
+}
+
+export interface MovieCertification {
+  country: string;
+  certification: string;
+}
+
+export interface MovieImages {
+  backdrops: Array<MovieImage>;
+  posters: Array<MovieImage>;
+}
+export interface MovieImage {
+  aspect_ratio: number;
+  file_path: string;
+  height: number;
+  width: number;
+  iso_639_1: string;
 }

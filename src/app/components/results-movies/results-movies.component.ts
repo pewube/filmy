@@ -34,16 +34,17 @@ export class ResultsMoviesComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.query = params.get('query');
-      console.log('movies component: ', params);
 
       this.http.getMovies(params.get('query'), params.get('page')).subscribe(
         (res) => {
           this.movies = res;
           this.length = res.total_results;
-          if (res.total_results === 0) {
+          console.log('Filmy z ngOnInit: ', this.movies);
+
+          // If number of films is 0 show tvshows results
+          if (this.length === 0) {
             this.router.navigate(['/results-shows', this.query, '1']);
           }
-          console.log('Filmy z ngOnInit: ', this.movies);
         },
         (error) => console.log('Błąd: ', error)
       );

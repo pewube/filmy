@@ -1,42 +1,39 @@
 import { HttpService } from 'src/app/services/http.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   query: string;
   numberOfMovies: number;
   numberOfShows: number;
 
-  constructor(private http: HttpService, private router: Router) {}
+  constructor(
+    private http: HttpService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit() {
-    this.query = sessionStorage.getItem('query');
-    this.numberOfMovies = Number(sessionStorage.getItem('numberOfMovies'));
-    this.numberOfShows = Number(sessionStorage.getItem('numberOfShows'));
+    this.getTabBarData();
   }
 
   search() {
-    sessionStorage.clear();
-    sessionStorage.setItem('query', this.query);
     this.http.getMovies(this.query).subscribe(
       (res) => {
         this.numberOfMovies = res.total_results;
-        sessionStorage.setItem(
-          'numberOfMovies',
-          this.numberOfMovies.toString()
-        );
       },
       (error) => console.log('Błąd: ', error)
     );
+
     this.http.getShows(this.query).subscribe(
       (res) => {
         this.numberOfShows = res.total_results;
-        sessionStorage.setItem('numberOfShows', this.numberOfShows.toString());
       },
       (error) => console.log('Błąd: ', error)
     );
@@ -44,10 +41,34 @@ export class AppComponent {
     this.router.navigate(['/results-movies', this.query, '1']);
   }
 
+  getTabBarData() {
+    const initialParameters: Array<string> = this.location.path().split(`/`);
+
+    if (
+      initialParameters[1] === 'results-movies' ||
+      initialParameters[1] === 'results-shows'
+    ) {
+      this.query = initialParameters[2];
+      this.http.getMovies(this.query).subscribe(
+        (res) => {
+          this.numberOfMovies = res.total_results;
+        },
+        (error) => console.log('Błąd: ', error)
+      );
+      this.http.getShows(this.query).subscribe(
+        (res) => {
+          this.numberOfShows = res.total_results;
+        },
+        (error) => console.log('Błąd: ', error)
+      );
+    } else {
+      this.query = null;
+    }
+  }
+
   reset(): void {
     this.query = null;
     this.numberOfMovies = null;
     this.numberOfShows = null;
-    sessionStorage.clear();
   }
 }

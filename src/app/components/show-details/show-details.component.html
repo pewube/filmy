@@ -8,8 +8,8 @@
     alt=""
 /></ng-container>
 <h1>{{ showDetails?.name }}</h1>
-<p>
-  {{ showDetails?.tagline }}
+<p *ngIf="showDetails?.original_name">
+  Tytuł oryginalny: {{ showDetails?.original_name }}
 </p>
 <p>
   Ocena TMDB:
@@ -19,9 +19,20 @@
       : "brak ocen"
   }}
 </p>
-<p>Ocena IMDB: zewnetrzny ratingImdb</p>
+<p *ngIf="imdbRating">
+  Ocena IMDB:
+  {{
+    imdbRating ? imdbRating + " (" + imdbRatingCount + " głosów)" : "brak ocen"
+  }}
+</p>
 <p>
-  {{ showDetails?.overview ? showDetails?.overview : showDetailsEn?.overview }}
+  {{ showDetails?.tagline }}
+</p>
+<p>
+  {{ showDetails?.overview ? showDetails?.overview : overviewEn }}
+  <ng-container *ngIf="!showDetails?.overview && overviewEn && buttonOn">
+    <button (click)="translate()">Tłumacz opis</button>
+  </ng-container>
 </p>
 
 <p>
@@ -40,10 +51,27 @@
       : "brak danych"
   }}
 </p>
-<p>zewnętrzny MPAA</p>
+<ng-container *ngIf="certifications.length > 0"
+  ><p>
+    Ograniczenia wiekowe:
+    <ng-container *ngFor="let certification of certifications; let last = last">
+      <span *ngIf="!last"
+        >{{ certification.country }}: {{ certification.certification }},
+      </span>
+      <span *ngIf="last"
+        >{{ certification.country }}: {{ certification.certification }}</span
+      ></ng-container
+    >
+  </p>
+</ng-container>
 <p>TMDB Id: {{ showDetails?.id ? showDetails?.id : "brak danych" }}</p>
 <p>
-  IMDB Id: {{ showDetails?.imdb_id ? showDetails?.imdb_id : "brak danych" }}
+  IMDB Id:
+  {{
+    showDetails?.external_ids?.imdb_id
+      ? showDetails?.external_ids?.imdb_id
+      : "brak danych"
+  }}
 </p>
 
 <ng-container *ngIf="showDetails?.genres.length > 0">
@@ -82,7 +110,9 @@
 
 <p>
   Emisja pierwszego odcinka:
-  {{ showDetails?.first_air_date ? showDetails?.imdb_id : "brak danych" }}
+  {{
+    showDetails?.first_air_date ? showDetails?.first_air_date : "brak danych"
+  }}
 </p>
 <p>
   Rok:
@@ -125,6 +155,10 @@
   ><p>{{ showDetails?.homepage }}</p></a
 >
 
-<div>--- TUTAJ BEDZIE ZAWARTOŚĆ DO PLIKU NFO KODI ---</div>
+<section class="kodi-nfo">
+  <h2>--- KODI NFO Maker ---</h2>
+  <button (click)="showKodiNfo()">Wygeneruj plik do Kodi</button>
+  <p *ngIf="kodiNfo">{{ kodiNfo }}</p>
+</section>
 
 <button (click)="goToResults()">Cofnij do listy wyszukiwania</button>
