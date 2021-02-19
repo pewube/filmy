@@ -1,8 +1,13 @@
-<article>
-  <h1 *ngIf="query && movies?.total_results > 0">
+<article class="results">
+  <h1 *ngIf="query && movies?.total_results; else showsHeader">
     Filmy: rezultat wyszukiwania "{{ query }}"
   </h1>
-  <section class="results__movies">
+  <ng-template #showsHeader>
+    <h1 *ngIf="query && shows?.total_results">
+      Seriale: rezultat wyszukiwania "{{ query }}"
+    </h1>
+  </ng-template>
+  <section class="results__list">
     <mat-paginator
       *ngIf="length > 0"
       [length]="length"
@@ -12,7 +17,7 @@
       showFirstLastButtons
       (page)="changePage($event)"
     ></mat-paginator>
-    <ul *ngIf="movies && movies?.total_results > 0">
+    <ul *ngIf="movies && movies?.total_results > 0; else showsList">
       <li *ngFor="let movie of movies.results">
         <a [routerLink]="['/movie', movie.id]">
           <app-result-link
@@ -25,6 +30,21 @@
         </a>
       </li>
     </ul>
+    <ng-template #showsList>
+      <ul *ngIf="shows && shows?.total_results > 0">
+        <li *ngFor="let show of shows.results">
+          <a [routerLink]="['/tv', show.id]">
+            <app-result-link
+              [imgsrc]="show.poster_path ? urlImg94 + show.poster_path : ''"
+              [title]="show.name"
+              [originalTitle]="show.original_name"
+              [overview]="show.overview"
+              [date]="show.first_air_date"
+            ></app-result-link>
+          </a>
+        </li>
+      </ul>
+    </ng-template>
     <mat-paginator
       *ngIf="length > 0"
       [length]="length"

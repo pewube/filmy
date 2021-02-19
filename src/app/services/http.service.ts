@@ -90,18 +90,18 @@ export class HttpService {
     );
   }
 
-  // getImdbData(query: string): Observable<any> {
-  //   let imdbHeaders = new HttpHeaders({
-  //     'x-rapidapi-key': this.imdbKey,
-  //     'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-  //   });
-
-  //   return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
-  // }
-
   getImdbData(query: string): Observable<any> {
-    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+    let imdbHeaders = new HttpHeaders({
+      'x-rapidapi-key': this.imdbKey,
+      'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+    });
 
-    return of('');
+    return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
   }
+
+  // getImdbData(query: string): Observable<any> {
+  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+
+  //   return of('');
+  // }
 }

@@ -15,20 +15,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ResultsMoviesComponent } from './components/results-movies/results-movies.component';
-import { ResultsShowsComponent } from './components/results-shows/results-shows.component';
 import { KodiNfoComponent } from './components/kodi-nfo/kodi-nfo.component';
 import { VideoDetailsComponent } from './components/video-details/video-details.component';
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ResultLinkComponent,
     FooterComponent,
-    ResultsMoviesComponent,
-    ResultsShowsComponent,
     KodiNfoComponent,
     VideoDetailsComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,

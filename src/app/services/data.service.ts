@@ -1,38 +1,39 @@
 import { Injectable } from '@angular/core';
+import { TmdbResponse } from '../models/tmdb-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   private query: string;
-  private numberOfMovies: number;
-  private numberOfShows: number;
+  private resultsMovies: TmdbResponse;
+  private resultsShows: TmdbResponse;
 
   constructor() {}
 
-  setQuery(data: string) {
+  setQuery(data: string): void {
     this.query = data;
     console.log('query z serwisu ', this.query);
   }
-  setNumberOfMovies(data: number) {
-    this.numberOfMovies = data;
-    console.log('liczba movies z serwisu ', this.numberOfMovies);
+  setResultMovies(data: TmdbResponse): void {
+    this.resultsMovies = data;
+    console.log('localData movies ', this.resultsMovies);
   }
-  setNumberOfShows(data: number) {
-    this.numberOfShows = data;
-    console.log('liczba shows z serwisu ', this.numberOfShows);
+  setResultShows(data: TmdbResponse): void {
+    this.resultsShows = data;
+    console.log('localData shows ', this.resultsShows);
   }
 
   getQuery(): string {
     console.log('query z getserwisu ', this.query);
     return this.query;
   }
-  getNumberOfMovies(): number {
-    console.log('liczba movies z get serwisu ', this.numberOfMovies);
-    return this.numberOfMovies;
+  getResultMovies(): TmdbResponse {
+    console.log('movies z get serwisu ', this.resultsMovies);
+    return this.resultsMovies;
   }
-  getNumberOfShows(): number {
-    console.log('liczba shows z get serwisu ', this.numberOfShows);
-    return this.numberOfShows;
+  getResultShows(): TmdbResponse {
+    console.log('shows z get serwisu ', this.resultsShows);
+    return this.resultsShows;
   }
 }
