@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MovieDetails } from '../models/movie-details';
-import { ShowDetails } from '../models/show-details';
-import { TmdbResponse } from '../models/tmdb-response';
 
 @Injectable({
   providedIn: 'root',

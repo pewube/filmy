@@ -1,9 +1,8 @@
 import { TmdbResponse } from './../models/tmdb-response';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { MovieDetails } from '../models/movie-details';
-import { ShowDetails } from '../models/show-details';
+import { Observable, of } from 'rxjs';
+import { VideoDetails } from '../models/video-details';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -61,13 +60,13 @@ export class HttpService {
   getMovieDetails(
     movieId: string,
     language: string = 'pl'
-  ): Observable<MovieDetails> {
+  ): Observable<VideoDetails> {
     let searchParams = new HttpParams()
       .set('language', language)
       .set('append_to_response', 'credits,external_ids,release_dates,images')
       .set('include_image_language', 'pl,en,null');
 
-    return this.httpClient.get<MovieDetails>(
+    return this.httpClient.get<VideoDetails>(
       `${this.urlBase}/movie/${movieId}?api_key=${this.apiKey}`,
       {
         params: searchParams,
@@ -77,13 +76,13 @@ export class HttpService {
   getShowDetails(
     showId: string,
     language: string = 'pl'
-  ): Observable<ShowDetails> {
+  ): Observable<VideoDetails> {
     let searchParams = new HttpParams()
       .set('language', language)
       .set('append_to_response', 'credits,external_ids,content_ratings,images')
       .set('include_image_language', 'pl,en,null');
 
-    return this.httpClient.get<ShowDetails>(
+    return this.httpClient.get<VideoDetails>(
       `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}&language=en`,
       {
         params: searchParams,
@@ -91,12 +90,18 @@ export class HttpService {
     );
   }
 
-  getImdbData(query: string): Observable<any> {
-    let imdbHeaders = new HttpHeaders({
-      'x-rapidapi-key': this.imdbKey,
-      'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-    });
+  // getImdbData(query: string): Observable<any> {
+  //   let imdbHeaders = new HttpHeaders({
+  //     'x-rapidapi-key': this.imdbKey,
+  //     'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+  //   });
 
-    return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
+  //   return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
+  // }
+
+  getImdbData(query: string): Observable<any> {
+    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+
+    return of('');
   }
 }
