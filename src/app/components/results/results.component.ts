@@ -15,6 +15,8 @@ export class ResultsComponent implements OnInit {
   query: string;
   movies: TmdbResponse;
   shows: TmdbResponse;
+  urlImg150: string;
+  urlImg130: string;
   urlImg94: string;
 
   //paginator settings
@@ -34,6 +36,8 @@ export class ResultsComponent implements OnInit {
     this.paginatorLabels.previousPageLabel = 'Poprzednia strona';
     this.paginatorLabels.firstPageLabel = 'Pierwsza strona';
     this.paginatorLabels.lastPageLabel = 'Ostatnia strona';
+    this.urlImg150 = this.http.urlImg150;
+    this.urlImg130 = this.http.urlImg130;
     this.urlImg94 = this.http.urlImg94;
   }
 

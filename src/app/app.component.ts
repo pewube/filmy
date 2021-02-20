@@ -81,4 +81,10 @@ export class AppComponent implements OnInit {
     this.numberOfMovies = null;
     this.numberOfShows = null;
   }
+  cancel(): void {
+    this.router.navigate(['/']);
+    this.query = null;
+    this.numberOfMovies = null;
+    this.numberOfShows = null;
+  }
 }

@@ -1,27 +1,24 @@
 <article class="results">
-  <h1 *ngIf="query && movies?.total_results; else showsHeader">
-    Filmy: rezultat wyszukiwania "{{ query }}"
+  <h1
+    class="results__header"
+    *ngIf="query && movies?.total_results; else showsHeader"
+  >
+    Filmy: znaleziono {{ movies.total_results }} tytułów
   </h1>
   <ng-template #showsHeader>
     <h1 *ngIf="query && shows?.total_results">
-      Seriale: rezultat wyszukiwania "{{ query }}"
+      Seriale: znaleziono {{ shows.total_results }} tytułów
     </h1>
   </ng-template>
-  <section class="results__list">
-    <mat-paginator
-      *ngIf="length > 0"
-      [length]="length"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      hidePageSize
-      showFirstLastButtons
-      (page)="changePage($event)"
-    ></mat-paginator>
-    <ul *ngIf="movies && movies?.total_results > 0; else showsList">
-      <li *ngFor="let movie of movies.results">
+  <section>
+    <ul
+      class="results__list"
+      *ngIf="movies && movies?.total_results > 0; else showsList"
+    >
+      <li class="results__list__item" *ngFor="let movie of movies.results">
         <a [routerLink]="['/movie', movie.id]">
           <app-result-link
-            [imgsrc]="movie.poster_path ? urlImg94 + movie.poster_path : ''"
+            [imgsrc]="movie.poster_path ? urlImg150 + movie.poster_path : ''"
             [title]="movie.title"
             [originalTitle]="movie.original_title"
             [overview]="movie.overview"
@@ -31,11 +28,11 @@
       </li>
     </ul>
     <ng-template #showsList>
-      <ul *ngIf="shows && shows?.total_results > 0">
-        <li *ngFor="let show of shows.results">
+      <ul class="results__list" *ngIf="shows && shows?.total_results > 0">
+        <li class="results__list__item" *ngFor="let show of shows.results">
           <a [routerLink]="['/tv', show.id]">
             <app-result-link
-              [imgsrc]="show.poster_path ? urlImg94 + show.poster_path : ''"
+              [imgsrc]="show.poster_path ? urlImg150 + show.poster_path : ''"
               [title]="show.name"
               [originalTitle]="show.original_name"
               [overview]="show.overview"

@@ -20,6 +20,7 @@ import { GtranslateService } from 'src/app/services/gtranslate.service';
 export class VideoDetailsComponent implements OnInit {
   movieFlag: boolean;
   posterPath: string;
+  actorPath: string;
   backdropPath: string;
 
   details: VideoDetails;
@@ -42,8 +43,9 @@ export class VideoDetailsComponent implements OnInit {
     private location: Location,
     private translator: GtranslateService
   ) {
-    this.posterPath = this.http.urlImg94;
-    this.backdropPath = this.http.urlImgOriginal;
+    this.posterPath = this.http.urlImg150;
+    this.actorPath = this.http.urlImg94;
+    this.backdropPath = this.http.urlImg1280;
   }
 
   ngOnInit(): void {
@@ -86,7 +88,9 @@ export class VideoDetailsComponent implements OnInit {
             this.http.getImdbData(res.external_ids.imdb_id).subscribe(
               (omdbData) => {
                 this.imdbRating = Number(omdbData.imdbRating);
-                this.imdbRatingCount = Number(omdbData.imdbVotes);
+                this.imdbRatingCount = Number(
+                  omdbData.imdbVotes.replace(/,/g, '')
+                );
               },
               (error) => console.log('Błąd IMDB: ', error)
             );
@@ -266,6 +270,21 @@ export class VideoDetailsComponent implements OnInit {
       this.overviewEn = this.overviewTranslated;
     }),
       (error) => console.error(error);
+  }
+
+  // stye
+
+  setBackgroundStyle() {
+    if (this.details && this.details.backdrop_path) {
+      return {
+        'background-image': `linear-gradient(rgba(255, 255, 255,0.8),rgba(255, 255, 255,0.8)),
+          url(${this.backdropPath}${this.details.backdrop_path})`,
+        'background-repeat': 'no-repeat',
+        'background-size': 'cover',
+        'background-position': '50% 0%',
+        'background-attachment': 'fixed',
+      };
+    }
   }
 
   goToResults() {

@@ -1,18 +1,15 @@
 .toolbar {
-  height: 70px;
-  margin-top: 5px;
-  border-radius: 5px;
+  display: flex;
   justify-content: space-between;
 
   a {
+    margin-left: 5px;
     color: #fff;
     text-decoration: none;
   }
 }
 
 .searcher {
-  min-width: 150px;
-
   mat-form-field {
     font-size: 14px;
   }

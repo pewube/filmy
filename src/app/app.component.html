@@ -1,22 +1,34 @@
 <header>
   <mat-toolbar class="toolbar" color="primary">
-    <a (click)="reset()" routerLink="/"><span>Filmy</span></a>
+    <a class="toolbar__top-logo" (click)="reset()" routerLink="/"
+      ><span>Filmy</span></a
+    >
 
     <form class="searcher" (ngSubmit)="search()" #form="ngForm">
       <mat-form-field>
+        <mat-label>Szukaj filmu lub serialu</mat-label>
         <input
           matInput
           class="searcher__input"
           type="text"
           name="input"
           [(ngModel)]="query"
-          placeholder="szukaj filmu lub serialu"
           required
         />
+        <button
+          mat-button
+          *ngIf="query"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (mousedown)="cancel()"
+          (touchstart)="cancel()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
       <button
-        mat-flat-button
-        color="warn"
+        mat-raised-button
         class="searcher__btn"
         type="submit"
         [disabled]="form.invalid"

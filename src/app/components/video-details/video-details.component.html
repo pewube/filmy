@@ -1,78 +1,100 @@
-<article class="video-details">
+<article class="video-details" [ngStyle]="setBackgroundStyle()">
   <header class="video-details__header">
-    <img
-      *ngIf="details?.poster_path"
-      src="{{ posterPath + details?.poster_path }}"
-      alt="Plakat"
-    />
-    <img
-      *ngIf="details?.backdrop_path"
-      src="{{ backdropPath + details?.backdrop_path }}"
-      height="141px"
-      alt="Obraz tła"
-    />
-    <ng-container *ngIf="details?.title; else showTitles">
-      <h1>{{ details.title }}</h1>
+    <figure class="video-details__header__poster">
+      <img
+        *ngIf="details?.poster_path"
+        src="{{ posterPath + details?.poster_path }}"
+        alt="Plakat"
+      />
+    </figure>
+    <section class="video-details__header__summary">
+      <ng-container *ngIf="details?.title; else showTitles">
+        <h1 class="video-details__header__summary__title">
+          {{ details.title }}
+        </h1>
+        <p
+          class="video-details__header__summary__original-title"
+          *ngIf="
+            details.original_title &&
+            details.original_title.toLowerCase() !== details.title.toLowerCase()
+          "
+        >
+          {{ details.original_title }}
+        </p>
+      </ng-container>
+      <ng-template #showTitles>
+        <h1 class="video-details__header__summary__title">
+          {{ details?.name }}
+        </h1>
+        <p
+          class="video-details__header__summary__original-title"
+          *ngIf="
+            details?.original_name &&
+            details?.original_name.toLowerCase() !== details?.name.toLowerCase()
+          "
+        >
+          {{ details.original_name }}
+        </p>
+      </ng-template>
       <p
-        *ngIf="
-          details.original_title &&
-          details.original_title.toLowerCase() !== details.title.toLowerCase()
-        "
+        class="video-details__header__summary__date"
+        *ngIf="details?.release_date; else showYear"
       >
-        Tytuł oryginalny: {{ details.original_title }}
+        Rok produkcji:
+        {{ details?.release_date.slice(0, 4) }}
       </p>
-    </ng-container>
-    <ng-template #showTitles>
-      <h1>{{ details?.name }}</h1>
+      <ng-template #showYear>
+        <p
+          class="video-details__header__summary__date"
+          *ngIf="details?.first_air_date"
+        >
+          Rok rozpoczęcia produkcji:
+          {{ details.first_air_date.slice(0, 4) }}
+        </p>
+      </ng-template>
       <p
-        *ngIf="
-          details?.original_name &&
-          details?.original_name.toLowerCase() !== details?.name.toLowerCase()
-        "
+        class="video-details__header__summary__runtime"
+        *ngIf="details?.runtime"
       >
-        Tytuł oryginalny: {{ details.original_name }}
+        Czas trwania:
+        {{ details?.runtime ? details?.runtime + " min." : "brak danych" }}
       </p>
-    </ng-template>
-
-    <p *ngIf="details?.vote_average">
-      Ocena TMDB:
-      <strong>{{ details.vote_average.toFixed(1) }}</strong
-      >{{ "/10 (" + details.vote_count + " głosów)" }}
-    </p>
-
-    <p *ngIf="imdbRating">
-      Ocena IMDB:
-      <strong>{{ imdbRating.toFixed(1) }}</strong
-      >{{ "/10 (" + imdbRatingCount + " głosów)" }}
-    </p>
-
-    <p *ngIf="details?.runtime">
-      Czas trwania:
-      {{ details?.runtime ? details?.runtime + " min." : "brak danych" }}
-    </p>
-    <p *ngIf="certifications.length > 0">
-      Ograniczenia wiekowe:
-      <ng-container
-        *ngFor="let certification of certifications; let last = last"
+      <p
+        class="video-details__header__summary__restrictions"
+        *ngIf="certifications.length > 0"
       >
-        <span *ngIf="!last"
-          >{{ certification.country }}: {{ certification.certification }},
-        </span>
-        <span *ngIf="last"
-          >{{ certification.country }}: {{ certification.certification }}</span
-        ></ng-container
-      >
-    </p>
-    <p *ngIf="details?.release_date; else showYear">
-      Rok:
-      {{ details?.release_date.slice(0, 4) }}
-    </p>
-    <ng-template #showYear>
-      <p *ngIf="details?.first_air_date">
-        Rok:
-        {{ details.first_air_date.slice(0, 4) }}
+        Ograniczenia wiekowe (kraj):
+        <ng-container
+          *ngFor="let certification of certifications; let last = last"
+        >
+          <span *ngIf="!last"
+            ><strong>{{ certification.certification }}</strong> ({{
+              certification.country
+            }}),
+          </span>
+          <span *ngIf="last"
+            ><strong>{{ certification.certification }}</strong> ({{
+              certification.country
+            }})</span
+          ></ng-container
+        >
       </p>
-    </ng-template>
+
+      <p
+        class="video-details__header__summary__tmdb-rating"
+        *ngIf="details?.vote_average"
+      >
+        TMDB:
+        <strong>{{ details.vote_average.toFixed(1) }}</strong
+        >{{ "/10 (" + details.vote_count + " głosów)" }}
+      </p>
+
+      <p class="video-details__header__summary__imdb-rating" *ngIf="imdbRating">
+        IMDB:
+        <strong>{{ imdbRating.toFixed(1) }}</strong
+        >{{ "/10 (" + imdbRatingCount + " głosów)" }}
+      </p>
+    </section>
   </header>
   <section class="video-details__info">
     <p *ngIf="details?.tagline">{{ details.tagline }}</p>
@@ -175,34 +197,29 @@
       </ng-container>
     </p>
 
-    <ng-container *ngIf="details?.belongs_to_collection?.poster_path">
-      <p>Kolekcja: {{ details.belongs_to_collection.name }}</p>
-
-      <img
-        src="{{ posterPath + details.belongs_to_collection.poster_path }}"
-        alt="Plakat kolekcji"
-      />
-      <img
-        *ngIf="details.belongs_to_collection.backdrop_path"
-        src="{{ backdropPath + details.belongs_to_collection.backdrop_path }}"
-        height="141px"
-        alt="Obraz tła kolekcji"
-      />
-    </ng-container>
     <a href="{{ details?.homepage }}" target="_blank"
       ><p>{{ details?.homepage }}</p></a
     >
   </section>
   <section class="video-details__actors">
     <ng-container *ngIf="actors.length > 0">
-      <p>W rolach głównych:</p>
+      <p class="video-details__actors__header">W rolach głównych:</p>
       <ng-container *ngFor="let actor of actors">
-        <article>
-          <ng-container *ngIf="actor.profile_path"
-            ><img src="{{ posterPath + actor.profile_path }}" alt=""
-          /></ng-container>
-          <p>{{ actor.name }}</p>
-          <p *ngIf="actor.character">jako {{ actor.character }}</p>
+        <article class="video-details__actors__actor">
+          <figure class="video-details__actors__actor__photo">
+            <ng-container *ngIf="actor.profile_path">
+              <img
+                src="{{ actorPath + actor.profile_path }}"
+                alt="Photo of {{ actor.name }}"
+            /></ng-container>
+          </figure>
+          <p class="video-details__actors__actor__name">{{ actor.name }}</p>
+          <p
+            class="video-details__actors__actor__character"
+            *ngIf="actor.character"
+          >
+            jako {{ actor.character }}
+          </p>
         </article>
       </ng-container>
     </ng-container>

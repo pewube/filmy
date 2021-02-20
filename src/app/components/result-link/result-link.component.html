@@ -1,16 +1,21 @@
 <article class="result-link">
   <figure class="result-link__img">
-    <ng-container *ngIf="imgsrc"><img [src]="imgsrc" alt="" /></ng-container>
+    <ng-container *ngIf="imgsrc"
+      ><img [src]="imgsrc" alt="Plakat do {{ title }}"
+    /></ng-container>
   </figure>
   <section class="result-link__details">
     <header class="result-link__title">{{ title }}</header>
+    <div>
+      <p
+        class="result-link__original-title"
+        *ngIf="
+          originalTitle && originalTitle.toLowerCase() !== title.toLowerCase()
+        "
+      >
+        {{ originalTitle }}
+      </p>
+    </div>
     <p class="result-link__date" *ngIf="date">{{ date.slice(0, 4) }}</p>
-    <p class="result-link__original-title" *ngIf="originalTitle">
-      Tytuł oryginalny: {{ originalTitle }}
-    </p>
-
-    <p class="result-link__overview" *ngIf="overview">
-      {{ overview.length > 430 ? overview.slice(0, 431) + "..." : overview }}
-    </p>
   </section>
 </article>

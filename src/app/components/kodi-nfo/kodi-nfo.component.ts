@@ -29,19 +29,13 @@ export class KodiNfoComponent implements OnInit {
   @Input() statusTranslated: string;
 
   movieFlag: boolean;
-  posterPath: string;
-  backdropPath: string;
-
   kodiNfo: string;
 
   constructor(
     private location: Location,
     private http: HttpService,
     private config: ConfigService
-  ) {
-    this.posterPath = this.http.urlImg94;
-    this.backdropPath = this.http.urlImgOriginal;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.switchData();
