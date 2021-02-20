@@ -84,9 +84,9 @@ export class VideoDetailsComponent implements OnInit {
 
             //imdb movie data
             this.http.getImdbData(res.external_ids.imdb_id).subscribe(
-              (imdbData) => {
-                this.imdbRating = imdbData.rating;
-                this.imdbRatingCount = imdbData.ratingCount;
+              (omdbData) => {
+                this.imdbRating = Number(omdbData.imdbRating);
+                this.imdbRatingCount = Number(omdbData.imdbVotes);
               },
               (error) => console.log('Błąd IMDB: ', error)
             );
@@ -123,9 +123,9 @@ export class VideoDetailsComponent implements OnInit {
 
             //imdb  tv series data
             this.http.getImdbData(res.external_ids.imdb_id).subscribe(
-              (imdbData) => {
-                this.imdbRating = imdbData.rating;
-                this.imdbRatingCount = imdbData.ratingCount;
+              (omdbData) => {
+                this.imdbRating = Number(omdbData.imdbRating);
+                this.imdbRatingCount = Number(omdbData.imdbVotes);
               },
               (error) => console.log('Błąd IMDB: ', error)
             );

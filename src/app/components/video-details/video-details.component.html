@@ -36,12 +36,14 @@
 
     <p *ngIf="details?.vote_average">
       Ocena TMDB:
-      {{ details.vote_average + " (" + details.vote_count + " głosów)" }}
+      <strong>{{ details.vote_average.toFixed(1) }}</strong
+      >{{ "/10 (" + details.vote_count + " głosów)" }}
     </p>
 
     <p *ngIf="imdbRating">
       Ocena IMDB:
-      {{ imdbRating + " (" + imdbRatingCount + " głosów)" }}
+      <strong>{{ imdbRating.toFixed(1) }}</strong
+      >{{ "/10 (" + imdbRatingCount + " głosów)" }}
     </p>
 
     <p *ngIf="details?.runtime">

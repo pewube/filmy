@@ -11,8 +11,10 @@ import { ConfigService } from './config.service';
 export class HttpService {
   private apiKey: string = this.config.getTmdbKey();
   private imdbKey: string = this.config.getImdbKey();
+  private omdbKey: string = this.config.getOmdbKey();
   private urlImdb: string =
     'https://imdb8.p.rapidapi.com/title/get-ratings?tconst=';
+  private UrlOmdb: string = `https://www.omdbapi.com/?apikey=${this.omdbKey}&i=`;
 
   private urlBase: string = 'https://api.themoviedb.org/3';
   private urlSearchAll: string = `${this.urlBase}/search/multi?api_key=${this.apiKey}&language=pl&query=`;
@@ -89,16 +91,22 @@ export class HttpService {
       }
     );
   }
+  // RapidAPI query
+  // getImdbData(query: string): Observable<any> {
+  //   let imdbHeaders = new HttpHeaders({
+  //     'x-rapidapi-key': this.imdbKey,
+  //     'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+  //   });
 
+  //   return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
+  // }
+
+  // OmdbAPI query
   getImdbData(query: string): Observable<any> {
-    let imdbHeaders = new HttpHeaders({
-      'x-rapidapi-key': this.imdbKey,
-      'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-    });
-
-    return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
+    return this.httpClient.get(this.UrlOmdb + query);
   }
 
+  // test version
   // getImdbData(query: string): Observable<any> {
   //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
