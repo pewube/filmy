@@ -1,15 +1,4 @@
 <article class="results">
-  <h1
-    class="results__header"
-    *ngIf="query && movies?.total_results; else showsHeader"
-  >
-    Filmy: znaleziono {{ movies.total_results }} tytułów
-  </h1>
-  <ng-template #showsHeader>
-    <h1 *ngIf="query && shows?.total_results">
-      Seriale: znaleziono {{ shows.total_results }} tytułów
-    </h1>
-  </ng-template>
   <section>
     <ul
       class="results__list"
@@ -43,6 +32,7 @@
       </ul>
     </ng-template>
     <mat-paginator
+      class="results__paginator"
       *ngIf="length > 0"
       [length]="length"
       [pageSize]="pageSize"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
@@ -16,6 +16,7 @@ import { GtranslateService } from 'src/app/services/gtranslate.service';
   selector: 'app-video-details',
   templateUrl: './video-details.component.html',
   styleUrls: ['./video-details.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class VideoDetailsComponent implements OnInit {
   movieFlag: boolean;

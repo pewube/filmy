@@ -1,5 +1,5 @@
 import { HttpService } from 'src/app/services/http.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ResultsComponent implements OnInit {
   movieFlag: boolean;
@@ -21,7 +22,7 @@ export class ResultsComponent implements OnInit {
 
   //paginator settings
   length: number;
-  pageSize: number = 20;
+  pageSize = 20;
   pageIndex: number;
   //====
 
@@ -32,10 +33,6 @@ export class ResultsComponent implements OnInit {
     private location: Location,
     private paginatorLabels: MatPaginatorIntl
   ) {
-    this.paginatorLabels.nextPageLabel = 'Następna strona';
-    this.paginatorLabels.previousPageLabel = 'Poprzednia strona';
-    this.paginatorLabels.firstPageLabel = 'Pierwsza strona';
-    this.paginatorLabels.lastPageLabel = 'Ostatnia strona';
     this.urlImg150 = this.http.urlImg150;
     this.urlImg130 = this.http.urlImg130;
     this.urlImg94 = this.http.urlImg94;
@@ -43,6 +40,11 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.switchData();
+    this.paginatorLabels.nextPageLabel = 'Następna strona';
+    this.paginatorLabels.previousPageLabel = 'Poprzednia strona';
+    this.paginatorLabels.firstPageLabel = 'Pierwsza strona';
+    this.paginatorLabels.lastPageLabel = 'Ostatnia strona';
+    this.paginatorLabels.getRangeLabel = this.paginatorPolishRangeLabel;
 
     if (this.movieFlag) {
       this.route.paramMap.subscribe((params: ParamMap) => {
@@ -82,7 +84,7 @@ export class ResultsComponent implements OnInit {
     }
   }
 
-  switchData() {
+  switchData(): void {
     const initialParameters: Array<string> = this.location.path().split(`/`);
 
     if (initialParameters[1] === 'results-movies') {
@@ -90,6 +92,18 @@ export class ResultsComponent implements OnInit {
     } else {
       this.movieFlag = false;
     }
+  }
+
+  paginatorPolishRangeLabel(
+    pageIndex: number,
+    pageSize: number,
+    length: number
+  ) {
+    const startIndex = pageIndex * pageSize;
+    const endIndex = (pageIndex + 1) * pageSize;
+    return `${startIndex + 1} - ${
+      endIndex < length ? endIndex : length
+    } z ${length}`;
   }
 
   changePage(event: PageEvent): void {

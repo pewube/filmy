@@ -1,55 +1,10 @@
-<header>
-  <mat-toolbar class="toolbar" color="primary">
+<header class="header">
+  <mat-toolbar class="header__toolbar" color="primary">
     <a class="toolbar__top-logo" (click)="reset()" routerLink="/"
       ><span>Filmy</span></a
     >
-
-    <form class="searcher" (ngSubmit)="search()" #form="ngForm">
-      <mat-form-field>
-        <mat-label>Szukaj filmu lub serialu</mat-label>
-        <input
-          matInput
-          class="searcher__input"
-          type="text"
-          name="input"
-          [(ngModel)]="query"
-          required
-        />
-        <button
-          mat-button
-          *ngIf="query"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (mousedown)="cancel()"
-          (touchstart)="cancel()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-      <button
-        mat-raised-button
-        class="searcher__btn"
-        type="submit"
-        [disabled]="form.invalid"
-      >
-        Szukaj
-      </button>
-    </form>
   </mat-toolbar>
-  <nav
-    mat-tab-nav-bar
-    mat-align-tabs="center"
-    *ngIf="numberOfMovies || numberOfShows"
-  >
-    <a mat-tab-link [routerLink]="['/results-movies', query, '1']">{{
-      "Filmy: " + numberOfMovies
-    }}</a>
-    <a mat-tab-link [routerLink]="['/results-shows', query, '1']">{{
-      "Seriale: " + numberOfShows
-    }}</a>
-  </nav>
 </header>
-
+<app-search-bar></app-search-bar>
 <router-outlet class="router-outlet"></router-outlet>
 <app-footer></app-footer>

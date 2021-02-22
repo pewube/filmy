@@ -1,5 +1,5 @@
 import { ConfigService } from './../../services/config.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import {
   VideoActor,
@@ -14,6 +14,7 @@ import { HttpService } from 'src/app/services/http.service';
   selector: 'app-kodi-nfo',
   templateUrl: './kodi-nfo.component.html',
   styleUrls: ['./kodi-nfo.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class KodiNfoComponent implements OnInit {
   @Input() details: VideoDetails;

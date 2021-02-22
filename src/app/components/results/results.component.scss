@@ -1,18 +1,31 @@
 .results {
+  max-width: 1200px;
   padding: 20px 10px;
-
-  &__header {
-    font-size: 18px;
-  }
+  margin: 0 auto;
 
   &__list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
 
     &__item {
-      padding: 10px 5px;
+      padding: 10px;
       flex-shrink: 0;
+
+      &:hover {
+        .result-link {
+          box-shadow: 0 0 5px 3px #3f51b5;
+
+          &__details {
+            background-color: #3f51b5;
+            &__title,
+            &__date {
+              color: #fff;
+            }
+          }
+        }
+      }
+
       a {
         color: #000;
         text-decoration: none;
@@ -23,9 +36,10 @@
       }
     }
   }
-}
-li {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+
+  &__paginator {
+    max-width: 350px;
+    padding-right: 25px;
+    margin: 0 auto;
+  }
 }

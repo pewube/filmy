@@ -1,0 +1,50 @@
+<nav class="search-bar">
+  <form class="search-bar__searcher" (ngSubmit)="search()" #form="ngForm">
+    <mat-form-field class="search-bar__searcher__input-container">
+      <mat-label>Szukaj filmu lub serialu</mat-label>
+      <input
+        matInput
+        class="search-bar__searcher__input"
+        type="text"
+        name="input"
+        [(ngModel)]="query"
+        autofocus
+        required
+      />
+      <button
+        mat-button
+        class="search-bar__searcher__cancel-btn"
+        *ngIf="query"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (mousedown)="cancel()"
+        (touchstart)="cancel()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button
+      mat-mini-fab
+      color="primary"
+      class="search-bar__searcher__submit-btn"
+      type="submit"
+      [disabled]="form.invalid"
+      [ngStyle]="{ 'margin-left': '10px' }"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </form>
+  <nav class="search-bar__search-nav" *ngIf="numberOfMovies && numberOfShows">
+    <a
+      class="search-bar__search-nav__movies"
+      [routerLink]="['/results-movies', query, '1']"
+      >Filmy <span>{{ numberOfMovies }}</span></a
+    >
+    <a
+      class="search-bar__search-nav__shows"
+      [routerLink]="['/results-shows', query, '1']"
+      >Seriale <span>{{ numberOfShows }}</span></a
+    >
+  </nav>
+</nav>
