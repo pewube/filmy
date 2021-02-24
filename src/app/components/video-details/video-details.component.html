@@ -1,4 +1,4 @@
-<article class="video-details" [ngStyle]="setBackgroundStyle()">
+<article class="video-details">
   <header class="video-details__header">
     <figure class="video-details__header__poster">
       <img
@@ -8,7 +8,7 @@
       />
     </figure>
     <section class="video-details__header__summary">
-      <ng-container *ngIf="details?.title; else showTitles">
+      <ng-container *ngIf="details?.title; else showNames">
         <h1 class="video-details__header__summary__title">
           {{ details.title }}
         </h1>
@@ -22,60 +22,60 @@
           {{ details.original_title }}
         </p>
       </ng-container>
-      <ng-template #showTitles>
+      <ng-template #showNames>
         <h1 class="video-details__header__summary__title">
           {{ details?.name }}
         </h1>
-        <p
-          class="video-details__header__summary__original-title"
-          *ngIf="
-            details?.original_name &&
-            details?.original_name.toLowerCase() !== details?.name.toLowerCase()
-          "
-        >
-          {{ details.original_name }}
+        <p>
+          <span
+            class="video-details__header__summary__original-title"
+            *ngIf="
+              details?.original_name &&
+              details?.original_name.toLowerCase() !==
+                details?.name.toLowerCase()
+            "
+            >{{ details.original_name }}</span
+          >
         </p>
       </ng-template>
-      <p
-        class="video-details__header__summary__date"
-        *ngIf="details?.release_date; else showYear"
-      >
-        Rok produkcji:
-        {{ details?.release_date.slice(0, 4) }}
-      </p>
-      <ng-template #showYear>
-        <p
+      <p>
+        <span
           class="video-details__header__summary__date"
-          *ngIf="details?.first_air_date"
+          *ngIf="details?.release_date; else showDate"
+          ><mat-icon>calendar_today</mat-icon>
+          {{ details?.release_date.slice(0, 4) }}</span
         >
-          Rok rozpoczęcia produkcji:
-          {{ details.first_air_date.slice(0, 4) }}
-        </p>
-      </ng-template>
-      <p
-        class="video-details__header__summary__runtime"
-        *ngIf="details?.runtime"
-      >
-        Czas trwania:
-        {{ details?.runtime ? details?.runtime + " min." : "brak danych" }}
+        <ng-template #showDate>
+          <span
+            class="video-details__header__summary__date"
+            *ngIf="details?.first_air_date"
+            ><mat-icon>calendar_today</mat-icon>
+            {{ details.first_air_date.slice(0, 4) }}</span
+          >
+        </ng-template>
+        <span
+          class="video-details__header__summary__runtime"
+          *ngIf="details?.runtime"
+          ><mat-icon>schedule</mat-icon>
+          {{ details?.runtime ? details?.runtime + " min." : "brak danych" }}
+        </span>
       </p>
+
       <p
         class="video-details__header__summary__restrictions"
         *ngIf="certifications.length > 0"
       >
-        Ograniczenia wiekowe (kraj):
+        <mat-icon>family_restroom</mat-icon>
         <ng-container
           *ngFor="let certification of certifications; let last = last"
         >
           <span *ngIf="!last"
-            ><strong>{{ certification.certification }}</strong> ({{
-              certification.country
-            }}),
+            >{{ certification.certification }}
+            <span class="smaller"> -{{ certification.country }}</span> ,
           </span>
           <span *ngIf="last"
-            ><strong>{{ certification.certification }}</strong> ({{
-              certification.country
-            }})</span
+            >{{ certification.certification }}
+            <span class="smaller"> -{{ certification.country }}</span></span
           ></ng-container
         >
       </p>
@@ -84,15 +84,21 @@
         class="video-details__header__summary__tmdb-rating"
         *ngIf="details?.vote_average"
       >
-        TMDB:
-        <strong>{{ details.vote_average.toFixed(1) }}</strong
-        >{{ "/10 (" + details.vote_count + " głosów)" }}
+        <mat-icon>grade</mat-icon>
+        <span class="smaller">TMDB:</span>
+        {{ details.vote_average.toFixed(1)
+        }}<span class="smaller">{{
+          " /10 (" + details.vote_count + " głosów)"
+        }}</span>
       </p>
 
       <p class="video-details__header__summary__imdb-rating" *ngIf="imdbRating">
-        IMDB:
-        <strong>{{ imdbRating.toFixed(1) }}</strong
-        >{{ "/10 (" + imdbRatingCount + " głosów)" }}
+        <mat-icon>grade</mat-icon>
+        <span class="smaller">IMDB:</span>
+        {{ imdbRating.toFixed(1)
+        }}<span class="smaller">{{
+          " /10 (" + imdbRatingCount + " głosów)"
+        }}</span>
       </p>
     </section>
   </header>

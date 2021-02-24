@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
@@ -11,6 +11,7 @@ import {
 } from 'src/app/models/video-details';
 import { ToTranslate } from 'src/app/models/google-translation';
 import { GtranslateService } from 'src/app/services/gtranslate.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-video-details',
@@ -18,7 +19,7 @@ import { GtranslateService } from 'src/app/services/gtranslate.service';
   styleUrls: ['./video-details.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class VideoDetailsComponent implements OnInit {
+export class VideoDetailsComponent implements OnInit, OnDestroy {
   movieFlag: boolean;
   posterPath: string;
   actorPath: string;
@@ -30,7 +31,7 @@ export class VideoDetailsComponent implements OnInit {
   buttonOn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
-  numberOfActorsInArray: number = 9;
+  numberOfActorsInArray: number = 30;
   actors: Array<VideoActor> = [];
   seasons: Array<VideoSeason> = [];
   certifications: Array<VideoCertification> = [];
@@ -42,7 +43,8 @@ export class VideoDetailsComponent implements OnInit {
     private http: HttpService,
     private route: ActivatedRoute,
     private location: Location,
-    private translator: GtranslateService
+    private translator: GtranslateService,
+    private data: DataService
   ) {
     this.posterPath = this.http.urlImg150;
     this.actorPath = this.http.urlImg94;
@@ -73,6 +75,11 @@ export class VideoDetailsComponent implements OnInit {
               this.details.release_dates,
               this.certifications
             );
+
+            this.setBackdropPath(
+              `${this.backdropPath}${this.details.backdrop_path}`
+            );
+
             this.translateStatus(this.details.status);
 
             // english movie details
@@ -86,15 +93,17 @@ export class VideoDetailsComponent implements OnInit {
             }
 
             //imdb movie data
-            this.http.getImdbData(res.external_ids.imdb_id).subscribe(
-              (omdbData) => {
-                this.imdbRating = Number(omdbData.imdbRating);
-                this.imdbRatingCount = Number(
-                  omdbData.imdbVotes.replace(/,/g, '')
-                );
-              },
-              (error) => console.log('Błąd IMDB: ', error)
-            );
+            if (res.external_ids.imdb_id) {
+              this.http.getImdbData(res.external_ids.imdb_id).subscribe(
+                (omdbData) => {
+                  this.imdbRating = Number(omdbData.imdbRating);
+                  this.imdbRatingCount = Number(
+                    omdbData.imdbVotes.replace(/,/g, '')
+                  );
+                },
+                (error) => console.log('Błąd IMDB: ', error)
+              );
+            }
           },
           (error) => console.log('Błąd: ', error)
         );
@@ -114,6 +123,11 @@ export class VideoDetailsComponent implements OnInit {
               this.certifications
             );
             this.createSeasonsArray(this.details.seasons, this.seasons);
+
+            this.setBackdropPath(
+              `${this.backdropPath}${this.details.backdrop_path}`
+            );
+
             this.translateStatus(this.details.status);
 
             // english  tv series details
@@ -127,18 +141,26 @@ export class VideoDetailsComponent implements OnInit {
             }
 
             //imdb  tv series data
-            this.http.getImdbData(res.external_ids.imdb_id).subscribe(
-              (omdbData) => {
-                this.imdbRating = Number(omdbData.imdbRating);
-                this.imdbRatingCount = Number(omdbData.imdbVotes);
-              },
-              (error) => console.log('Błąd IMDB: ', error)
-            );
+            if (res.external_ids.imdb_id) {
+              this.http.getImdbData(res.external_ids.imdb_id).subscribe(
+                (omdbData) => {
+                  this.imdbRating = Number(omdbData.imdbRating);
+                  this.imdbRatingCount = Number(
+                    omdbData.imdbVotes.replace(/,/g, '')
+                  );
+                },
+                (error) => console.log('Błąd IMDB: ', error)
+              );
+            }
           },
           (error) => console.log('Błąd: ', error)
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.setBackdropPath('blank');
   }
 
   switchData() {
@@ -166,7 +188,7 @@ export class VideoDetailsComponent implements OnInit {
         this.statusTranslated = 'zakończony';
         break;
       case 'returning series':
-        this.statusTranslated = 'w emisji';
+        this.statusTranslated = 'aktywny';
         break;
       case 'in production':
         this.statusTranslated = 'w produkcji';
@@ -273,7 +295,7 @@ export class VideoDetailsComponent implements OnInit {
       (error) => console.error(error);
   }
 
-  // stye
+  // style
 
   setBackgroundStyle() {
     if (this.details && this.details.backdrop_path) {
@@ -285,6 +307,12 @@ export class VideoDetailsComponent implements OnInit {
         'background-position': '50% 0%',
         'background-attachment': 'fixed',
       };
+    }
+  }
+
+  setBackdropPath(path: string) {
+    if (this.details && this.details.backdrop_path) {
+      this.data.changeBackdropPath(path);
     }
   }
 

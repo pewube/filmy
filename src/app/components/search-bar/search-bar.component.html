@@ -5,6 +5,7 @@
       <input
         matInput
         class="search-bar__searcher__input"
+        #searcherInput
         type="text"
         name="input"
         [(ngModel)]="query"
@@ -35,7 +36,7 @@
       <mat-icon>search</mat-icon>
     </button>
   </form>
-  <nav class="search-bar__search-nav" *ngIf="numberOfMovies && numberOfShows">
+  <nav class="search-bar__search-nav" *ngIf="numberOfMovies || numberOfShows">
     <a
       class="search-bar__search-nav__movies"
       [routerLink]="['/results-movies', query, '1']"

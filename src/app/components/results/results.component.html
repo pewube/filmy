@@ -32,8 +32,8 @@
       </ul>
     </ng-template>
     <mat-paginator
+      *ngIf="length > 20"
       class="results__paginator"
-      *ngIf="length > 0"
       [length]="length"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"

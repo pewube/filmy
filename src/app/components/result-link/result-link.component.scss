@@ -1,5 +1,7 @@
+$img-width: 150px;
+
 .result-link {
-  width: 150px;
+  width: $img-width;
   height: 100%;
   margin-bottom: 5px;
   display: flex;
@@ -11,10 +13,11 @@
   transition: 0.3s;
 
   &__img {
+    height: $img-width * 1.5;
     flex-shrink: 0;
 
     img {
-      width: 150px;
+      $img-width: 150px;
     }
   }
 
@@ -39,14 +42,17 @@
 }
 
 @media (max-width: 320px), (max-height: 360px) {
+  $img-width: 130px;
+
   .result-link {
-    width: 130px;
+    width: $img-width;
 
     &__img {
+      height: $img-width * 1.5;
       flex-shrink: 0;
 
       img {
-        width: 130px;
+        width: $img-width;
       }
     }
   }

@@ -39,52 +39,46 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.switchData();
+    this.switchMoviesOrShows();
     this.paginatorLabels.nextPageLabel = 'Następna strona';
     this.paginatorLabels.previousPageLabel = 'Poprzednia strona';
     this.paginatorLabels.firstPageLabel = 'Pierwsza strona';
     this.paginatorLabels.lastPageLabel = 'Ostatnia strona';
     this.paginatorLabels.getRangeLabel = this.paginatorPolishRangeLabel;
 
-    if (this.movieFlag) {
-      this.route.paramMap.subscribe((params: ParamMap) => {
-        this.query = params.get('query');
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.query = params.get('query');
 
+      if (this.movieFlag) {
         this.http.getMovies(params.get('query'), params.get('page')).subscribe(
           (res) => {
             this.movies = res;
             this.length = res.total_results;
-            console.log('Filmy z ngOnInit: ', this.movies);
-
-            // If number of films is 0 show tvshows results
-            if (this.length === 0) {
-              this.router.navigate(['/results-shows', this.query, '1']);
+            console.log('http movies: ', this.movies);
+            if (res.total_results === 0) {
+              this.router.navigate(['/results-shows', this.query, 1]);
             }
           },
           (error) => console.log('Błąd: ', error)
         );
 
-        this.pageIndex = Number(params.get('page')) - 1;
-      });
-    } else {
-      this.route.paramMap.subscribe((params: ParamMap) => {
-        this.query = params.get('query');
-
+        this.setPaginatorPage(params.get('page'));
+      } else {
         this.http.getShows(params.get('query'), params.get('page')).subscribe(
           (res) => {
             this.shows = res;
             this.length = res.total_results;
-            console.log('Seriale z ngOnInit: ', this.shows);
+            console.log('http shows: ', this.shows);
           },
           (error) => console.log('Błąd: ', error)
         );
 
-        this.pageIndex = Number(params.get('page')) - 1;
-      });
-    }
+        this.setPaginatorPage(params.get('page'));
+      }
+    });
   }
 
-  switchData(): void {
+  switchMoviesOrShows(): void {
     const initialParameters: Array<string> = this.location.path().split(`/`);
 
     if (initialParameters[1] === 'results-movies') {
@@ -92,6 +86,10 @@ export class ResultsComponent implements OnInit {
     } else {
       this.movieFlag = false;
     }
+  }
+
+  setPaginatorPage(page: string) {
+    this.pageIndex = Number(page) - 1;
   }
 
   paginatorPolishRangeLabel(

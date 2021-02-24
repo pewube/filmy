@@ -105,14 +105,14 @@ export class HttpService {
   // }
 
   // OmdbAPI query
-  // getImdbData(query: string): Observable<any> {
-  //   return this.httpClient.get(this.UrlOmdb + query);
-  // }
+  getImdbData(imdbId: string): Observable<any> {
+    return this.httpClient.get(this.UrlOmdb + imdbId);
+  }
 
   // test version
-  getImdbData(query: string): Observable<any> {
-    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+  // getImdbData(query: string): Observable<any> {
+  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
-    return of('');
-  }
+  //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });
+  // }
 }

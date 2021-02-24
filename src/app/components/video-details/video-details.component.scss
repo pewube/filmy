@@ -1,12 +1,14 @@
 .video-details {
-  padding: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
 
   &__header {
     display: flex;
     flex-wrap: wrap;
     padding-top: 20px;
-    margin: 0 -10px 20px -10px;
-    background-color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+    background-color: rgba(63, 81, 181, 0.8);
+    box-shadow: 0 2px 5px 0 #ddd;
 
     &__poster {
       padding-left: 20px;
@@ -18,39 +20,39 @@
       color: #ddd;
 
       &__title {
-        margin-bottom: 10px;
+        padding-bottom: 5px;
         font-size: 26px;
         font-weight: bold;
         letter-spacing: 2px;
       }
 
-      &__original-title {
-        margin-bottom: 20px;
-        font-size: 16px;
-      }
-
+      &__original-title,
       &__date,
       &__runtime,
       &__restrictions,
       &__tmdb-rating,
       &__imdb-rating {
-        padding: 0 0 8px 0;
+        padding-right: 15px;
         margin: 0;
-        font-size: 16px;
-        strong {
-          font-size: 1.2em;
-          font-weight: bold;
+        font-size: 18px;
+        .smaller {
+          font-size: 0.8em;
+        }
+        mat-icon {
+          font-size: 0.9em;
         }
       }
     }
   }
 
   &__info {
+    margin: 0 20px;
     font-size: 16px;
     line-height: 150%;
   }
 
   &__actors {
+    margin: 0 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
