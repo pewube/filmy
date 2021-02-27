@@ -5,11 +5,14 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,20 +20,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-bar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SearchBarComponent implements OnInit, OnChanges {
+export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() initQuery: string;
+  @Input() initYear: string;
   @Input() initResultsMovies: TmdbResponse;
   @Input() initResultsShows: TmdbResponse;
   @ViewChild('searcherInput') searcherInput: ElementRef;
 
   query: string;
+  year: string = '';
   numberOfMovies: number;
   numberOfShows: number;
+  isMovie: boolean;
+  isMovieSubscription: Subscription;
 
-  constructor(private http: HttpService, private router: Router) {}
+  constructor(
+    private http: HttpService,
+    private router: Router,
+    private data: DataService
+  ) {}
 
   ngOnChanges() {
-    this.query = this.initQuery ? this.initQuery : null;
+    this.query = this.initQuery ? this.initQuery : '';
+    this.year = this.initYear ? this.initYear : '';
+
     this.numberOfMovies = this.initResultsMovies
       ? this.initResultsMovies.total_results
       : null;
@@ -39,30 +52,45 @@ export class SearchBarComponent implements OnInit, OnChanges {
       : null;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isMovieSubscription = this.data.currentMediaType.subscribe(
+      (isMovie) => (this.isMovie = isMovie)
+    );
+  }
+
+  ngOnDestroy() {
+    this.isMovieSubscription.unsubscribe();
+  }
 
   search() {
-    this.http.getMovies(this.query).subscribe(
+    this.http.getMovies(this.query, '1', this.year).subscribe(
       (res) => {
         this.numberOfMovies = res.total_results;
       },
       (error) => console.log('Błąd: ', error)
     );
 
-    this.http.getShows(this.query).subscribe(
+    this.http.getShows(this.query, '1', this.year).subscribe(
       (res) => {
         this.numberOfShows = res.total_results;
       },
       (error) => console.log('Błąd: ', error)
     );
 
-    this.router.navigate(['/results-movies', this.query, '1']);
+    this.router.navigate(['/results-movies', this.query, '1', this.year]);
   }
 
-  cancel(): void {
+  changeMediaType(isMovie: boolean) {
+    this.data.changeMediaType(isMovie);
+  }
+
+  cancelQuery(): void {
     this.query = '';
     setTimeout(() => {
       this.searcherInput.nativeElement.focus();
     }, 0);
+  }
+  cancelYear(): void {
+    this.year = '';
   }
 }

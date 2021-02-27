@@ -1,0 +1,8 @@
+@import "variables";
+
+@mixin main-box-shadow {
+  box-shadow: 0 2px 5px 0 #ddd;
+}
+@mixin hover-box-shadow {
+  box-shadow: 0 0 5px 3px $main-color;
+}

@@ -2,15 +2,44 @@
 @import "src/variables";
 @import "src/mixins";
 
-.results {
+.home {
   max-width: 1200px;
   padding: 20px 10px;
   margin: 0 auto;
 
-  &__list {
+  &__movies,
+  &__shows {
+    margin: 20px 0;
+  }
+
+  &__movie-list,
+  &__show-list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      height: 7px;
+
+      &-thumb {
+        background: #ddd;
+        border-radius: 5px;
+
+        &:hover {
+          background: $main-color;
+        }
+      }
+
+      &-track {
+        background: fff;
+        border-radius: 5px;
+        box-shadow: inset 7px 10px 12px #eee;
+      }
+    }
+
+    &__header {
+      text-align: center;
+    }
 
     &__item {
       padding: 10px;
@@ -38,11 +67,5 @@
         }
       }
     }
-  }
-
-  &__paginator {
-    max-width: 350px;
-    padding-right: 25px;
-    margin: 0 auto;
   }
 }

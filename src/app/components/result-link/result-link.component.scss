@@ -1,7 +1,9 @@
-$img-width: 150px;
+@import "src/reset";
+@import "src/variables";
+@import "src/mixins";
 
 .result-link {
-  width: $img-width;
+  width: $poster-width;
   height: 100%;
   margin-bottom: 5px;
   display: flex;
@@ -9,15 +11,15 @@ $img-width: 150px;
   overflow: hidden;
   text-align: center;
   border-radius: 5px;
-  box-shadow: 0 2px 5px 0 #ddd;
+  @include main-box-shadow;
   transition: 0.3s;
 
   &__img {
-    height: $img-width * 1.5;
+    height: $poster-height;
     flex-shrink: 0;
 
     img {
-      $img-width: 150px;
+      width: $poster-width;
     }
   }
 
@@ -35,24 +37,22 @@ $img-width: 150px;
       transition: 0.3s;
     }
     &__original-title {
-      color: #888;
+      color: $inactive-gray;
       font-size: 12px;
     }
   }
 }
 
 @media (max-width: 320px), (max-height: 360px) {
-  $img-width: 130px;
-
   .result-link {
-    width: $img-width;
+    width: $poster-width-320;
 
     &__img {
-      height: $img-width * 1.5;
+      height: $poster-height-320;
       flex-shrink: 0;
 
       img {
-        width: $img-width;
+        width: $poster-width-320;
       }
     }
   }

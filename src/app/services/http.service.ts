@@ -17,7 +17,9 @@ export class HttpService {
   private UrlOmdb: string = `https://www.omdbapi.com/?apikey=${this.omdbKey}&i=`;
 
   private urlBase: string = 'https://api.themoviedb.org/3';
-  private urlSearchAll: string = `${this.urlBase}/search/multi?api_key=${this.apiKey}&language=pl&query=`;
+
+  private urlPopularMovies: string = `${this.urlBase}/movie/popular?api_key=${this.apiKey}`;
+  private urlPopularShows: string = `${this.urlBase}/tv/popular?api_key=${this.apiKey}`;
 
   private urlSearchMovies: string = `${this.urlBase}/search/movie?api_key=${this.apiKey}`;
   private urlSearchShows: string = `${this.urlBase}/search/tv?api_key=${this.apiKey}`;
@@ -32,18 +34,43 @@ export class HttpService {
 
   constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
-  getAll(query: string): Observable<TmdbResponse> {
-    return this.httpClient.get<TmdbResponse>(this.urlSearchAll + query);
-  }
-  getMovies(
-    query: string,
+  getPopularMovies(
     page: string = '1',
     language: string = 'pl'
   ): Observable<TmdbResponse> {
     let searchParams = new HttpParams()
-      .set('language', language)
       .set('page', page)
-      .set('query', query);
+      .set('language', language);
+
+    return this.httpClient.get<TmdbResponse>(this.urlPopularMovies, {
+      params: searchParams,
+    });
+  }
+
+  getPopularShows(
+    page: string = '1',
+    language: string = 'pl'
+  ): Observable<TmdbResponse> {
+    let searchParams = new HttpParams()
+      .set('page', page)
+      .set('language', language);
+
+    return this.httpClient.get<TmdbResponse>(this.urlPopularShows, {
+      params: searchParams,
+    });
+  }
+
+  getMovies(
+    query: string,
+    page: string = '1',
+    year: string = '',
+    language: string = 'pl'
+  ): Observable<TmdbResponse> {
+    let searchParams = new HttpParams()
+      .set('query', query)
+      .set('page', page)
+      .set('primary_release_year', year)
+      .set('language', language);
 
     return this.httpClient.get<TmdbResponse>(this.urlSearchMovies, {
       params: searchParams,
@@ -52,12 +79,15 @@ export class HttpService {
   getShows(
     query: string,
     page: string = '1',
+    year: string = '',
     language: string = 'pl'
   ): Observable<TmdbResponse> {
     let searchParams = new HttpParams()
-      .set('language', language)
+      .set('query', query)
       .set('page', page)
-      .set('query', query);
+      .set('first_air_date_year', year)
+      .set('language', language);
+
     return this.httpClient.get<TmdbResponse>(this.urlSearchShows, {
       params: searchParams,
     });
@@ -68,7 +98,10 @@ export class HttpService {
   ): Observable<VideoDetails> {
     let searchParams = new HttpParams()
       .set('language', language)
-      .set('append_to_response', 'credits,external_ids,release_dates,images')
+      .set(
+        'append_to_response',
+        'credits,external_ids,release_dates,images,recommendations,similar,reviews'
+      )
       .set('include_image_language', 'pl,en,null');
 
     return this.httpClient.get<VideoDetails>(
@@ -84,7 +117,10 @@ export class HttpService {
   ): Observable<VideoDetails> {
     let searchParams = new HttpParams()
       .set('language', language)
-      .set('append_to_response', 'credits,external_ids,content_ratings,images')
+      .set(
+        'append_to_response',
+        'credits,external_ids,content_ratings,images,recommendations,similar,reviews'
+      )
       .set('include_image_language', 'pl,en,null');
 
     return this.httpClient.get<VideoDetails>(

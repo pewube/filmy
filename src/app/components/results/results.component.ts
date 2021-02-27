@@ -4,6 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { Location } from '@angular/common';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-results',
@@ -14,6 +15,7 @@ import { Location } from '@angular/common';
 export class ResultsComponent implements OnInit {
   movieFlag: boolean;
   query: string;
+  year: string;
   movies: TmdbResponse;
   shows: TmdbResponse;
   urlImg150: string;
@@ -31,6 +33,7 @@ export class ResultsComponent implements OnInit {
     private router: Router,
     private http: HttpService,
     private location: Location,
+    private data: DataService,
     private paginatorLabels: MatPaginatorIntl
   ) {
     this.urlImg150 = this.http.urlImg150;
@@ -48,30 +51,44 @@ export class ResultsComponent implements OnInit {
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.query = params.get('query');
+      this.year = params.get('year');
 
       if (this.movieFlag) {
-        this.http.getMovies(params.get('query'), params.get('page')).subscribe(
-          (res) => {
-            this.movies = res;
-            this.length = res.total_results;
-            console.log('http movies: ', this.movies);
-            if (res.total_results === 0) {
-              this.router.navigate(['/results-shows', this.query, 1]);
-            }
-          },
-          (error) => console.log('Błąd: ', error)
-        );
+        this.http
+          .getMovies(
+            params.get('query'),
+            params.get('page'),
+            params.get('year')
+          )
+          .subscribe(
+            (res) => {
+              this.movies = res;
+              this.length = res.total_results;
+              console.log('http movies: ', this.movies);
+              if (res.total_results === 0) {
+                this.router.navigate([
+                  '/results-shows',
+                  this.query,
+                  1,
+                  this.year,
+                ]);
+              }
+            },
+            (error) => console.log('Błąd: ', error)
+          );
 
         this.setPaginatorPage(params.get('page'));
       } else {
-        this.http.getShows(params.get('query'), params.get('page')).subscribe(
-          (res) => {
-            this.shows = res;
-            this.length = res.total_results;
-            console.log('http shows: ', this.shows);
-          },
-          (error) => console.log('Błąd: ', error)
-        );
+        this.http
+          .getShows(params.get('query'), params.get('page'), params.get('year'))
+          .subscribe(
+            (res) => {
+              this.shows = res;
+              this.length = res.total_results;
+              console.log('http shows: ', this.shows);
+            },
+            (error) => console.log('Błąd: ', error)
+          );
 
         this.setPaginatorPage(params.get('page'));
       }
@@ -83,8 +100,10 @@ export class ResultsComponent implements OnInit {
 
     if (initialParameters[1] === 'results-movies') {
       this.movieFlag = true;
+      this.data.changeMediaType(true);
     } else {
       this.movieFlag = false;
+      this.data.changeMediaType(false);
     }
   }
 
@@ -110,6 +129,7 @@ export class ResultsComponent implements OnInit {
         '/results-movies',
         this.query,
         (event.pageIndex + 1).toString(),
+        this.year,
       ]);
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     } else {
@@ -117,7 +137,9 @@ export class ResultsComponent implements OnInit {
         '/results-shows',
         this.query,
         (event.pageIndex + 1).toString(),
+        this.year,
       ]);
+
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   }

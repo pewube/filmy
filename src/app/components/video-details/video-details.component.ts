@@ -76,7 +76,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
               this.certifications
             );
 
-            this.setBackdropPath(
+            this.changeBackdropPath(
               `${this.backdropPath}${this.details.backdrop_path}`
             );
 
@@ -124,7 +124,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             );
             this.createSeasonsArray(this.details.seasons, this.seasons);
 
-            this.setBackdropPath(
+            this.changeBackdropPath(
               `${this.backdropPath}${this.details.backdrop_path}`
             );
 
@@ -160,7 +160,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.setBackdropPath('blank');
+    this.changeBackdropPath('blank');
   }
 
   switchData() {
@@ -295,22 +295,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       (error) => console.error(error);
   }
 
-  // style
-
-  setBackgroundStyle() {
-    if (this.details && this.details.backdrop_path) {
-      return {
-        'background-image': `linear-gradient(rgba(255, 255, 255,0.8),rgba(255, 255, 255,0.8)),
-          url(${this.backdropPath}${this.details.backdrop_path})`,
-        'background-repeat': 'no-repeat',
-        'background-size': 'cover',
-        'background-position': '50% 0%',
-        'background-attachment': 'fixed',
-      };
-    }
-  }
-
-  setBackdropPath(path: string) {
+  changeBackdropPath(path: string) {
     if (this.details && this.details.backdrop_path) {
       this.data.changeBackdropPath(path);
     }

@@ -13,6 +13,7 @@ import { DataService } from './services/data.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   initQuery: string;
+  initYear: string;
   initResultsMovies: TmdbResponse;
   initResultsShows: TmdbResponse;
 
@@ -26,7 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('ng onInit');
     this.getInitialParameters();
     this.backdropPathSubscription = this.data.currentBackdropPath.subscribe(
       (path) => {
@@ -46,16 +46,17 @@ export class AppComponent implements OnInit, OnDestroy {
       initialParameters[1] === 'results-movies' ||
       initialParameters[1] === 'results-shows'
     ) {
-      this.initQuery = initialParameters[2];
+      this.initQuery = decodeURIComponent(initialParameters[2]);
+      this.initYear = initialParameters[4];
 
-      this.http.getMovies(this.initQuery).subscribe(
+      this.http.getMovies(this.initQuery, '1', this.initYear).subscribe(
         (res) => {
           this.initResultsMovies = res;
         },
         (error) => console.log('Błąd: ', error)
       );
 
-      this.http.getShows(this.initQuery).subscribe(
+      this.http.getShows(this.initQuery, '1', this.initYear).subscribe(
         (res) => {
           this.initResultsShows = res;
         },
@@ -67,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
   setBackgroundStyle() {
     if (this.backdropPath && this.backdropPath !== 'blank') {
       return {
-        'background-image': `linear-gradient(rgba(255, 255, 255,0.9),rgba(255, 255, 255,0.8)),
+        'background-image': `linear-gradient(rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 0.8)),
           url(${this.backdropPath})`,
         'background-repeat': 'no-repeat',
         'background-size': 'cover',
@@ -83,6 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   reset() {
     this.initQuery = '';
+    this.initYear = '';
     this.initResultsMovies = null;
     this.initResultsShows = null;
   }

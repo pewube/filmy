@@ -1,3 +1,4 @@
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,6 +21,7 @@ import { VideoDetailsComponent } from './components/video-details/video-details.
 import { ResultsComponent } from './components/results/results.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     VideoDetailsComponent,
     ResultsComponent,
     SearchBarComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     ClipboardModule,
     TextFieldModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

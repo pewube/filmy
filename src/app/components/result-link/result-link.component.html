@@ -5,7 +5,9 @@
     /></ng-container>
   </figure>
   <section class="result-link__details">
-    <header class="result-link__details__title">{{ title }}</header>
+    <header class="result-link__details__title">
+      {{ title.length < 45 ? title : title.slice(0, 40) + " ..." }}
+    </header>
     <div>
       <p
         class="result-link__details__original-title"
@@ -13,7 +15,11 @@
           originalTitle && originalTitle.toLowerCase() !== title.toLowerCase()
         "
       >
-        {{ originalTitle }}
+        {{
+          originalTitle.length < 45
+            ? originalTitle
+            : originalTitle.slice(0, 40) + " ..."
+        }}
       </p>
     </div>
     <p class="result-link__details__date" *ngIf="date">

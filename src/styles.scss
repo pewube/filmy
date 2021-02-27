@@ -1,8 +1,7 @@
 @import "reset";
+@import "variables";
+@import "mixins";
 
-* {
-  box-sizing: border-box;
-}
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #fff;

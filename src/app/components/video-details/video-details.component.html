@@ -207,10 +207,13 @@
       ><p>{{ details?.homepage }}</p></a
     >
   </section>
-  <section class="video-details__actors">
-    <ng-container *ngIf="actors.length > 0">
-      <p class="video-details__actors__header">W rolach głównych:</p>
-      <ng-container *ngFor="let actor of actors">
+  <section class="video-details__actors" *ngIf="actors.length > 0">
+    <p class="video-details__actors__header">W rolach głównych:</p>
+    <ul class="video-details__actors__list">
+      <li
+        class="video-details__actors__list__item"
+        *ngFor="let actor of actors"
+      >
         <article class="video-details__actors__actor">
           <figure class="video-details__actors__actor__photo">
             <ng-container *ngIf="actor.profile_path">
@@ -219,16 +222,22 @@
                 alt="Photo of {{ actor.name }}"
             /></ng-container>
           </figure>
-          <p class="video-details__actors__actor__name">{{ actor.name }}</p>
-          <p
-            class="video-details__actors__actor__character"
-            *ngIf="actor.character"
-          >
-            jako {{ actor.character }}
-          </p>
+
+          <section class="video-details__actors__actor__details">
+            <p class="video-details__actors__actor__details__name">
+              {{ actor.name }}
+            </p>
+
+            <p
+              class="video-details__actors__actor__details__character"
+              *ngIf="actor.character"
+            >
+              jako {{ actor.character }}
+            </p>
+          </section>
         </article>
-      </ng-container>
-    </ng-container>
+      </li>
+    </ul>
   </section>
   <app-kodi-nfo
     [details]="details"
