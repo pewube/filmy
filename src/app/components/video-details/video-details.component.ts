@@ -27,6 +27,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   posterPath: string;
   profilePath: string;
   backdropPath: string;
+  urlImg130: string;
 
   details: VideoDetails;
   overviewEn: string;
@@ -34,7 +35,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   buttonOn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
-  numberOfActorsInArray: number = 30;
+  numberOfActorsInArray: number = 20;
   actors: Array<VideoActor> = [];
   seasons: Array<VideoSeason> = [];
   certifications: Array<VideoCertification> = [];
@@ -49,6 +50,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private translator: GtranslateService,
     private data: DataService
   ) {
+    this.urlImg130 = this.http.urlImg130;
     this.posterPath = this.http.urlImg220;
     this.profilePath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
@@ -64,16 +66,20 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           (res) => {
             console.log('Movie details: ', res);
             this.details = res;
+            this.screenwriters = [];
             this.createScreenwritersArray(
               this.details.credits,
               this.screenwriters
             );
+            this.directors = [];
             this.createDirectorsArray(this.details.credits, this.directors);
+            this.actors = [];
             this.createActorsArray(
               this.details.credits,
               this.actors,
               this.numberOfActorsInArray
             );
+            this.certifications = [];
             this.createMovieCertificationsArray(
               this.details.release_dates,
               this.certifications
@@ -116,15 +122,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           (res) => {
             console.log('TVShow details: ', res);
             this.details = res;
+            this.actors = [];
             this.createActorsArray(
               this.details.credits,
               this.actors,
               this.numberOfActorsInArray
             );
+            this.certifications = [];
             this.createShowCertificationsArray(
               this.details.content_ratings,
               this.certifications
             );
+            this.seasons = [];
             this.createSeasonsArray(this.details.seasons, this.seasons);
 
             this.changeBackdropPath(

@@ -180,6 +180,61 @@
       }
     }
   }
+  &__other-videos {
+    width: 100%;
+    margin-bottom: 8px;
+
+    &__list {
+      display: flex;
+      justify-content: flex-start;
+      overflow-x: scroll;
+
+      &::-webkit-scrollbar {
+        height: 7px;
+
+        &-thumb {
+          background: $inactive-gray;
+          border-radius: 5px;
+
+          &:hover {
+            background: $main-color;
+          }
+        }
+
+        &-track {
+          background: rgba(255, 255, 255, 0);
+          border-radius: 5px;
+          box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
+        }
+      }
+
+      &__item {
+        padding: 7px 0;
+        margin-right: 10px;
+
+        &:hover {
+          .result-link {
+            &__details {
+              background-color: #3f51b5;
+              &__title,
+              &__date {
+                color: #fff;
+              }
+            }
+          }
+        }
+
+        a {
+          color: #000;
+          text-decoration: none;
+
+          &:visited {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
 
   &__btn--back {
     margin-top: 40px;

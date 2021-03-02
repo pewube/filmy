@@ -408,7 +408,95 @@
         }}</a>
       </p>
     </section>
-
+    <section class="video-details__other-videos">
+      <p class="mat-body custom gray">polecane:</p>
+      <ul
+        class="video-details__other-videos__list"
+        *ngIf="
+          details?.recommendations?.results &&
+          details?.recommendations?.results.length > 0
+        "
+      >
+        <ng-container *ngIf="movieFlag; else tvshows">
+          <li
+            class="video-details__other-videos__list__item"
+            *ngFor="let movie of details.recommendations.results"
+          >
+            <a [routerLink]="['/movie', movie.id]">
+              <app-result-link
+                [imgsrc]="
+                  movie.poster_path ? urlImg130 + movie.poster_path : ''
+                "
+                [title]="movie.title"
+                [originalTitle]="movie.original_title"
+                [overview]="movie.overview"
+                [date]="movie.release_date"
+              ></app-result-link>
+            </a>
+          </li>
+        </ng-container>
+        <ng-template #tvshows>
+          <li
+            class="video-details__other-videos__list__item"
+            *ngFor="let show of details.recommendations.results"
+          >
+            <a [routerLink]="['/tv', show.id]">
+              <app-result-link
+                [imgsrc]="show.poster_path ? urlImg130 + show.poster_path : ''"
+                [title]="show.name"
+                [originalTitle]="show.original_name"
+                [overview]="show.overview"
+                [date]="show.first_air_date"
+              ></app-result-link>
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </section>
+    <section class="video-details__other-videos">
+      <p class="mat-body custom gray">podobne:</p>
+      <ul
+        class="video-details__other-videos__list"
+        *ngIf="
+          details?.similar?.results && details?.similar?.results.length > 0
+        "
+      >
+        <ng-container *ngIf="movieFlag; else tvshows">
+          <li
+            class="video-details__other-videos__list__item"
+            *ngFor="let movie of details.similar.results"
+          >
+            <a [routerLink]="['/movie', movie.id]">
+              <app-result-link
+                [imgsrc]="
+                  movie.poster_path ? urlImg130 + movie.poster_path : ''
+                "
+                [title]="movie.title"
+                [originalTitle]="movie.original_title"
+                [overview]="movie.overview"
+                [date]="movie.release_date"
+              ></app-result-link>
+            </a>
+          </li>
+        </ng-container>
+        <ng-template #tvshows>
+          <li
+            class="video-details__other-videos__list__item"
+            *ngFor="let show of details.similar.results"
+          >
+            <a [routerLink]="['/tv', show.id]">
+              <app-result-link
+                [imgsrc]="show.poster_path ? urlImg130 + show.poster_path : ''"
+                [title]="show.name"
+                [originalTitle]="show.original_name"
+                [overview]="show.overview"
+                [date]="show.first_air_date"
+              ></app-result-link>
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </section>
     <button
       mat-stroked-button
       class="video-details__btn--back"
@@ -416,7 +504,7 @@
       type="button"
       (click)="goToResults()"
     >
-      Cofnij do listy wyszukiwania
+      Cofnij do poprzedniej strony
     </button>
   </section>
 </article>

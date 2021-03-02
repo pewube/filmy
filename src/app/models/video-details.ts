@@ -1,3 +1,4 @@
+import { TmdbResponse } from 'src/app/models/tmdb-response';
 export interface VideoDetails {
   title?: string;
   name?: string;
@@ -32,6 +33,8 @@ export interface VideoDetails {
   release_dates?: any;
   seasons?: Array<VideoSeason>;
   content_ratings?: Array<VideoCertification>;
+  similar?: TmdbResponse;
+  recommendations?: TmdbResponse;
 }
 
 export interface VideoCollection {
