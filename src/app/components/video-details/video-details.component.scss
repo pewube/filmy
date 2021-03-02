@@ -4,123 +4,261 @@
 
 .video-details {
   max-width: 1200px;
+  padding: 20px 0;
   margin: 0 auto;
 
+  display: flex;
+
   &__header {
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 20px;
+    flex-basis: 260px;
+    padding: 20px;
     margin-bottom: 20px;
-    background-color: rgba(63, 81, 181, 0.8);
-    @include main-box-shadow;
 
     &__poster {
-      padding-left: 20px;
       margin-bottom: 20px;
     }
 
     &__summary {
-      padding-left: 20px;
-      color: #ddd;
+      padding: 0 10px;
 
-      &__title {
-        padding-bottom: 5px;
-        font-size: 26px;
-        font-weight: bold;
-        letter-spacing: 2px;
+      &__restrictions {
+        padding-top: 5px;
+        border-top: 1px solid $inactive-gray;
       }
+      &__ratings {
+        padding-top: 5px;
+        border-top: 1px solid $inactive-gray;
+      }
+    }
 
-      &__original-title,
-      &__date,
-      &__runtime,
-      &__restrictions,
-      &__tmdb-rating,
-      &__imdb-rating {
-        padding-right: 15px;
-        margin: 0;
-        font-size: 18px;
-        .smaller {
-          font-size: 0.8em;
-        }
-        mat-icon {
-          font-size: 0.9em;
+    &__kodi-nfo {
+      padding: 10px;
+      border-top: 1px solid $inactive-gray;
+      text-align: right;
+      &__btn {
+        &--copy {
+          mat-icon {
+            font-size: 20px;
+          }
         }
       }
     }
+  }
+
+  &__kodi-nfo-component {
+    display: none;
   }
 
   &__info {
-    margin: 0 20px;
-    font-size: 16px;
-    line-height: 150%;
-  }
+    width: 100%;
+    padding: 20px;
 
-  &__actors {
-    margin: 0 20px;
+    flex-grow: 1;
 
-    &__header {
-      width: 100%;
+    overflow: hidden;
+
+    &__original-title {
+      color: $note-gray;
     }
 
-    &__list {
-      display: flex;
-      justify-content: flex-start;
-      overflow-x: scroll;
-      overflow-y: auto;
+    &__overview {
+      padding: 16px 0 11px;
 
-      &::-webkit-scrollbar {
-        height: 8px;
+      position: relative;
 
-        &-thumb {
-          background: $inactive-gray;
-          border-radius: 5px;
+      &__btn--translate {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
 
-          &:hover {
-            background: $main-color;
+    &__actors {
+      width: 100%;
+      margin-bottom: 8px;
+
+      &__list {
+        display: flex;
+        justify-content: flex-start;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+          height: 7px;
+
+          &-thumb {
+            background: $inactive-gray;
+            border-radius: 5px;
+
+            &:hover {
+              background: $main-color;
+            }
+          }
+
+          &-track {
+            background: rgba(255, 255, 255, 0);
+            border-radius: 5px;
+            box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
           }
         }
 
-        &-track {
-          background: fff;
-          border-radius: 5px;
-          box-shadow: inset 7px 10px 12px #ddd;
+        &__item {
+          margin-right: 10px;
         }
       }
 
-      &__item {
-        margin: 5px;
-        flex-shrink: 0;
+      &__actor {
+        width: 94px;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        border-radius: 5px;
+
+        &__photo {
+          height: 141px;
+          padding: 0;
+          margin: 0 0 10px 0;
+          display: block;
+          img {
+            height: 141px;
+          }
+        }
+
+        &__details {
+          padding-right: 4px;
+        }
       }
     }
 
-    &__actor {
-      width: 94px;
-      height: 100%;
+    &__crew-container {
+      width: 100%;
+      margin-bottom: 8px;
 
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
 
-      border-radius: 5px;
+    &__crew {
+      flex-grow: 0;
 
-      &__photo {
-        height: 141px;
-        padding: 0;
-        margin: 0 0 10px 0;
-        display: block;
-        img {
-          height: 141px;
+      &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        &__item {
+          margin-right: 10px;
         }
       }
 
-      &__details {
-        padding: 0 4px;
-        &__name {
-          font-size: 16px;
+      &__member {
+        width: 94px;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        border-radius: 5px;
+
+        &__photo {
+          height: 141px;
+          padding: 0;
+          margin: 0 0 10px 0;
+          display: block;
+          img {
+            height: 141px;
+          }
         }
-        &__character {
-          font-size: 0.9em;
+
+        &__details {
+          padding-right: 4px;
         }
+      }
+    }
+  }
+
+  &__btn--back {
+    margin-top: 40px;
+  }
+}
+
+.gray {
+  padding-right: 5px;
+  color: $note-gray;
+}
+
+@media (max-width: 767px) {
+  .video-details {
+    &__header {
+      flex-basis: 170px;
+      padding-right: 0;
+
+      &__poster {
+        img {
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 533px) {
+  .video-details {
+    flex-wrap: wrap;
+    &__header {
+      flex-basis: 100%;
+      padding: 10px;
+      margin-bottom: 0;
+
+      display: flex;
+
+      &__poster {
+        margin-right: 10px;
+        margin-bottom: 0;
+
+        order: 0;
+        img {
+          width: 130px;
+        }
+      }
+
+      &__kodi-nfo-component {
+        display: none;
+      }
+    }
+
+    &__kodi-nfo-component {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    &__kodi-nfo {
+      padding: 5px 0 0 0;
+      margin: 10px;
+
+      overflow: hidden;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      border-top: 1px solid $inactive-gray;
+      // border-bottom: 1px solid $inactive-gray;
+
+      &__header {
+        padding-right: 5px;
+      }
+    }
+
+    &__info {
+      padding: 10px;
+
+      &__overview {
+        border-top: 1px solid $inactive-gray;
       }
     }
   }

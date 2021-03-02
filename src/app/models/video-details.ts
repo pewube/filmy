@@ -24,7 +24,7 @@ export interface VideoDetails {
   status: string;
   production_companies?: Array<VideoData>;
   networks?: Array<VideoData>;
-  created_by?: Array<VideoData>;
+  created_by?: Array<VideoCrew>;
   belongs_to_collection?: VideoCollection;
   homepage?: string;
   credits?: VideoCredits;
@@ -59,7 +59,7 @@ export interface VideoCredits {
 export interface VideoCrew {
   name: string;
   profile_path: string;
-  job: string;
+  job?: string;
 }
 export interface VideoActor {
   name: string;

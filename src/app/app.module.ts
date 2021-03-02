@@ -1,4 +1,3 @@
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -22,6 +21,9 @@ import { ResultsComponent } from './components/results/results.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { HomeComponent } from './components/home/home.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NfoContentDialogComponent } from './components/kodi-nfo/nfo-content-dialog/nfo-content-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { HomeComponent } from './components/home/home.component';
     ResultsComponent,
     SearchBarComponent,
     HomeComponent,
+    NfoContentDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +52,11 @@ import { HomeComponent } from './components/home/home.component';
     ClipboardModule,
     TextFieldModule,
     MatExpansionModule,
-    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [NfoContentDialogComponent],
 })
 export class AppModule {}

@@ -7,7 +7,8 @@
         class="search-bar__searcher__query__input"
         #searcherInput
         type="search"
-        name="input-query"
+        name="inputQuery"
+        aria-label="enter a title"
         [(ngModel)]="query"
         autofocus
         required
@@ -16,10 +17,10 @@
         *ngIf="query"
         mat-button
         class="search-bar__searcher__query__cancel-btn"
-        type="button"
+        type="reset"
         matSuffix
         mat-icon-button
-        aria-label="Clear"
+        aria-label="clear input content"
         (mousedown)="cancelQuery()"
         (touchstart)="cancelQuery()"
       >
@@ -34,10 +35,10 @@
           class="search-bar__searcher__year__input"
           #searcherYear
           type="text"
-          min="4"
-          max="4"
+          minlength="4"
           maxlength="4"
-          name="input-year"
+          name="inputYear"
+          aria-label="enter a release date"
           [(ngModel)]="year"
         />
         <mat-hint align="end">{{ searcherYear.value.length }} / 4</mat-hint>
@@ -45,10 +46,10 @@
           *ngIf="year"
           mat-button
           class="search-bar__searcher__year__cancel-btn"
-          type="button"
+          type="reset"
           matSuffix
           mat-icon-button
-          aria-label="Clear"
+          aria-label="clear input content"
           (mousedown)="cancelYear()"
           (touchstart)="cancelYear()"
         >
@@ -60,6 +61,7 @@
         color="primary"
         class="search-bar__searcher__submit-btn"
         type="submit"
+        aria-label="search"
         [disabled]="form.invalid"
         [ngStyle]="{ 'margin-left': '10px' }"
       >

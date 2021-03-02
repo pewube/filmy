@@ -12,6 +12,9 @@ import {
 import { ToTranslate } from 'src/app/models/google-translation';
 import { GtranslateService } from 'src/app/services/gtranslate.service';
 import { DataService } from 'src/app/services/data.service';
+import localePl from '@angular/common/locales/pl';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localePl);
 
 @Component({
   selector: 'app-video-details',
@@ -22,7 +25,7 @@ import { DataService } from 'src/app/services/data.service';
 export class VideoDetailsComponent implements OnInit, OnDestroy {
   movieFlag: boolean;
   posterPath: string;
-  actorPath: string;
+  profilePath: string;
   backdropPath: string;
 
   details: VideoDetails;
@@ -46,8 +49,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private translator: GtranslateService,
     private data: DataService
   ) {
-    this.posterPath = this.http.urlImg150;
-    this.actorPath = this.http.urlImg94;
+    this.posterPath = this.http.urlImg220;
+    this.profilePath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
   }
 

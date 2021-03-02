@@ -1,3 +1,4 @@
+import { NfoContentDialogComponent } from './nfo-content-dialog/nfo-content-dialog.component';
 import { ConfigService } from './../../services/config.service';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
@@ -8,7 +9,7 @@ import {
   VideoDetails,
   VideoSeason,
 } from 'src/app/models/video-details';
-import { HttpService } from 'src/app/services/http.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-kodi-nfo',
@@ -34,8 +35,8 @@ export class KodiNfoComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private http: HttpService,
-    private config: ConfigService
+    private config: ConfigService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -52,9 +53,7 @@ export class KodiNfoComponent implements OnInit {
     }
   }
 
-  // create Kodi .nfo file
-
-  showKodiNfo() {
+  createKodiNfo() {
     const nfoCommonParts: Array<string> = [
       `<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>`,
       `  <ratings>
@@ -376,12 +375,12 @@ export class KodiNfoComponent implements OnInit {
     const month: string = date.toLocaleDateString('pl', { month: '2-digit' });
     const day: string = date.toLocaleDateString('pl', { day: '2-digit' });
     const time: string = date.toLocaleTimeString();
-    console.log(`${year}-${month}-${day} ${time}`);
 
     return `${year}-${month}-${day} ${time}`;
   }
 
   saveNfoFile() {
+    this.createKodiNfo();
     const nfoContent: Blob = new Blob([this.kodiNfo], {
       type: 'text/plain;charset=utf-8',
     });
@@ -394,5 +393,14 @@ export class KodiNfoComponent implements OnInit {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  openDialog() {
+    this.createKodiNfo();
+    const dialogRef = this.dialog.open(NfoContentDialogComponent, {
+      height: '96vh',
+      width: '99vw',
+      data: { contentKodiNfo: this.kodiNfo },
+    });
   }
 }

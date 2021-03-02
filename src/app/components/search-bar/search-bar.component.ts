@@ -86,11 +86,20 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
 
   cancelQuery(): void {
     this.query = '';
+    this.numberOfMovies = null;
+    this.numberOfShows = null;
+
     setTimeout(() => {
       this.searcherInput.nativeElement.focus();
     }, 0);
   }
   cancelYear(): void {
     this.year = '';
+    this.numberOfMovies = null;
+    this.numberOfShows = null;
+  }
+
+  print(ngForm) {
+    console.log(ngForm);
   }
 }

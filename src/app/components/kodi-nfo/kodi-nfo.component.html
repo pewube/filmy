@@ -1,17 +1,37 @@
-<section class="video-details__nfo-maker">
-  <h2>--- KODI NFO Maker ---</h2>
-  <ng-container>
-    <button (click)="showKodiNfo()">Wygeneruj plik do Kodi</button>
-  </ng-container>
-  <ng-container *ngIf="kodiNfo">
-    <textarea
-      class="video-details__nfo-maker__textarea"
-      cdkTextareaAutosize
-      [value]="kodiNfo"
-      readonly
-      wrap
-    ></textarea>
-    <button (click)="saveNfoFile()">Zapisz plik NFO dla Kodi</button>
-    <button [cdkCopyToClipboard]="kodiNfo">Kopiuj zawartość do schowka</button>
-  </ng-container>
-</section>
+<article class="video-details__header__kodi-nfo video-details__kodi-nfo">
+  <p
+    class="video-details__header__kodi-nfo__header video-details__kodi-nfo__header mat-body custom gray mat-caption"
+  >
+    kreator plików .nfo dla Kodi:
+  </p>
+  <button
+    mat-icon-button
+    color="primary"
+    class="video-details__header__kodi-nfo__btn video-details__header__kodi-nfo__btn--save video-details__kodi-nfo__btn video-details__kodi-nfo__btn--save"
+    matTooltip="zapisz plik .nfo dla kodi"
+    aria-label="save as .nfo kodi file"
+    (click)="saveNfoFile()"
+  >
+    <mat-icon>save</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    color="primary"
+    class="video-details__header__kodi-nfo__btn video-details__header__kodi-nfo__btn--copy video-details__kodi-nfo__btn video-details__kodi-nfo__btn--copy"
+    matTooltip="kopiuj zawartość pliku .nfo do schowka"
+    aria-label="copy content of .nfo file to clipboard"
+    [cdkCopyToClipboard]="kodiNfo"
+  >
+    <mat-icon>content_copy</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    color="primary"
+    class="video-details__header__kodi-nfo__btn video-details__header__kodi-nfo__btn--preview video-details__kodi-nfo__btn video-details__kodi-nfo__btn--preview"
+    matTooltip="podejrzyj zawartość pliku .nfo dla kodi"
+    aria-label="preview the content of the .nfo kodi file"
+    (click)="openDialog()"
+  >
+    <mat-icon>preview</mat-icon>
+  </button>
+</article>

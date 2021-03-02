@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Zawartość pliku .nfo dla Kodi</h2>
+<mat-dialog-content>
+  <textarea
+    class="video-details__kodi-nfo__dialog__textarea"
+    cdkTextareaAutosize
+    [value]="data.contentKodiNfo"
+    readonly
+    wrap
+  ></textarea>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Zamknij okno</button>
+  <button
+    mat-button
+    [cdkCopyToClipboard]="data.contentKodiNfo"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    Kopiuj do schowka
+  </button>
+</mat-dialog-actions>

@@ -1,17 +1,1 @@
-@import "src/reset";
-@import "src/variables";
-@import "src/mixins";
 
-.video-details__nfo-maker {
-  padding: 20px 20px 20px 0;
-  &__textarea {
-    width: 100%;
-    padding: 20px 15px;
-
-    border: solid rgb(255, 255, 255, 0.8) 1px;
-    border-radius: 5px;
-    display: block;
-    resize: none;
-    background-color: rgb(255, 255, 255, 0.8);
-  }
-}

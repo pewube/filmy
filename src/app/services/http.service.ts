@@ -27,6 +27,7 @@ export class HttpService {
   urlImgOriginal: string = 'https://www.themoviedb.org/t/p/original';
   urlImg1280: string = 'https://www.themoviedb.org/t/p/w1280';
   urlImg600: string = 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2';
+  urlImg220: string = 'https://www.themoviedb.org/t/p/w220_and_h330_bestv2';
   urlImg185: string = 'https://www.themoviedb.org/t/p/w185';
   urlImg150: string = 'https://www.themoviedb.org/t/p/w150_and_h225_bestv2';
   urlImg130: string = 'https://www.themoviedb.org/t/p/w130_and_h195_bestv2';
@@ -141,14 +142,14 @@ export class HttpService {
   // }
 
   // OmdbAPI query
-  getImdbData(imdbId: string): Observable<any> {
-    return this.httpClient.get(this.UrlOmdb + imdbId);
-  }
+  // getImdbData(imdbId: string): Observable<any> {
+  //   return this.httpClient.get(this.UrlOmdb + imdbId);
+  // }
 
   // test version
-  // getImdbData(query: string): Observable<any> {
-  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+  getImdbData(query: string): Observable<any> {
+    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
-  //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });
-  // }
+    return of({ imdbRating: '9.9', imdbVotes: '99,999' });
+  }
 }
