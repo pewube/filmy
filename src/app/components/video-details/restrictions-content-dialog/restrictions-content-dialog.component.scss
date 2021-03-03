@@ -1,0 +1,19 @@
+@import "src/reset";
+@import "src/variables";
+@import "src/mixins";
+
+h2 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid $inactive-gray;
+}
+
+p {
+  padding: 5px 0 5px 10px;
+}
+
+.sign {
+  color: $main-color;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-right: 10px;
+}

@@ -1,20 +1,22 @@
 @import "src/reset";
 @import "src/variables";
 @import "src/mixins";
+.wrapper {
+  .header {
+    max-width: 1200px;
+    margin: 0 auto;
 
-.header {
-  max-width: 1200px;
-  margin: 0 auto;
+    &__toolbar {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 0 0 5px 5px;
+      @include main-box-shadow;
 
-  &__toolbar {
-    display: flex;
-    justify-content: space-between;
-    @include main-box-shadow;
-
-    a {
-      margin-left: 5px;
-      color: #fff;
-      text-decoration: none;
+      a {
+        margin-left: 5px;
+        color: #fff;
+        text-decoration: none;
+      }
     }
   }
 }

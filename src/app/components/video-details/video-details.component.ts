@@ -1,3 +1,4 @@
+import { RestrictionDeatils } from './../../models/restrictions';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
@@ -15,6 +16,8 @@ import { DataService } from 'src/app/services/data.service';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localePl);
+import { MatDialog } from '@angular/material/dialog';
+import { RestrictionsContentDialogComponent } from './restrictions-content-dialog/restrictions-content-dialog.component';
 
 @Component({
   selector: 'app-video-details',
@@ -28,6 +31,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   profilePath: string;
   backdropPath: string;
   urlImg130: string;
+  defaultPosterPath: string = 'assets/img/movie220.jpg';
+  defaultProfilePath: string = 'assets/img/cast94.jpg';
 
   details: VideoDetails;
   overviewEn: string;
@@ -48,7 +53,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private translator: GtranslateService,
-    private data: DataService
+    private data: DataService,
+    public dialogRestrictions: MatDialog
   ) {
     this.urlImg130 = this.http.urlImg130;
     this.posterPath = this.http.urlImg220;
@@ -64,7 +70,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
         // polish movie details
         this.http.getMovieDetails(params.get('id')).subscribe(
           (res) => {
-            console.log('Movie details: ', res);
+            // console.log('Movie details: ', res);
             this.details = res;
             this.screenwriters = [];
             this.createScreenwritersArray(
@@ -97,7 +103,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (res) => {
                   this.overviewEn = res.overview;
                 },
-                (error) => console.log('Błąd: ', error)
+                (error) =>
+                  console.log('Błąd pobierania details en dla movie: ', error)
               );
             }
 
@@ -114,13 +121,13 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
               );
             }
           },
-          (error) => console.log('Błąd: ', error)
+          (error) => console.log('Błąd pobierania details dla movie: ', error)
         );
       } else {
         // polish tv series details
         this.http.getShowDetails(params.get('id')).subscribe(
           (res) => {
-            console.log('TVShow details: ', res);
+            // console.log('TVShow details: ', res);
             this.details = res;
             this.actors = [];
             this.createActorsArray(
@@ -148,7 +155,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (res) => {
                   this.overviewEn = res.overview;
                 },
-                (error) => console.log('Błąd: ', error)
+                (error) =>
+                  console.log('Błąd pobierania details en dla tvshow: ', error)
               );
             }
 
@@ -165,14 +173,14 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
               );
             }
           },
-          (error) => console.log('Błąd: ', error)
+          (error) => console.log('Błąd pobierania details dla tvshow: ', error)
         );
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.changeBackdropPath('blank');
+    this.changeBackdropPath('assets/img/popcorn1280.jpg');
   }
 
   switchData() {
@@ -269,6 +277,15 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           country: el.iso_3166_1,
           certification: el.release_dates[0].certification,
         });
+        output.sort((a, b) => {
+          if (a.country < b.country) {
+            return 1;
+          }
+          if (a.country > b.country) {
+            return -1;
+          }
+          return 0;
+        });
       }
     }
   }
@@ -287,6 +304,15 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           country: el.iso_3166_1,
           certification: el.rating,
         });
+        output.sort((a, b) => {
+          if (a.country < b.country) {
+            return 1;
+          }
+          if (a.country > b.country) {
+            return -1;
+          }
+          return 0;
+        });
       }
     }
   }
@@ -304,13 +330,24 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       this.overviewTranslated = result.data.translations[0].translatedText;
       this.overviewEn = this.overviewTranslated;
     }),
-      (error) => console.error(error);
+      (error) => console.log('Błąd tłumaczenia: ', error);
   }
 
   changeBackdropPath(path: string) {
     if (this.details && this.details.backdrop_path) {
       this.data.changeBackdropPath(path);
     }
+  }
+
+  openRestrictionsDetails() {
+    const dialogRef = this.dialogRestrictions.open(
+      RestrictionsContentDialogComponent,
+      {
+        height: '85vh',
+        width: '80vw',
+        data: { isMovie: this.movieFlag },
+      }
+    );
   }
 
   goToResults() {

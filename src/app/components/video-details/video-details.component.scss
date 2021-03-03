@@ -15,19 +15,40 @@
     margin-bottom: 20px;
 
     &__poster {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      @include main-box-shadow;
+      img {
+        border-radius: 5px;
+      }
     }
 
     &__summary {
-      padding: 0 10px;
+      padding: 10px 10px 0 10px;
 
       &__restrictions {
         padding-top: 5px;
         border-top: 1px solid $inactive-gray;
+
+        button {
+          padding: 0;
+          border: none;
+          background-color: rgba(255, 255, 255, 0);
+          text-align: left;
+        }
       }
       &__ratings {
         padding-top: 5px;
         border-top: 1px solid $inactive-gray;
+
+        &-tmdb-link,
+        &-imdb-link {
+          color: #000;
+          text-decoration: none;
+
+          &:visited {
+            text-decoration: none;
+          }
+        }
       }
     }
 
@@ -75,6 +96,7 @@
 
     &__actors {
       width: 100%;
+      margin-top: 11px;
       margin-bottom: 8px;
 
       &__list {
@@ -83,10 +105,10 @@
         overflow-x: scroll;
 
         &::-webkit-scrollbar {
-          height: 7px;
+          height: 5px;
 
           &-thumb {
-            background: $inactive-gray;
+            background: #ddd;
             border-radius: 5px;
 
             &:hover {
@@ -134,7 +156,8 @@
 
     &__crew-container {
       width: 100%;
-      margin-bottom: 8px;
+      padding-top: 6px;
+      margin-bottom: 16px;
 
       display: flex;
       flex-wrap: wrap;
@@ -180,8 +203,21 @@
       }
     }
   }
+
+  &__info__homepage {
+    a {
+      color: #000;
+      text-decoration: none;
+
+      &:visited {
+        text-decoration: none;
+      }
+    }
+  }
+
   &__other-videos {
     width: 100%;
+    padding-top: 11px;
     margin-bottom: 8px;
 
     &__list {
@@ -190,10 +226,10 @@
       overflow-x: scroll;
 
       &::-webkit-scrollbar {
-        height: 7px;
+        height: 5px;
 
         &-thumb {
-          background: $inactive-gray;
+          background: #ddd;
           border-radius: 5px;
 
           &:hover {
@@ -209,7 +245,7 @@
       }
 
       &__item {
-        padding: 7px 0;
+        padding-bottom: 10px;
         margin-right: 10px;
 
         &:hover {
@@ -230,6 +266,23 @@
 
           &:visited {
             text-decoration: none;
+          }
+        }
+
+        .result-link {
+          width: $poster-width-320;
+          &__img {
+            height: $poster-height-320;
+            img {
+              width: $poster-width-320;
+            }
+          }
+
+          &__details {
+            background-color: #fff;
+            &__title {
+              font-size: 14px;
+            }
           }
         }
       }

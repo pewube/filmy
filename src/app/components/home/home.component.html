@@ -1,7 +1,9 @@
 <article class="home">
   <section>
     <article class="home__movies">
-      <h2 class="home__movie-list__header">Najpopularniejsze filmy</h2>
+      <h2 class="home__movie-list__header mat-body custom">
+        Najpopularniejsze filmy
+      </h2>
       <ul class="home__movie-list" *ngIf="movies && movies?.total_results > 0">
         <li class="home__movie-list__item" *ngFor="let movie of movies.results">
           <a [routerLink]="['/movie', movie.id]">
@@ -17,7 +19,9 @@
       </ul>
     </article>
     <article class="home__shows">
-      <h2 class="home__show-list__header">Najpopularniejsze seriale</h2>
+      <h2 class="home__show-list__header mat-body custom">
+        Najpopularniejsze seriale
+      </h2>
       <ul class="home__show-list" *ngIf="shows && shows?.total_results > 0">
         <li class="home__show-list__item" *ngFor="let show of shows.results">
           <a [routerLink]="['/tv', show.id]">

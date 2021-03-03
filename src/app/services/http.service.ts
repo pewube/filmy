@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { VideoDetails } from '../models/video-details';
 import { ConfigService } from './config.service';
+import { Restrictions } from '../models/restrictions';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,10 @@ export class HttpService {
   private UrlOmdb: string = `https://www.omdbapi.com/?apikey=${this.omdbKey}&i=`;
 
   private urlBase: string = 'https://api.themoviedb.org/3';
+
+  private urlMoviesRestrictions: string = `${this.urlBase}/certification/movie/list?api_key=${this.apiKey}`;
+
+  private urlShowsRestrictions: string = `${this.urlBase}/certification/tv/list?api_key=${this.apiKey}`;
 
   private urlPopularMovies: string = `${this.urlBase}/movie/popular?api_key=${this.apiKey}`;
   private urlPopularShows: string = `${this.urlBase}/tv/popular?api_key=${this.apiKey}`;
@@ -131,6 +136,13 @@ export class HttpService {
       }
     );
   }
+
+  getMoviesRestrictionsDetails(): Observable<Restrictions> {
+    return this.httpClient.get<Restrictions>(`${this.urlMoviesRestrictions}`);
+  }
+  getShowsRestrictionsDetails(): Observable<Restrictions> {
+    return this.httpClient.get<Restrictions>(`${this.urlShowsRestrictions}`);
+  }
   // RapidAPI query
   // getImdbData(query: string): Observable<any> {
   //   let imdbHeaders = new HttpHeaders({
@@ -142,14 +154,14 @@ export class HttpService {
   // }
 
   // OmdbAPI query
-  // getImdbData(imdbId: string): Observable<any> {
-  //   return this.httpClient.get(this.UrlOmdb + imdbId);
-  // }
+  getImdbData(imdbId: string): Observable<any> {
+    return this.httpClient.get(this.UrlOmdb + imdbId);
+  }
 
   // test version
-  getImdbData(query: string): Observable<any> {
-    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+  // getImdbData(query: string): Observable<any> {
+  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
-    return of({ imdbRating: '9.9', imdbVotes: '99,999' });
-  }
+  //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });
+  // }
 }

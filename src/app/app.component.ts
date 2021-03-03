@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   backdropPath: string;
   backdropPathSubscription: Subscription;
+  backdropDefault: string = 'assets/img/popcorn1280.jpg';
 
   constructor(
     private http: HttpService,
@@ -77,7 +78,12 @@ export class AppComponent implements OnInit, OnDestroy {
       };
     } else {
       return {
-        'background-color': '#fff',
+        'background-image': `linear-gradient(rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 0.8)),
+          url(${this.backdropDefault})`,
+        'background-repeat': 'no-repeat',
+        'background-size': 'cover',
+        'background-position': '50% 0%',
+        'background-attachment': 'fixed',
       };
     }
   }

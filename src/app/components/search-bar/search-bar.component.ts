@@ -67,14 +67,14 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
       (res) => {
         this.numberOfMovies = res.total_results;
       },
-      (error) => console.log('Błąd: ', error)
+      (error) => console.log('Błąd pobierania results dla movies: ', error)
     );
 
     this.http.getShows(this.query, '1', this.year).subscribe(
       (res) => {
         this.numberOfShows = res.total_results;
       },
-      (error) => console.log('Błąd: ', error)
+      (error) => console.log('Błąd pobierania results dla tvshows: ', error)
     );
 
     this.router.navigate(['/results-movies', this.query, '1', this.year]);
@@ -97,9 +97,5 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
     this.year = '';
     this.numberOfMovies = null;
     this.numberOfShows = null;
-  }
-
-  print(ngForm) {
-    console.log(ngForm);
   }
 }

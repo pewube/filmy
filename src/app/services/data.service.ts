@@ -9,7 +9,7 @@ export class DataService {
   private isMovie = new BehaviorSubject(true);
   currentMediaType = this.isMovie.asObservable();
 
-  private backdropPath = new BehaviorSubject('blank');
+  private backdropPath = new BehaviorSubject('assets/img/popcorn1280.jpg');
   currentBackdropPath = this.backdropPath.asObservable();
 
   constructor() {}

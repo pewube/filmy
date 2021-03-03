@@ -13,6 +13,8 @@ export class ResultLinkComponent implements OnInit {
   @Input() overview: string;
   @Input() date: string;
 
+  defaultImgsrc: string = 'assets/img/movie150.jpg';
+
   constructor() {}
 
   ngOnInit(): void {}

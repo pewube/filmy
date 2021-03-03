@@ -1,38 +1,34 @@
 <article class="video-details">
   <aside class="video-details__header">
-    <figure class="video-details__header__poster">
-      <img
-        *ngIf="details?.poster_path"
-        src="{{ posterPath + details?.poster_path }}"
-        alt="Plakat"
-      />
+    <figure *ngIf="details?.poster_path" class="video-details__header__poster">
+      <img src="{{ posterPath + details?.poster_path }}" alt="Plakat" />
     </figure>
 
     <section class="video-details__header__summary">
-      <p class="video-details__header__summary__date mat-body custom">
-        <span
-          class="video-details__header__summary__date"
-          *ngIf="details?.release_date; else showDate"
-        >
-          {{ details?.release_date.slice(0, 4) }}</span
-        >
-        <ng-template #showDate>
-          <span
-            class="video-details__header__summary__date"
-            *ngIf="details?.first_air_date"
-          >
-            {{ details.first_air_date.slice(0, 4) }}</span
-          >
-        </ng-template>
-      </p>
-      <p class="video-details__header__summary__runtime mat-body custom">
-        <span *ngIf="details?.runtime">
-          {{ details?.runtime + " min." }}
-        </span>
-      </p>
       <p
-        class="video-details__header__summary__genres mat-body custom"
+        *ngIf="details?.release_date; else showDate"
+        class="video-details__header__summary__date mat-body custom"
+      >
+        {{ details?.release_date.slice(0, 4) }}
+      </p>
+      <ng-template #showDate>
+        <p
+          *ngIf="details?.first_air_date"
+          class="video-details__header__summary__date"
+        >
+          {{ details.first_air_date.slice(0, 4) }}
+        </p>
+      </ng-template>
+      <p
+        *ngIf="details?.runtime"
+        class="video-details__header__summary__runtime mat-body custom"
+      >
+        {{ details?.runtime + " min." }}
+      </p>
+
+      <p
         *ngIf="details?.genres?.length > 0"
+        class="video-details__header__summary__genres mat-body custom"
       >
         <ng-container *ngFor="let genre of details.genres; let last = last">
           <span *ngIf="!last">{{ genre.name }}, </span>
@@ -40,30 +36,32 @@
         >
       </p>
       <div
-        class="video-details__header__summary__restrictions mat-body custom"
         *ngIf="certifications.length > 0"
+        class="video-details__header__summary__restrictions mat-body custom"
       >
         <p class="mat-body custom">
           <span class="gray mat-caption">ograniczenia wiekowe:</span>
         </p>
-        <p class="mat-body custom">
-          <ng-container
-            *ngFor="let certification of certifications; let last = last"
-          >
-            <span *ngIf="!last"
-              >{{ certification.certification }}
-              <span class="gray mat-caption">
-                {{ certification.country }} |
-              </span>
-            </span>
-            <span *ngIf="last"
-              >{{ certification.certification }}
-              <span class="gray mat-caption">
-                {{ certification.country }}</span
-              ></span
+        <button (click)="openRestrictionsDetails()">
+          <p class="mat-body custom">
+            <ng-container
+              *ngFor="let certification of certifications; let last = last"
             >
-          </ng-container>
-        </p>
+              <span *ngIf="!last"
+                >{{ certification.certification }}
+                <span class="gray mat-caption">
+                  {{ certification.country }} |
+                </span>
+              </span>
+              <span *ngIf="last"
+                >{{ certification.certification }}
+                <span class="gray mat-caption">
+                  {{ certification.country }}</span
+                ></span
+              >
+            </ng-container>
+          </p>
+        </button>
       </div>
       <div
         *ngIf="details?.vote_average || imdbRating"
@@ -72,29 +70,46 @@
         <p class="mat-body custom">
           <span class="gray mat-caption">oceny:</span>
         </p>
-        <p
-          class="video-details__header__summary__ratings-tmdb mat-body custom"
-          *ngIf="details?.vote_average"
+        <a
+          class="video-details__header__summary__ratings-tmdb-link"
+          href="https://www.themoviedb.org/movie/{{ details?.id }}"
+          rel="noopener"
+          target="_blank"
+          matTooltip="otwiera w nowym oknie link do filmu na stronie TMDB"
         >
-          {{ details.vote_average.toFixed(1)
-          }}<span class="gray mat-caption">{{
-            " /10 | TMDB | " +
-              (details.vote_count | number: "1.0-0":"pl") +
-              " głosów"
-          }}</span>
-        </p>
-
-        <p
-          class="video-details__header__summary__ratings-imdb mat-body custom"
-          *ngIf="imdbRating"
+          <p
+            *ngIf="details?.vote_average"
+            class="video-details__header__summary__ratings-tmdb mat-body custom"
+          >
+            {{ details.vote_average.toFixed(1)
+            }}<span class="gray mat-caption">{{
+              " /10 | TMDB | " +
+                (details.vote_count | number: "1.0-0":"pl") +
+                " głosów"
+            }}</span>
+          </p>
+        </a>
+        <a
+          class="video-details__header__summary__ratings-imdb-link"
+          href="https://www.imdb.com/title/{{
+            details?.external_ids?.imdb_id
+          }}/"
+          rel="noopener"
+          target="_blank"
+          matTooltip="otwiera w nowym oknie link do filmu na stronie IMDb"
         >
-          {{ imdbRating.toFixed(1)
-          }}<span class="gray mat-caption">{{
-            " /10 | IMDb | " +
-              (imdbRatingCount | number: "1.0-0":"pl") +
-              " głosów"
-          }}</span>
-        </p>
+          <p
+            class="video-details__header__summary__ratings-imdb mat-body custom"
+            *ngIf="imdbRating"
+          >
+            {{ imdbRating.toFixed(1)
+            }}<span class="gray mat-caption">{{
+              " /10 | IMDb | " +
+                (imdbRatingCount | number: "1.0-0":"pl") +
+                " głosów"
+            }}</span>
+          </p>
+        </a>
       </div>
     </section>
     <app-kodi-nfo
@@ -251,11 +266,14 @@
         >
           <article class="video-details__info__actors__actor">
             <figure class="video-details__info__actors__actor__photo">
-              <ng-container *ngIf="actor.profile_path">
-                <img
-                  src="{{ profilePath + actor.profile_path }}"
-                  alt="Photo of {{ actor.name }}"
-              /></ng-container>
+              <img
+                src="{{
+                  actor?.profile_path
+                    ? profilePath + actor.profile_path
+                    : defaultProfilePath
+                }}"
+                alt="Photo of {{ actor.name }}"
+              />
             </figure>
 
             <section class="video-details__info__actors__actor__details">
@@ -292,11 +310,14 @@
           >
             <article class="video-details__info__crew__member">
               <figure class="video-details__info__crew__member__photo">
-                <ng-container *ngIf="creator.profile_path">
-                  <img
-                    src="{{ profilePath + creator.profile_path }}"
-                    alt="Photo of {{ creator.name }}"
-                /></ng-container>
+                <img
+                  src="{{
+                    creator?.profile_path
+                      ? profilePath + creator.profile_path
+                      : defaultProfilePath
+                  }}"
+                  alt="Photo of {{ creator.name }}"
+                />
               </figure>
 
               <section class="video-details__info__crew__member__details">
@@ -324,11 +345,14 @@
           >
             <article class="video-details__info__crew__member">
               <figure class="video-details__info__crew__member__photo">
-                <ng-container *ngIf="screenwriter.profile_path">
-                  <img
-                    src="{{ profilePath + screenwriter.profile_path }}"
-                    alt="Photo of {{ screenwriter.name }}"
-                /></ng-container>
+                <img
+                  src="{{
+                    screenwriter?.profile_path
+                      ? profilePath + screenwriter.profile_path
+                      : defaultProfilePath
+                  }}"
+                  alt="Photo of {{ screenwriter.name }}"
+                />
               </figure>
 
               <section class="video-details__info__crew__member__details">
@@ -354,11 +378,14 @@
           >
             <article class="video-details__info__crew__member">
               <figure class="video-details__info__crew__member__photo">
-                <ng-container *ngIf="director.profile_path">
-                  <img
-                    src="{{ profilePath + director.profile_path }}"
-                    alt="Photo of {{ director.name }}"
-                /></ng-container>
+                <img
+                  src="{{
+                    director?.profile_path
+                      ? profilePath + director.profile_path
+                      : defaultProfilePath
+                  }}"
+                  alt="Photo of {{ director.name }}"
+                />
               </figure>
 
               <section class="video-details__info__crew__member__details">
@@ -403,20 +430,24 @@
     <section class="video-details__info__homepage" *ngIf="details?.homepage">
       <p class="mat-body custom">
         <span class="gray mat-body">oficjalna strona:</span>
-        <a href="{{ details.homepage }}" target="_blank">{{
-          details.homepage
-        }}</a>
+        <a
+          href="{{ details.homepage }}"
+          target="_blank"
+          matTooltip="otwiera w nowym oknie link {{ details.homepage }}"
+          rel="noopener"
+          >kliknij tutaj</a
+        >
       </p>
     </section>
-    <section class="video-details__other-videos">
+    <section
+      *ngIf="
+        details?.recommendations?.results &&
+        details?.recommendations?.results.length > 0
+      "
+      class="video-details__other-videos"
+    >
       <p class="mat-body custom gray">polecane:</p>
-      <ul
-        class="video-details__other-videos__list"
-        *ngIf="
-          details?.recommendations?.results &&
-          details?.recommendations?.results.length > 0
-        "
-      >
+      <ul class="video-details__other-videos__list">
         <ng-container *ngIf="movieFlag; else tvshows">
           <li
             class="video-details__other-videos__list__item"
@@ -453,52 +484,8 @@
         </ng-template>
       </ul>
     </section>
-    <section class="video-details__other-videos">
-      <p class="mat-body custom gray">podobne:</p>
-      <ul
-        class="video-details__other-videos__list"
-        *ngIf="
-          details?.similar?.results && details?.similar?.results.length > 0
-        "
-      >
-        <ng-container *ngIf="movieFlag; else tvshows">
-          <li
-            class="video-details__other-videos__list__item"
-            *ngFor="let movie of details.similar.results"
-          >
-            <a [routerLink]="['/movie', movie.id]">
-              <app-result-link
-                [imgsrc]="
-                  movie.poster_path ? urlImg130 + movie.poster_path : ''
-                "
-                [title]="movie.title"
-                [originalTitle]="movie.original_title"
-                [overview]="movie.overview"
-                [date]="movie.release_date"
-              ></app-result-link>
-            </a>
-          </li>
-        </ng-container>
-        <ng-template #tvshows>
-          <li
-            class="video-details__other-videos__list__item"
-            *ngFor="let show of details.similar.results"
-          >
-            <a [routerLink]="['/tv', show.id]">
-              <app-result-link
-                [imgsrc]="show.poster_path ? urlImg130 + show.poster_path : ''"
-                [title]="show.name"
-                [originalTitle]="show.original_name"
-                [overview]="show.overview"
-                [date]="show.first_air_date"
-              ></app-result-link>
-            </a>
-          </li>
-        </ng-template>
-      </ul>
-    </section>
     <button
-      mat-stroked-button
+      mat-raised-button
       class="video-details__btn--back"
       color="primary"
       type="button"

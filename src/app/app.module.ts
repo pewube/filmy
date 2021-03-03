@@ -24,6 +24,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NfoContentDialogComponent } from './components/kodi-nfo/nfo-content-dialog/nfo-content-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RestrictionsContentDialogComponent } from './components/video-details/restrictions-content-dialog/restrictions-content-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     SearchBarComponent,
     HomeComponent,
     NfoContentDialogComponent,
+    RestrictionsContentDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [NfoContentDialogComponent],
+  entryComponents: [
+    NfoContentDialogComponent,
+    RestrictionsContentDialogComponent,
+  ],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 <article class="result-link">
   <figure class="result-link__img">
-    <ng-container *ngIf="imgsrc"
-      ><img [src]="imgsrc" alt="Plakat do {{ title }}"
+    <ng-container
+      ><img [src]="imgsrc ? imgsrc : defaultImgsrc" alt="Plakat do {{ title }}"
     /></ng-container>
   </figure>
   <section class="result-link__details">

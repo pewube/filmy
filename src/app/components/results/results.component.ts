@@ -15,7 +15,7 @@ import { DataService } from 'src/app/services/data.service';
 export class ResultsComponent implements OnInit {
   movieFlag: boolean;
   query: string;
-  year: string;
+  year: string = '';
   movies: TmdbResponse;
   shows: TmdbResponse;
   urlImg150: string;
@@ -51,7 +51,7 @@ export class ResultsComponent implements OnInit {
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.query = params.get('query');
-      this.year = params.get('year');
+      this.year = params.get('year') ? params.get('year') : '';
 
       if (this.movieFlag) {
         this.http
@@ -64,7 +64,7 @@ export class ResultsComponent implements OnInit {
             (res) => {
               this.movies = res;
               this.length = res.total_results;
-              console.log('http movies: ', this.movies);
+              // console.log('http movies: ', this.movies);
               if (res.total_results === 0) {
                 this.router.navigate([
                   '/results-shows',
@@ -74,7 +74,8 @@ export class ResultsComponent implements OnInit {
                 ]);
               }
             },
-            (error) => console.log('Błąd: ', error)
+            (error) =>
+              console.log('Błąd pobierania results dla movies: ', error)
           );
 
         this.setPaginatorPage(params.get('page'));
@@ -85,9 +86,10 @@ export class ResultsComponent implements OnInit {
             (res) => {
               this.shows = res;
               this.length = res.total_results;
-              console.log('http shows: ', this.shows);
+              // console.log('http shows: ', this.shows);
             },
-            (error) => console.log('Błąd: ', error)
+            (error) =>
+              console.log('Błąd pobierania results dla shows:  ', error)
           );
 
         this.setPaginatorPage(params.get('page'));
