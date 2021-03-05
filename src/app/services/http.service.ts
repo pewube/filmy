@@ -1,7 +1,7 @@
 import { TmdbResponse } from './../models/tmdb-response';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { VideoDetails } from '../models/video-details';
 import { ConfigService } from './config.service';
 import { Restrictions } from '../models/restrictions';
@@ -11,7 +11,10 @@ import { Restrictions } from '../models/restrictions';
 })
 export class HttpService {
   private apiKey: string = this.config.getTmdbKey();
+  // private imdbKey: string = this.config.getImdbKey();
   private omdbKey: string = this.config.getOmdbKey();
+  // private urlImdb: string =
+  //   'https://imdb8.p.rapidapi.com/title/get-ratings?tconst=';
   private UrlOmdb: string = `https://www.omdbapi.com/?apikey=${this.omdbKey}&i=`;
 
   private urlBase: string = 'https://api.themoviedb.org/3';
@@ -20,8 +23,8 @@ export class HttpService {
 
   private urlShowsRestrictions: string = `${this.urlBase}/certification/tv/list?api_key=${this.apiKey}`;
 
-  private urlPopularMovies: string = `${this.urlBase}/movie/popular?api_key=${this.apiKey}`;
-  private urlPopularShows: string = `${this.urlBase}/tv/popular?api_key=${this.apiKey}`;
+  private urlPopularMovies: string = `${this.urlBase}/trending/movie/day?api_key=${this.apiKey}`;
+  private urlPopularShows: string = `${this.urlBase}/trending/tv/day?api_key=${this.apiKey}`;
 
   private urlSearchMovies: string = `${this.urlBase}/search/movie?api_key=${this.apiKey}`;
   private urlSearchShows: string = `${this.urlBase}/search/tv?api_key=${this.apiKey}`;
@@ -141,15 +144,25 @@ export class HttpService {
     return this.httpClient.get<Restrictions>(`${this.urlShowsRestrictions}`);
   }
 
+  // RapidAPI query
+  // getImdbData(query: string): Observable<any> {
+  //   let imdbHeaders = new HttpHeaders({
+  //     'x-rapidapi-key': this.imdbKey,
+  //     'x-rapidapi-host': 'imdb8.p.rapidapi.com',
+  //   });
+
+  //   return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
+  // }
+
   // OmdbAPI query
-  getImdbData(imdbId: string): Observable<any> {
-    return this.httpClient.get(this.UrlOmdb + imdbId);
-  }
+  // getOmdbData(imdbId: string): Observable<any> {
+  //   return this.httpClient.get(this.UrlOmdb + imdbId);
+  // }
 
   // test version
-  // getImdbData(query: string): Observable<any> {
-  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+  getOmdbData(query: string): Observable<any> {
+    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
-  //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });
-  // }
+    return of({ imdbRating: '9.9', imdbVotes: '99,999' });
+  }
 }

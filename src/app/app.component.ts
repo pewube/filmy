@@ -67,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   setBackgroundStyle() {
-    if (this.backdropPath && this.backdropPath !== 'blank') {
+    if (this.backdropPath) {
       return {
         'background-image': `linear-gradient(rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 0.8)),
           url(${this.backdropPath})`,

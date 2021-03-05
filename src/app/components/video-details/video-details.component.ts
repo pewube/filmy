@@ -43,6 +43,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   urlImg130: string;
   defaultPosterPath: string = 'assets/img/movie220.jpg';
   defaultProfilePath: string = 'assets/img/cast94.jpg';
+  defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
 
   details: VideoDetails;
   overviewEn: string;
@@ -116,16 +117,21 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (error) =>
                   console.log('Błąd pobierania details en dla movie: ', error)
               );
+              this.buttonOn = true;
             }
 
             //imdb movie data
             if (res.external_ids.imdb_id) {
-              this.http.getImdbData(res.external_ids.imdb_id).subscribe(
+              this.http.getOmdbData(res.external_ids.imdb_id).subscribe(
                 (omdbData) => {
-                  this.imdbRating = Number(omdbData.imdbRating);
-                  this.imdbRatingCount = Number(
-                    omdbData.imdbVotes.replace(/,/g, '')
-                  );
+                  this.imdbRating =
+                    omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
+                      ? Number(omdbData.imdbRating)
+                      : null;
+                  this.imdbRatingCount =
+                    omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
+                      ? Number(omdbData.imdbVotes.replace(/,/g, ''))
+                      : null;
                 },
                 (error) => console.log('Błąd IMDB: ', error)
               );
@@ -169,16 +175,21 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (error) =>
                   console.log('Błąd pobierania details en dla tvshow: ', error)
               );
+              this.buttonOn = true;
             }
 
             //imdb  tv series data
             if (res.external_ids.imdb_id) {
-              this.http.getImdbData(res.external_ids.imdb_id).subscribe(
+              this.http.getOmdbData(res.external_ids.imdb_id).subscribe(
                 (omdbData) => {
-                  this.imdbRating = Number(omdbData.imdbRating);
-                  this.imdbRatingCount = Number(
-                    omdbData.imdbVotes.replace(/,/g, '')
-                  );
+                  this.imdbRating =
+                    omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
+                      ? Number(omdbData.imdbRating)
+                      : null;
+                  this.imdbRatingCount =
+                    omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
+                      ? Number(omdbData.imdbVotes.replace(/,/g, ''))
+                      : null;
                 },
                 (error) => console.log('Błąd IMDB: ', error)
               );
@@ -192,7 +203,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.changeBackdropPath('assets/img/popcorn1280.jpg');
+    this.changeBackdropPath(this.defaultPosterPath);
   }
 
   switchData() {
@@ -348,6 +359,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   changeBackdropPath(path: string) {
     if (this.details && this.details.backdrop_path) {
       this.data.changeBackdropPath(path);
+    } else {
+      this.data.changeBackdropPath(this.defaultBackdropPath);
     }
   }
 

@@ -63,6 +63,7 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   search() {
+    this.query = this.query.replace(/\./g, ' ');
     this.http.getMovies(this.query, '1', this.year).subscribe(
       (res) => {
         this.numberOfMovies = res.total_results;
