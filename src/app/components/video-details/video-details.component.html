@@ -14,7 +14,7 @@
       <ng-template #showDate>
         <p
           *ngIf="details?.first_air_date"
-          class="video-details__header__summary__date"
+          class="video-details__header__summary__date mat-body custom"
         >
           {{ details.first_air_date.slice(0, 4) }}
         </p>
@@ -83,7 +83,7 @@
           >
             {{ details.vote_average.toFixed(1)
             }}<span class="gray mat-caption">{{
-              " /10 | TMDB | " +
+              " /10 | TMDb | " +
                 (details.vote_count | number: "1.0-0":"pl") +
                 " głosów"
             }}</span>
@@ -144,35 +144,36 @@
   ></app-kodi-nfo>
 
   <section class="video-details__info">
-    <ng-container *ngIf="details?.title; else showNames">
-      <h1 class="video-details__info__title mat-h1 custom">
-        {{ details.title }}
-      </h1>
-      <h4
-        class="video-details__info__original-title mat-h4 custom"
-        *ngIf="
-          details.original_title &&
-          details.original_title.toLowerCase() !== details.title.toLowerCase()
-        "
-      >
-        {{ details.original_title }}
-      </h4>
-    </ng-container>
-    <ng-template #showNames>
-      <h1 class="video-details__info__title mat-h1 custom">
-        {{ details?.name }}
-      </h1>
-      <h4
-        class="video-details__info__original-title mat-h4 custom"
-        *ngIf="
-          details?.original_name &&
-          details?.original_name.toLowerCase() !== details?.name.toLowerCase()
-        "
-      >
-        {{ details.original_name }}
-      </h4>
-    </ng-template>
-
+    <div class="video-details__info__title-container">
+      <ng-container *ngIf="details?.title; else showNames">
+        <h1 class="video-details__info__title mat-h1 custom">
+          {{ details.title }}
+        </h1>
+        <h4
+          class="video-details__info__original-title mat-h4 custom"
+          *ngIf="
+            details.original_title &&
+            details.original_title.toLowerCase() !== details.title.toLowerCase()
+          "
+        >
+          {{ details.original_title }}
+        </h4>
+      </ng-container>
+      <ng-template #showNames>
+        <h1 class="video-details__info__title mat-h1 custom">
+          {{ details?.name }}
+        </h1>
+        <h4
+          class="video-details__info__original-title mat-h4 custom"
+          *ngIf="
+            details?.original_name &&
+            details?.original_name.toLowerCase() !== details?.name.toLowerCase()
+          "
+        >
+          {{ details.original_name }}
+        </h4>
+      </ng-template>
+    </div>
     <p
       class="video-details__info__tagline mat-body custom"
       *ngIf="details?.tagline"
@@ -186,7 +187,7 @@
       {{ details.overview ? details.overview : overviewEn }}
       <button
         *ngIf="!details.overview && overviewEn && buttonOn"
-        mat-icon-button
+        mat-mini-fab
         color="primary"
         class="video-details__info__overview__btn--translate"
         matTooltip="tłumacz na polski z google translate"
@@ -259,7 +260,7 @@
       <p class="video-details__info__actors__header mat-body custom">
         <span class="gray mat-body">obsada:</span>
       </p>
-      <ul class="video-details__info__actors__list">
+      <ul class="video-details__info__actors__list" #list>
         <li
           class="video-details__info__actors__list__item"
           *ngFor="let actor of actors"
@@ -447,7 +448,7 @@
       class="video-details__other-videos"
     >
       <p class="mat-body custom gray">polecane:</p>
-      <ul class="video-details__other-videos__list">
+      <ul class="video-details__other-videos__list" #list>
         <ng-container *ngIf="movieFlag; else tvshows">
           <li
             class="video-details__other-videos__list__item"
@@ -485,13 +486,13 @@
       </ul>
     </section>
     <button
-      mat-raised-button
+      mat-mini-fab
       class="video-details__btn--back"
       color="primary"
       type="button"
       (click)="goToResults()"
     >
-      Cofnij do poprzedniej strony
+      <mat-icon>arrow_back</mat-icon>
     </button>
   </section>
 </article>

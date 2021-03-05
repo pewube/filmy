@@ -1,5 +1,13 @@
 import { RestrictionDeatils } from './../../models/restrictions';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
@@ -26,6 +34,8 @@ import { RestrictionsContentDialogComponent } from './restrictions-content-dialo
   encapsulation: ViewEncapsulation.None,
 })
 export class VideoDetailsComponent implements OnInit, OnDestroy {
+  @ViewChildren('list') listsToScroll: QueryList<ElementRef>;
+
   movieFlag: boolean;
   posterPath: string;
   profilePath: string;
@@ -120,6 +130,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (error) => console.log('Błąd IMDB: ', error)
               );
             }
+            this.scrollElements();
           },
           (error) => console.log('Błąd pobierania details dla movie: ', error)
         );
@@ -172,6 +183,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
                 (error) => console.log('Błąd IMDB: ', error)
               );
             }
+            this.scrollElements();
           },
           (error) => console.log('Błąd pobierania details dla tvshow: ', error)
         );
@@ -343,11 +355,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialogRestrictions.open(
       RestrictionsContentDialogComponent,
       {
-        height: '85vh',
+        height: '90vh',
         width: '80vw',
         data: { isMovie: this.movieFlag },
       }
     );
+  }
+
+  scrollElements() {
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      this.listsToScroll.forEach((list) => list.nativeElement.scrollTo(0, 0));
+    }, 0);
   }
 
   goToResults() {

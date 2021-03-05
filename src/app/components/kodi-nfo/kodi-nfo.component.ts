@@ -398,7 +398,7 @@ export class KodiNfoComponent implements OnInit {
   openDialog() {
     this.createKodiNfo();
     const dialogRef = this.dialog.open(NfoContentDialogComponent, {
-      height: '85vh',
+      height: '90vh',
       width: '80vw',
       data: { contentKodiNfo: this.kodiNfo },
     });

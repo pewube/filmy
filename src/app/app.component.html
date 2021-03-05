@@ -1,8 +1,11 @@
-<div class="wrapper" [ngStyle]="setBackgroundStyle()">
+<div class="background-generator" [ngStyle]="setBackgroundStyle()"></div>
+<div class="wrapper">
   <header class="header">
     <mat-toolbar class="header__toolbar" color="primary">
       <a class="toolbar__top-logo" (click)="reset()" routerLink="/"
-        ><span>Filmy</span></a
+        ><img src="assets/img/logo-header.svg" alt="" srcset="" /><span
+          >Filmoteka</span
+        ></a
       >
     </mat-toolbar>
   </header>

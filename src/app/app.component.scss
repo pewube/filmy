@@ -1,12 +1,25 @@
 @import "src/reset";
 @import "src/variables";
 @import "src/mixins";
+
+.background-generator {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+}
 .wrapper {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 80px;
   .header {
     max-width: 1200px;
     margin: 0 auto;
 
     &__toolbar {
+      position: relative;
       display: flex;
       justify-content: space-between;
       border-radius: 0 0 5px 5px;
@@ -14,8 +27,35 @@
 
       a {
         margin-left: 5px;
-        color: #fff;
+
         text-decoration: none;
+
+        img {
+          height: 90%;
+          position: absolute;
+          left: 10px;
+          top: 2px;
+        }
+
+        span {
+          margin-left: 45px;
+          color: #f9f3d4;
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 599px) {
+  .wrapper {
+    .header {
+      &__toolbar {
+        a {
+          span {
+            margin-left: 40px;
+          }
+        }
       }
     }
   }

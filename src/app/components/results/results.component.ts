@@ -133,7 +133,7 @@ export class ResultsComponent implements OnInit {
         (event.pageIndex + 1).toString(),
         this.year,
       ]);
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     } else {
       this.router.navigate([
         '/results-shows',
@@ -141,8 +141,7 @@ export class ResultsComponent implements OnInit {
         (event.pageIndex + 1).toString(),
         this.year,
       ]);
-
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
   }
 }

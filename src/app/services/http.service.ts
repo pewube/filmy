@@ -1,7 +1,7 @@
 import { TmdbResponse } from './../models/tmdb-response';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { VideoDetails } from '../models/video-details';
 import { ConfigService } from './config.service';
 import { Restrictions } from '../models/restrictions';
@@ -11,10 +11,7 @@ import { Restrictions } from '../models/restrictions';
 })
 export class HttpService {
   private apiKey: string = this.config.getTmdbKey();
-  private imdbKey: string = this.config.getImdbKey();
   private omdbKey: string = this.config.getOmdbKey();
-  private urlImdb: string =
-    'https://imdb8.p.rapidapi.com/title/get-ratings?tconst=';
   private UrlOmdb: string = `https://www.omdbapi.com/?apikey=${this.omdbKey}&i=`;
 
   private urlBase: string = 'https://api.themoviedb.org/3';
@@ -143,15 +140,6 @@ export class HttpService {
   getShowsRestrictionsDetails(): Observable<Restrictions> {
     return this.httpClient.get<Restrictions>(`${this.urlShowsRestrictions}`);
   }
-  // RapidAPI query
-  // getImdbData(query: string): Observable<any> {
-  //   let imdbHeaders = new HttpHeaders({
-  //     'x-rapidapi-key': this.imdbKey,
-  //     'x-rapidapi-host': 'imdb8.p.rapidapi.com',
-  //   });
-
-  //   return this.httpClient.get(this.urlImdb + query, { headers: imdbHeaders });
-  // }
 
   // OmdbAPI query
   getImdbData(imdbId: string): Observable<any> {

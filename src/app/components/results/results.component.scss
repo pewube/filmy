@@ -1,11 +1,10 @@
-@import "src/reset";
 @import "src/variables";
 @import "src/mixins";
 
 .results {
   max-width: 1200px;
-  padding: 20px 10px;
-  margin: 0 auto;
+
+  margin: 20px auto;
 
   &__list {
     display: flex;
@@ -13,7 +12,7 @@
     justify-content: center;
 
     &__item {
-      padding: 5px;
+      padding: 10px;
 
       &:hover {
         .result-link {

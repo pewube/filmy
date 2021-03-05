@@ -1,10 +1,9 @@
-@import "src/reset";
 @import "src/variables";
 @import "src/mixins";
 
 .home {
   max-width: 1200px;
-  padding: 20px 10px;
+  padding: 0 10px;
   margin: 0 auto;
 
   &__movies,
@@ -14,10 +13,12 @@
 
   &__movie-list,
   &__show-list {
+    padding-left: 5px;
     display: flex;
     justify-content: flex-start;
     overflow-x: scroll;
 
+    //scrollbar start
     &::-webkit-scrollbar {
       height: 5px;
 
@@ -31,18 +32,32 @@
       }
 
       &-track {
-        background: fff;
+        background: rgba(255, 255, 255, 0);
         border-radius: 5px;
         box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
       }
     }
 
+    scrollbar-color: #ddd rgba(255, 255, 255, 0);
+    scrollbar-width: thin;
+
+    &:hover {
+      &::-webkit-scrollbar {
+        &-thumb {
+          background: $main-color;
+        }
+      }
+      scrollbar-color: $main-color rgba(255, 255, 255, 0);
+    }
+    //scrollbar end
+
     &__header {
+      color: $main-color;
       text-align: center;
     }
 
     &__item {
-      padding: 5px 5px 10px 0;
+      padding: 5px 10px 10px 0;
       flex-shrink: 0;
 
       &:hover {
