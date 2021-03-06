@@ -16,6 +16,13 @@
     &__poster {
       margin-bottom: 10px;
 
+      &__btn--enlarge {
+        padding: 0;
+        margin: 0;
+        border: none;
+        background-color: rgba(255, 255, 255, 0);
+      }
+
       img {
         border-radius: 5px;
         @include main-box-shadow;
@@ -23,7 +30,7 @@
     }
 
     &__summary {
-      padding: 10px 10px 0 10px;
+      padding-top: 10px;
 
       &__restrictions {
         padding-top: 5px;
@@ -363,7 +370,7 @@
 
         order: 0;
         img {
-          width: 130px;
+          width: 150px;
         }
       }
 
@@ -400,6 +407,20 @@
 
     &__info {
       padding: 10px;
+    }
+  }
+}
+
+@media (max-width: 419px) {
+  .video-details {
+    &__header {
+      &__poster {
+        width: 130px;
+        order: 0;
+        img {
+          width: 130px;
+        }
+      }
     }
   }
 }

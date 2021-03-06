@@ -1,0 +1,17 @@
+<article class="dialog">
+  <button class="dialog__btn--bg" (click)="close()"></button>
+  <button
+    [ngClass]="{ active: isOn }"
+    class="dialog__btn--close"
+    mat-icon-button
+    (click)="close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  <img
+    [ngClass]="{ active: isOn }"
+    class="dialog__large-picture"
+    src="{{ path }}"
+    alt="Plakat do {{ title }}"
+  />
+</article>

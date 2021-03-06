@@ -74,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
         'background-repeat': 'no-repeat',
         'background-size': 'cover',
         'background-position': '50% 0%',
-        'background-attachment': 'fixed',
       };
     } else {
       return {
@@ -83,7 +82,6 @@ export class AppComponent implements OnInit, OnDestroy {
         'background-repeat': 'no-repeat',
         'background-size': 'cover',
         'background-position': '50% 0%',
-        'background-attachment': 'fixed',
       };
     }
   }

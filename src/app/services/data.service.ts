@@ -1,6 +1,5 @@
-import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

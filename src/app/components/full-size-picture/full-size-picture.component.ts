@@ -1,0 +1,29 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-full-size-picture',
+  templateUrl: './full-size-picture.component.html',
+  styleUrls: ['./full-size-picture.component.scss'],
+})
+export class FullSizePictureComponent implements OnInit {
+  @Input() path: string;
+  @Input() title: string;
+  @Output() closeLargePicture = new EventEmitter<boolean>();
+
+  isOn: boolean = false;
+
+  constructor() {}
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.isOn = true;
+    }, 100);
+  }
+
+  close() {
+    this.isOn = false;
+    setTimeout(() => {
+      this.closeLargePicture.emit(true);
+    }, 100);
+  }
+}

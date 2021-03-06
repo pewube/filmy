@@ -1,4 +1,3 @@
-import { RestrictionDeatils } from './../../models/restrictions';
 import {
   Component,
   ElementRef,
@@ -37,10 +36,12 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   @ViewChildren('list') listsToScroll: QueryList<ElementRef>;
 
   movieFlag: boolean;
+  showLargePicture: boolean = false;
   posterPath: string;
   profilePath: string;
   backdropPath: string;
   urlImg130: string;
+  urlImg600: string;
   defaultPosterPath: string = 'assets/img/movie220.jpg';
   defaultProfilePath: string = 'assets/img/cast94.jpg';
   defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
@@ -68,6 +69,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     public dialogRestrictions: MatDialog
   ) {
     this.urlImg130 = this.http.urlImg130;
+    this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
     this.profilePath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
@@ -364,12 +366,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  enlargePicture() {
+    this.showLargePicture = true;
+  }
+
+  closeLargePicture(event) {
+    this.showLargePicture = !event;
+  }
+
   openRestrictionsDetails() {
     const dialogRef = this.dialogRestrictions.open(
       RestrictionsContentDialogComponent,
       {
-        height: '90vh',
-        width: '80vw',
         data: { isMovie: this.movieFlag },
       }
     );

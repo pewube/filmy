@@ -1,7 +1,12 @@
 <article class="video-details">
   <aside class="video-details__header">
     <figure *ngIf="details?.poster_path" class="video-details__header__poster">
-      <img src="{{ posterPath + details?.poster_path }}" alt="Plakat" />
+      <button
+        class="video-details__header__poster__btn--enlarge"
+        (click)="enlargePicture()"
+      >
+        <img src="{{ posterPath + details?.poster_path }}" alt="Plakat" />
+      </button>
     </figure>
 
     <section class="video-details__header__summary">
@@ -496,3 +501,9 @@
     </button>
   </section>
 </article>
+<app-full-size-picture
+  *ngIf="showLargePicture"
+  [path]="urlImg600 + details?.poster_path"
+  [title]="details?.title ? details?.title : details?.name"
+  (closeLargePicture)="closeLargePicture($event)"
+></app-full-size-picture>

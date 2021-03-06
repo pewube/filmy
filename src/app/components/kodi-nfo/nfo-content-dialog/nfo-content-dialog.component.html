@@ -7,17 +7,17 @@
     wrap
   ></textarea>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-mini-fab color="warn" mat-dialog-close>
-    <mat-icon>close</mat-icon>
-  </button>
+<mat-dialog-actions>
   <button
-    mat-mini-fab
+    mat-icon-button
     color="primary"
     [cdkCopyToClipboard]="data.contentKodiNfo"
     [mat-dialog-close]="true"
     cdkFocusInitial
   >
     <mat-icon>content_copy</mat-icon>
+  </button>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
   </button>
 </mat-dialog-actions>

@@ -25,6 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NfoContentDialogComponent } from './components/kodi-nfo/nfo-content-dialog/nfo-content-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RestrictionsContentDialogComponent } from './components/video-details/restrictions-content-dialog/restrictions-content-dialog.component';
+import { FullSizePictureComponent } from './components/full-size-picture/full-size-picture.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { RestrictionsContentDialogComponent } from './components/video-details/r
     HomeComponent,
     NfoContentDialogComponent,
     RestrictionsContentDialogComponent,
+    FullSizePictureComponent,
   ],
   imports: [
     BrowserModule,
