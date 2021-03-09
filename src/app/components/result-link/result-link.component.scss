@@ -19,6 +19,7 @@
 
     img {
       width: $poster-width;
+      font-size: 12px;
     }
   }
 
@@ -46,14 +47,14 @@
 
 @media (max-width: 320px), (max-height: 360px) {
   .result-link {
-    width: $poster-width-320;
+    width: $poster-width-130;
 
     &__img {
-      height: $poster-height-320;
+      height: $poster-height-130;
       flex-shrink: 0;
 
       img {
-        width: $poster-width-320;
+        width: $poster-width-130;
       }
     }
   }

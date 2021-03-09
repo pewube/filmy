@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { VideoDetails } from '../models/video-details';
 import { ConfigService } from './config.service';
 import { Restrictions } from '../models/restrictions';
+import { PersonDetails } from '../models/person-details';
 
 @Injectable({
   providedIn: 'root',
@@ -130,7 +131,7 @@ export class HttpService {
       .set('include_image_language', 'pl,en,null');
 
     return this.httpClient.get<VideoDetails>(
-      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}&language=en`,
+      `${this.urlBase}/tv/${showId}?api_key=${this.apiKey}`,
       {
         params: searchParams,
       }
@@ -142,6 +143,22 @@ export class HttpService {
   }
   getShowsRestrictionsDetails(): Observable<Restrictions> {
     return this.httpClient.get<Restrictions>(`${this.urlShowsRestrictions}`);
+  }
+
+  getPersonDetails(
+    personId: string,
+    language: string = 'pl'
+  ): Observable<PersonDetails> {
+    let searchParams = new HttpParams()
+      .set('language', language)
+      .set('append_to_response', 'combined_credits,images');
+
+    return this.httpClient.get<PersonDetails>(
+      `${this.urlBase}/person/${personId}?api_key=${this.apiKey}&language=en`,
+      {
+        params: searchParams,
+      }
+    );
   }
 
   // RapidAPI query

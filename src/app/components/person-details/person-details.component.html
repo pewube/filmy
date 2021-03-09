@@ -1,0 +1,212 @@
+<article class="person-details">
+  <aside class="person-details__header">
+    <figure
+      *ngIf="details?.profile_path"
+      class="person-details__header__poster"
+    >
+      <button
+        class="person-details__header__poster__btn--enlarge"
+        (click)="enlargePicture()"
+      >
+        <img
+          src="{{ posterPath + details?.profile_path }}"
+          alt="Zdjęcie {{ details?.name }}"
+        />
+      </button>
+    </figure>
+
+    <section class="person-details__header__summary">
+      <ng-container *ngIf="details?.birthday">
+        <p
+          class="person-details__header__summary__birthday--gray mat-body custom gray"
+        >
+          data urodzenia:
+        </p>
+        <p class="person-details__header__summary__birthday mat-body custom">
+          {{ details.birthday }}
+        </p></ng-container
+      >
+
+      <ng-container *ngIf="details?.deathday">
+        <p
+          class="person-details__header__summary__deathday--gray mat-body custom gray"
+        >
+          data śmierci:
+        </p>
+        <p class="person-details__header__summary__deathday mat-body custom">
+          {{ details.deathday }}
+        </p>
+      </ng-container>
+
+      <ng-container>
+        <p
+          *ngIf="details?.place_of_birth"
+          class="person-details__header__summary__place--gray mat-body custom gray"
+        >
+          miejsce urodzenia:
+        </p>
+        <p
+          *ngIf="details?.place_of_birth"
+          class="person-details__header__summary__place mat-body custom"
+        >
+          {{ details.place_of_birth }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="details?.also_known_as.length > 0">
+        <p
+          class="person-details__header__summary__aliases--gray mat-body custom gray"
+        >
+          {{
+            details?.gender === 1
+              ? "znana również jako:"
+              : "znany również jako:"
+          }}
+        </p>
+        <ng-container
+          *ngFor="let alias of details.also_known_as; let last = last"
+          class="person-details__header__summary__aliases mat-body custom"
+        >
+          <span *ngIf="!last"> {{ alias }}, </span>
+          <span *ngIf="last">
+            {{ alias }}
+          </span>
+        </ng-container>
+      </ng-container>
+    </section>
+  </aside>
+
+  <section class="person-details__info">
+    <h1 *ngIf="details?.name" class="person-details__info__name mat-h1 custom">
+      {{ details.name }}
+    </h1>
+
+    <p
+      class="person-details__info__biography mat-body custom"
+      *ngIf="details?.biography || biographyEn"
+    >
+      {{ details.biography ? details.biography : biographyEn }}
+      <button
+        *ngIf="!details.biography && biographyEn && buttonOn"
+        mat-mini-fab
+        color="primary"
+        class="person-details__info__biography__btn--translate"
+        matTooltip="tłumacz na polski z google translate"
+        aria-label="translate to Polish with google translate"
+        (click)="translate()"
+      >
+        <mat-icon>g_translate</mat-icon>
+      </button>
+    </p>
+    <section class="person-details__info__homepage" *ngIf="details?.homepage">
+      <p class="mat-body custom">
+        <span class="gray mat-body">oficjalna strona:</span>
+        <a
+          href="{{ details.homepage }}"
+          target="_blank"
+          matTooltip="otwiera w nowym oknie link {{ details.homepage }}"
+          rel="noopener"
+          >kliknij tutaj</a
+        >
+      </p>
+    </section>
+
+    <section class="person-details__info__videos" *ngIf="videos.length > 0">
+      <header class="person-details__info__videos__header">
+        <p
+          class="person-details__info__videos__header__title mat-body custom gray"
+        >
+          {{ details?.gender === 1 ? "wystąpiła w:" : "wystapił w:" }}
+        </p>
+        <div class="person-details__info__videos__header__toggle__container">
+          <mat-checkbox
+            class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
+            color="primary"
+            labelPosition="before"
+            [(ngModel)]="checkedMovies"
+            (change)="toggleVideos()"
+          >
+            <span class="mat-body custom gray mat-caption">filmy</span>
+          </mat-checkbox>
+          <mat-checkbox
+            class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
+            color="primary"
+            labelPosition="before"
+            [(ngModel)]="checkedShows"
+            (change)="toggleVideos()"
+          >
+            <span class="mat-body custom gray mat-caption">seriale</span>
+          </mat-checkbox>
+          <mat-checkbox
+            class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
+            color="primary"
+            labelPosition="before"
+            [(ngModel)]="checkedDescend"
+            (change)="toggleVideos()"
+          >
+            <span class="mat-body custom gray mat-caption">malejąco</span>
+          </mat-checkbox>
+        </div>
+      </header>
+      <ul class="person-details__info__videos__list">
+        <li
+          class="person-details__info__videos__list__item"
+          *ngFor="let video of listVideos"
+        >
+          <a
+            [routerLink]="
+              video.media_type === 'movie'
+                ? ['/movie', video.id]
+                : ['/tv', video.id]
+            "
+          >
+            <article class="person-details__info__videos__video">
+              <div class="person-details__info__videos__video__year">
+                {{ video.release_date.slice(0, 4) }}
+              </div>
+              <div
+                class="person-details__info__videos__video__type mat-body custom gray"
+              >
+                {{ video.media_type === "movie" ? "film" : "tv" }}
+              </div>
+              <section class="person-details__info__videos__video__details">
+                <div
+                  class="person-details__info__videos__video__details__title"
+                >
+                  {{ video.title }}
+                </div>
+
+                <div
+                  *ngIf="video.character"
+                  class="person-details__info__videos__video__details__character mat-body custom gray"
+                >
+                  jako {{ video.character
+                  }}{{
+                    video.episode_count
+                      ? " w " + video.episode_count + " odc."
+                      : ""
+                  }}
+                </div>
+              </section>
+            </article>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <button
+      mat-mini-fab
+      class="person-details__btn--back"
+      color="primary"
+      type="button"
+      (click)="goToResults()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </section>
+</article>
+<app-full-size-picture
+  *ngIf="showLargePicture"
+  [path]="urlImg600 + details?.profile_path"
+  [title]="details?.name ? details?.name : ''"
+  (closeLargePicture)="closeLargePicture($event)"
+></app-full-size-picture>

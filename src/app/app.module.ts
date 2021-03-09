@@ -26,6 +26,8 @@ import { NfoContentDialogComponent } from './components/kodi-nfo/nfo-content-dia
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RestrictionsContentDialogComponent } from './components/video-details/restrictions-content-dialog/restrictions-content-dialog.component';
 import { FullSizePictureComponent } from './components/full-size-picture/full-size-picture.component';
+import { PersonDetailsComponent } from './components/person-details/person-details.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { FullSizePictureComponent } from './components/full-size-picture/full-si
     NfoContentDialogComponent,
     RestrictionsContentDialogComponent,
     FullSizePictureComponent,
+    PersonDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { FullSizePictureComponent } from './components/full-size-picture/full-si
     MatExpansionModule,
     MatDialogModule,
     MatTooltipModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -273,14 +273,14 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   createActorsArray(input, output: Array<VideoActor>, outputLength: number) {
     if (input.cast.length < outputLength) {
       for (let actor of input.cast) {
-        if (actor.character.toLowerCase() === 'himself') {
+        if (actor.character.toLowerCase().includes('self')) {
           actor.character = actor.name;
         }
         output.push(actor);
       }
     } else {
       for (let i = 0; i < outputLength; i++) {
-        if (input.cast[i].character.toLowerCase() === 'himself') {
+        if (input.cast[i].character.toLowerCase().includes('self')) {
           input.cast[i].character = input.cast[i].name;
         }
         output.push(input.cast[i]);

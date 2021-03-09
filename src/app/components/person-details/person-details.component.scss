@@ -1,0 +1,238 @@
+@import "src/variables";
+@import "src/mixins";
+
+.person-details {
+  max-width: 1200px;
+  padding: 20px 0;
+  margin: 0 auto;
+
+  display: flex;
+
+  &__header {
+    flex-basis: 260px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    &__poster {
+      width: $poster-width-220;
+      height: $poster-height-220;
+      margin-bottom: 10px;
+
+      &__btn--enlarge {
+        padding: 0;
+        margin: 0;
+        border: none;
+        background-color: rgba(255, 255, 255, 0);
+      }
+
+      img {
+        width: $poster-width-220;
+        border-radius: 5px;
+        @include main-box-shadow;
+        font-size: 12px;
+      }
+    }
+
+    &__summary {
+      padding-top: 10px;
+
+      &__deathday--gray,
+      &__place--gray,
+      &__aliases--gray {
+        padding-top: 10px;
+        border-top: 1px solid $inactive-gray;
+      }
+    }
+  }
+
+  &__info {
+    width: 100%;
+    padding: 20px;
+
+    flex-grow: 1;
+
+    overflow: hidden;
+
+    &__name {
+      margin-bottom: 16px;
+      border-bottom: 1px solid $inactive-gray;
+    }
+
+    &__biography {
+      padding-bottom: 11px;
+
+      position: relative;
+
+      .person-details__info__biography__btn--translate {
+        min-width: 40px;
+        padding: 0;
+        margin: 0 0 5px 3px;
+
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+      }
+    }
+
+    &__homepage {
+      a {
+        color: #000;
+        text-decoration: none;
+
+        &:visited {
+          text-decoration: none;
+        }
+      }
+    }
+
+    &__videos {
+      width: 100%;
+      margin-top: 11px;
+      margin-bottom: 8px;
+
+      &__header {
+        padding-bottom: 11px;
+
+        &__toggle__container {
+          text-align: right;
+        }
+        &__toggle {
+          margin-right: 10px;
+        }
+      }
+
+      &__list {
+        &__item {
+          a {
+            color: #000;
+            text-decoration: none;
+            transition: 0.2s;
+
+            &:visited {
+              text-decoration: none;
+            }
+
+            &:hover {
+              color: $main-color;
+            }
+          }
+        }
+      }
+
+      &__video {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        // flex-wrap: wrap;
+
+        font-size: 14px;
+        transform: 0.2s;
+
+        &__year {
+          flex-basis: 45px;
+
+          flex-shrink: 0;
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+
+        &__type {
+          flex-basis: 45px;
+
+          flex-shrink: 0;
+          font-size: 0.9em;
+        }
+
+        &__details {
+          &__title {
+            margin-right: 5px;
+            font-size: 1em;
+          }
+
+          &__character {
+            margin-right: 5px;
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+  }
+
+  &__btn--back {
+    margin-top: 40px;
+  }
+}
+
+.gray {
+  color: $note-gray;
+}
+
+@media (max-width: 767px) {
+  .person-details {
+    &__header {
+      flex-basis: 170px;
+      padding-right: 0;
+
+      &__poster {
+        width: $poster-width;
+        height: $poster-height;
+        img {
+          width: $poster-width;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 533px) {
+  .person-details {
+    flex-wrap: wrap;
+    &__header {
+      flex-basis: 100%;
+      padding: 10px;
+      margin-bottom: 0;
+
+      display: flex;
+
+      &__poster {
+        margin-right: 10px;
+        margin-bottom: 0;
+
+        order: 0;
+      }
+
+      &__summary {
+        padding: 0;
+
+        &__deathday--gray,
+        &__place--gray,
+        &__aliases--gray {
+          padding-top: 5px;
+          border-top: 1px solid $inactive-gray;
+        }
+      }
+    }
+
+    &__info {
+      padding: 10px;
+    }
+  }
+}
+
+@media (max-width: 419px) {
+  .person-details {
+    &__header {
+      &__poster {
+        width: $poster-width-130;
+        height: $poster-height-130;
+
+        flex-shrink: 0;
+        order: 0;
+        img {
+          width: $poster-width-130;
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@ export class FullSizePictureComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.isOn = true;
-    }, 100);
+    }, 300);
   }
 
   close() {

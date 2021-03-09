@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { VideoDetailsComponent } from './components/video-details/video-details.component';
 import { ResultsComponent } from './components/results/results.component';
 import { HomeComponent } from './components/home/home.component';
+import { PersonDetailsComponent } from './components/person-details/person-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'results-shows/:query/:page/:year', component: ResultsComponent },
   { path: 'movie/:id', component: VideoDetailsComponent },
   { path: 'tv/:id', component: VideoDetailsComponent },
+  { path: 'person/:id', component: PersonDetailsComponent },
 ];
 
 @NgModule({

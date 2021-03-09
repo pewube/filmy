@@ -5,7 +5,10 @@
         class="video-details__header__poster__btn--enlarge"
         (click)="enlargePicture()"
       >
-        <img src="{{ posterPath + details?.poster_path }}" alt="Plakat" />
+        <img
+          src="{{ posterPath + details?.poster_path }}"
+          alt="Plakat {{ details?.title ? details?.title : details?.name }}"
+        />
       </button>
     </figure>
 
@@ -270,33 +273,35 @@
           class="video-details__info__actors__list__item"
           *ngFor="let actor of actors"
         >
-          <article class="video-details__info__actors__actor">
-            <figure class="video-details__info__actors__actor__photo">
-              <img
-                src="{{
-                  actor?.profile_path
-                    ? profilePath + actor.profile_path
-                    : defaultProfilePath
-                }}"
-                alt="Photo of {{ actor.name }}"
-              />
-            </figure>
+          <a [routerLink]="['/person', actor.id]">
+            <article class="video-details__info__actors__actor">
+              <figure class="video-details__info__actors__actor__photo">
+                <img
+                  src="{{
+                    actor?.profile_path
+                      ? profilePath + actor.profile_path
+                      : defaultProfilePath
+                  }}"
+                  alt="Photo of {{ actor.name }}"
+                />
+              </figure>
 
-            <section class="video-details__info__actors__actor__details">
-              <p
-                class="video-details__info__actors__actor__details__name mat-body custom"
-              >
-                {{ actor.name }}
-              </p>
+              <section class="video-details__info__actors__actor__details">
+                <p
+                  class="video-details__info__actors__actor__details__name mat-body custom"
+                >
+                  {{ actor.name }}
+                </p>
 
-              <p
-                class="video-details__info__crew__actor__details__character mat-body custom mat-caption"
-                *ngIf="actor.character"
-              >
-                jako {{ actor.character }}
-              </p>
-            </section>
-          </article>
+                <p
+                  class="video-details__info__crew__actor__details__character mat-body custom mat-caption"
+                  *ngIf="actor.character"
+                >
+                  jako {{ actor.character }}
+                </p>
+              </section>
+            </article>
+          </a>
         </li>
       </ul>
     </section>

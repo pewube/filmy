@@ -4,8 +4,10 @@
   position: fixed;
   left: 0;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.32);
+
   z-index: 10;
+
+  animation: bgc 0.3s linear 1 both;
 
   overflow: hidden;
   &__btn--bg {
@@ -20,7 +22,7 @@
   &__btn--close {
     position: absolute;
     left: 50%;
-    bottom: 2vh;
+    top: 2vh;
     transform: translateX(-50%);
     z-index: 12;
 
@@ -54,5 +56,15 @@
       max-width: 95vw;
       max-height: 95vh;
     }
+  }
+}
+
+@keyframes bgc {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0.32);
   }
 }
