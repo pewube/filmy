@@ -1,10 +1,8 @@
 import {
   Certifications,
   RestrictionDeatils,
-  Restrictions,
 } from './../../../models/restrictions';
-import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -14,6 +12,7 @@ import { HttpService } from 'src/app/services/http.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class RestrictionsContentDialogComponent implements OnInit {
+  @Input() isMovie: boolean;
   restrictions: Certifications;
   us: Array<RestrictionDeatils>;
   gb: Array<RestrictionDeatils>;
@@ -21,13 +20,10 @@ export class RestrictionsContentDialogComponent implements OnInit {
   es: Array<RestrictionDeatils>;
   de: Array<RestrictionDeatils>;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { isMovie: boolean },
-    private http: HttpService
-  ) {}
+  constructor(private http: HttpService) {}
 
   ngOnInit(): void {
-    if (this.data.isMovie) {
+    if (this.isMovie) {
       this.http.getMoviesRestrictionsDetails().subscribe(
         (res) => {
           this.restrictions = res.certifications;

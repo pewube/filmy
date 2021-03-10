@@ -50,7 +50,7 @@
         <p class="mat-body custom">
           <span class="gray mat-caption">ograniczenia wiekowe:</span>
         </p>
-        <button (click)="openRestrictionsDetails()">
+        <button (click)="dialogOn()">
           <p class="mat-body custom">
             <ng-container
               *ngFor="let certification of certifications; let last = last"
@@ -512,3 +512,12 @@
   [title]="details?.title ? details?.title : details?.name"
   (closeLargePicture)="closeLargePicture($event)"
 ></app-full-size-picture>
+<app-full-size-dialog
+  *ngIf="showDialog"
+  [width]="'90vw'"
+  [height]="'85vh'"
+  (dialogOff)="dialogOff($event)"
+  ><app-restrictions-content-dialog
+    [isMovie]="movieFlag"
+  ></app-restrictions-content-dialog
+></app-full-size-dialog>

@@ -11,6 +11,7 @@ export class FullSizePictureComponent implements OnInit {
   @Output() closeLargePicture = new EventEmitter<boolean>();
 
   isOn: boolean = false;
+  isOff: boolean = false;
 
   constructor() {}
 
@@ -22,8 +23,9 @@ export class FullSizePictureComponent implements OnInit {
 
   close() {
     this.isOn = false;
+    this.isOff = true;
     setTimeout(() => {
       this.closeLargePicture.emit(true);
-    }, 100);
+    }, 300);
   }
 }

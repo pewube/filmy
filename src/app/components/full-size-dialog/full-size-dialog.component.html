@@ -1,0 +1,42 @@
+<article class="dialog" [ngClass]="{ closed: isOff }">
+  <button class="dialog__btn--bg" (click)="close()"></button>
+  <article
+    [ngClass]="{ active: isOn }"
+    class="dialog__content"
+    [ngStyle]="setSize()"
+  >
+    <header *ngIf="header" class="dialog__content__header">
+      <h1 class="mat-body custom">{{ header }}</h1>
+    </header>
+    <section *ngIf="content; else ngContent" class="dialog__content__main">
+      {{ content }}
+    </section>
+    <ng-template #ngContent>
+      <section class="dialog__content__main">
+        <ng-content></ng-content>
+      </section>
+    </ng-template>
+    <footer class="dialog__content__footer">
+      <button
+        [ngClass]="{ active: isOn }"
+        class="dialog__btn dialog__btn--close"
+        mat-icon-button
+        (click)="close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+
+      <!-- copy button option is available if content is transferred to variable 'content' not with ng-content -->
+      <button
+        *ngIf="copyButtonOn"
+        [ngClass]="{ active: isOn }"
+        class="dialog__btn dialog__btn--action"
+        mat-icon-button
+        [cdkCopyToClipboard]="content"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <!-- copy button option is available if content is transferred to variable 'content' not with ng-content -->
+    </footer>
+  </article>
+</article>

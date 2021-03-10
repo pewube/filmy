@@ -1,4 +1,4 @@
-<article class="dialog">
+<article class="dialog" [ngClass]="{ closed: isOff }">
   <button class="dialog__btn--bg" (click)="close()"></button>
   <button
     [ngClass]="{ active: isOn }"

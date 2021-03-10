@@ -8,25 +8,25 @@ $custom-typography: mat-typography-config(
 
 .custom.mat-body,
 p {
-  margin: 0 0 5px;
+  margin: 0 0 5px 0;
 }
 
 @media (max-width: 533px) {
   .custom.mat-body,
   p {
-    margin: 0 0 2px;
+    margin: 0 0 2px 0;
   }
 
   .custom.mat-h1,
   h1 {
-    margin: 0 0 10px;
+    margin: 0 0 10px 0;
   }
   .custom.mat-h2,
   h2 {
-    margin: 0 0 10px;
+    margin: 0 0 10px 0;
   }
   .custom.mat-h4,
   h4 {
-    margin: 0 0 10px;
+    margin: 0 0 10px 0;
   }
 }

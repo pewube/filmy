@@ -1,4 +1,3 @@
-import { NfoContentDialogComponent } from './nfo-content-dialog/nfo-content-dialog.component';
 import { ConfigService } from './../../services/config.service';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
@@ -9,7 +8,6 @@ import {
   VideoDetails,
   VideoSeason,
 } from 'src/app/models/video-details';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-kodi-nfo',
@@ -33,11 +31,9 @@ export class KodiNfoComponent implements OnInit {
   movieFlag: boolean;
   kodiNfo: string;
 
-  constructor(
-    private location: Location,
-    private config: ConfigService,
-    public dialog: MatDialog
-  ) {}
+  showDialog: boolean = false;
+
+  constructor(private location: Location, private config: ConfigService) {}
 
   ngOnInit(): void {
     this.switchData();
@@ -395,10 +391,12 @@ export class KodiNfoComponent implements OnInit {
     document.body.removeChild(element);
   }
 
-  openDialog() {
+  dialogOn() {
     this.createKodiNfo();
-    const dialogRef = this.dialog.open(NfoContentDialogComponent, {
-      data: { contentKodiNfo: this.kodiNfo },
-    });
+    this.showDialog = true;
+  }
+
+  dialogOff(event) {
+    this.showDialog = !event;
   }
 }

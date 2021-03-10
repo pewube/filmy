@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { PersonDetails, PersonVideo } from 'src/app/models/person-details';
-import { DataService } from 'src/app/services/data.service';
 import { GtranslateService } from 'src/app/services/gtranslate.service';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
@@ -34,8 +33,7 @@ export class PersonDetailsComponent implements OnInit {
     private http: HttpService,
     private route: ActivatedRoute,
     private location: Location,
-    private translator: GtranslateService,
-    private data: DataService
+    private translator: GtranslateService
   ) {
     this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
@@ -73,6 +71,7 @@ export class PersonDetailsComponent implements OnInit {
         (error) => console.log('Błąd pobierania details dla movie: ', error)
       );
     });
+    window.scrollTo(0, 0);
   }
 
   createVideoArray(input, output: Array<Partial<PersonVideo>>): void {

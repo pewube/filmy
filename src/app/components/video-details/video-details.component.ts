@@ -23,8 +23,6 @@ import { DataService } from 'src/app/services/data.service';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localePl);
-import { MatDialog } from '@angular/material/dialog';
-import { RestrictionsContentDialogComponent } from './restrictions-content-dialog/restrictions-content-dialog.component';
 
 @Component({
   selector: 'app-video-details',
@@ -37,6 +35,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
   movieFlag: boolean;
   showLargePicture: boolean = false;
+  showDialog: boolean = false;
   posterPath: string;
   profilePath: string;
   backdropPath: string;
@@ -65,8 +64,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private translator: GtranslateService,
-    private data: DataService,
-    public dialogRestrictions: MatDialog
+    private data: DataService
   ) {
     this.urlImg130 = this.http.urlImg130;
     this.urlImg600 = this.http.urlImg600;
@@ -235,6 +233,9 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       case 'returning series':
         this.statusTranslated = 'aktywny';
         break;
+      case 'post production':
+        this.statusTranslated = 'postprodukcja';
+        break;
       case 'in production':
         this.statusTranslated = 'w produkcji';
         break;
@@ -374,13 +375,12 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     this.showLargePicture = !event;
   }
 
-  openRestrictionsDetails() {
-    const dialogRef = this.dialogRestrictions.open(
-      RestrictionsContentDialogComponent,
-      {
-        data: { isMovie: this.movieFlag },
-      }
-    );
+  dialogOn() {
+    this.showDialog = true;
+  }
+
+  dialogOff(event) {
+    this.showDialog = !event;
   }
 
   scrollElements() {

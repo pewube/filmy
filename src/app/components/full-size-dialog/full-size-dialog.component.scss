@@ -1,0 +1,143 @@
+@import "src/variables";
+@import "src/mixins";
+
+.dialog {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  z-index: 10;
+
+  animation: bgc-on 0.3s linear 1 both, content-on 0.2s 0.4s linear 1 both;
+
+  &.closed {
+    animation: bgc-off 0.3s linear 1 both;
+    .dialog__content__main {
+      visibility: hidden;
+    }
+  }
+
+  overflow: hidden;
+
+  &__btn--bg {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  &__content {
+    width: 0vw;
+    height: 0vh;
+    padding: 0;
+    overflow: hidden;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 5px;
+    background-color: #fff;
+
+    transition: 0.2s;
+
+    &.active {
+      width: 95vw;
+      height: 95vh;
+      padding: 15px 20px;
+    }
+
+    &__header {
+      width: 100%;
+      padding: 5px;
+    }
+    &__main {
+      width: 100%;
+      padding: 5px;
+      overflow: auto;
+
+      //scrollbar start
+      &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+
+        &-thumb {
+          background: #ddd;
+          border-radius: 5px;
+
+          &:hover {
+            background: $main-color;
+          }
+        }
+
+        &-track {
+          background: rgba(255, 255, 255, 0);
+          border-radius: 5px;
+          box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
+        }
+      }
+
+      scrollbar-color: #ddd rgba(255, 255, 255, 0);
+      scrollbar-width: thin;
+
+      &:hover {
+        &::-webkit-scrollbar {
+          &-thumb {
+            background: $main-color;
+          }
+        }
+        scrollbar-color: $main-color rgba(255, 255, 255, 0);
+      }
+      //scrollbar end
+    }
+
+    &__footer {
+      width: 100%;
+      padding: 10px 5px 0 5px;
+      text-align: right;
+    }
+
+    &__btn {
+      margin-left: 10px;
+    }
+  }
+}
+
+@keyframes bgc-on {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+@keyframes bgc-off {
+  0% {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes content-on {
+  0% {
+    color: rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    color: rgba(0, 0, 0, 1);
+  }
+}

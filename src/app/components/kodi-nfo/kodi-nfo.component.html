@@ -30,8 +30,17 @@
     class="video-details__header__kodi-nfo__btn video-details__header__kodi-nfo__btn--preview video-details__kodi-nfo__btn video-details__kodi-nfo__btn--preview"
     matTooltip="podejrzyj zawartość pliku .nfo dla kodi"
     aria-label="preview the content of the .nfo kodi file"
-    (click)="openDialog()"
+    (click)="dialogOn()"
   >
     <mat-icon>preview</mat-icon>
   </button>
 </article>
+<app-full-size-dialog
+  *ngIf="showDialog"
+  [width]="'90vw'"
+  [height]="'85vh'"
+  [header]="''"
+  [content]="kodiNfo"
+  [copyButtonOn]="true"
+  (dialogOff)="dialogOff($event)"
+></app-full-size-dialog>

@@ -1,62 +1,45 @@
-<mat-dialog-content>
-  <ng-container *ngIf="restrictions?.US">
-    <h2 class="mat-body custom">US | United States of America</h2>
-    <ul>
-      <li *ngFor="let restriction of us">
-        <p class="mat-body custom">
-          <span class="sign">{{ restriction.certification }}</span
-          >{{ restriction.meaning }}
-        </p>
-      </li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="restrictions?.GB">
-    <h2 class="mat-body custom">GB | United Kingdom</h2>
-    <ul>
-      <li *ngFor="let restriction of gb">
-        <p class="mat-body custom">
-          <span class="sign">{{ restriction.certification }}</span
-          >{{ restriction.meaning }}
-        </p>
-      </li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="restrictions?.FR">
-    <h2 class="mat-body custom">FR | France</h2>
-    <ul>
-      <li *ngFor="let restriction of fr">
-        <p class="mat-body custom">
-          <span class="sign">{{ restriction.certification }}</span
-          >{{ restriction.meaning }}
-        </p>
-      </li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="restrictions?.ES">
-    <h2 class="mat-body custom">ES | Spain</h2>
-    <ul>
-      <li *ngFor="let restriction of fr">
-        <p class="mat-body custom">
-          <span class="sign">{{ restriction.certification }}</span
-          >{{ restriction.meaning }}
-        </p>
-      </li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="restrictions?.DE">
-    <h2 class="mat-body custom">DE | Germany</h2>
-    <ul>
-      <li *ngFor="let restriction of de">
-        <p class="mat-body custom">
-          <span class="sign">{{ restriction.certification }}</span
-          >{{ restriction.meaning }}
-        </p>
-      </li>
-    </ul>
-  </ng-container>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-icon-button mat-dialog-close>
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-dialog-actions>
+<ng-container *ngIf="restrictions?.US">
+  <h2 class="mat-body custom">US | United States of America</h2>
+  <ul>
+    <li *ngFor="let restriction of us">
+      <p class="certificate">{{ restriction.certification }}</p>
+      <p class="mat-body custom">{{ restriction.meaning }}</p>
+    </li>
+  </ul>
+</ng-container>
+<ng-container *ngIf="restrictions?.GB">
+  <h2 class="mat-body custom">GB | United Kingdom</h2>
+  <ul>
+    <li *ngFor="let restriction of gb">
+      <p class="certificate">{{ restriction.certification }}</p>
+      <p class="mat-body custom">{{ restriction.meaning }}</p>
+    </li>
+  </ul>
+</ng-container>
+<ng-container *ngIf="restrictions?.FR">
+  <h2 class="mat-body custom">FR | France</h2>
+  <ul>
+    <li *ngFor="let restriction of fr">
+      <p class="certificate">{{ restriction.certification }}</p>
+      <p class="mat-body custom">{{ restriction.meaning }}</p>
+    </li>
+  </ul>
+</ng-container>
+<ng-container *ngIf="restrictions?.ES">
+  <h2 class="mat-body custom">ES | Spain</h2>
+  <ul>
+    <li *ngFor="let restriction of fr">
+      <p class="certificate">{{ restriction.certification }}</p>
+      <p class="mat-body custom">{{ restriction.meaning }}</p>
+    </li>
+  </ul>
+</ng-container>
+<ng-container *ngIf="restrictions?.DE">
+  <h2 class="mat-body custom">DE | Germany</h2>
+  <ul>
+    <li *ngFor="let restriction of de">
+      <p class="certificate">{{ restriction.certification }}</p>
+      <p class="mat-body custom">{{ restriction.meaning }}</p>
+    </li>
+  </ul>
+</ng-container>

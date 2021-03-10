@@ -7,7 +7,11 @@
 
   z-index: 10;
 
-  animation: bgc 0.3s linear 1 both;
+  animation: bgc-on 0.3s linear 1 both;
+
+  &.closed {
+    animation: bgc-off 0.3s linear 1 both;
+  }
 
   overflow: hidden;
   &__btn--bg {
@@ -59,12 +63,21 @@
   }
 }
 
-@keyframes bgc {
+@keyframes bgc-on {
   0% {
     background-color: rgba(0, 0, 0, 0);
   }
 
   100% {
-    background-color: rgba(0, 0, 0, 0.32);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
+@keyframes bgc-off {
+  0% {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  100% {
+    background-color: rgba(0, 0, 0, 0);
   }
 }
