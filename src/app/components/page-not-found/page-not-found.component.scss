@@ -1,0 +1,38 @@
+@import "src/variables";
+@import "src/mixins";
+@import "src/variables";
+@import "src/mixins";
+
+.page-not-found {
+  width: 100%;
+  padding: 30px 10px 0;
+  margin: 20px auto;
+  color: $main-color;
+
+  font-size: 18px;
+  text-align: center;
+  line-height: 150%;
+
+  mat-icon {
+    font-size: 36px;
+  }
+  em {
+    font-style: italic;
+  }
+
+  &__error-details {
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid $note-gray;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    text-align: left;
+    font-size: 14px;
+
+    .gray {
+      color: $note-gray;
+    }
+  }
+}

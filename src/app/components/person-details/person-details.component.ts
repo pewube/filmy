@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PersonDetails, PersonVideo } from 'src/app/models/person-details';
 import { GtranslateService } from 'src/app/services/gtranslate.service';
 import { HttpService } from 'src/app/services/http.service';
@@ -32,6 +32,7 @@ export class PersonDetailsComponent implements OnInit {
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private translator: GtranslateService
   ) {
@@ -68,7 +69,16 @@ export class PersonDetailsComponent implements OnInit {
             this.buttonOn = true;
           }
         },
-        (error) => console.log('Błąd pobierania details dla movie: ', error)
+        (error) => {
+          console.log(error);
+          this.router.navigate([`/page-not-found/${error.status}`], {
+            state: {
+              serverStatus: error.status,
+              apiStatus: error.error.status_code,
+              apiMessage: error.error.status_message,
+            },
+          });
+        }
       );
     });
     window.scrollTo(0, 0);

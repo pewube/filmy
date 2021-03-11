@@ -25,6 +25,7 @@ import { FullSizePictureComponent } from './components/full-size-picture/full-si
 import { PersonDetailsComponent } from './components/person-details/person-details.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FullSizeDialogComponent } from './components/full-size-dialog/full-size-dialog.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { FullSizeDialogComponent } from './components/full-size-dialog/full-size
     FullSizePictureComponent,
     PersonDetailsComponent,
     FullSizeDialogComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

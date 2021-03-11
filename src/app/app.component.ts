@@ -54,14 +54,14 @@ export class AppComponent implements OnInit, OnDestroy {
         (res) => {
           this.initResultsMovies = res;
         },
-        (error) => console.log('Błąd: ', error)
+        (error) => console.log(error)
       );
 
       this.http.getShows(this.initQuery, '1', this.initYear).subscribe(
         (res) => {
           this.initResultsShows = res;
         },
-        (error) => console.log('Błąd: ', error)
+        (error) => console.log(error)
       );
     }
   }

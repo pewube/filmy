@@ -23,27 +23,10 @@
     background-color: rgba(255, 255, 255, 0);
   }
 
-  &__btn--close {
-    position: absolute;
-    left: 50%;
-    top: 2vh;
-    transform: translateX(-50%);
-    z-index: 12;
-
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
-
-    opacity: 0;
-    transition: 0.2s;
-
-    &.active {
-      opacity: 1;
-    }
-  }
-
-  &__large-picture {
-    max-width: 0vw;
-    max-height: 0vh;
+  &__content {
+    width: 0vw;
+    height: 0vh;
+    overflow: hidden;
 
     position: absolute;
     left: 50%;
@@ -51,14 +34,47 @@
     transform: translate(-50%, -50%);
     z-index: 11;
 
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 
-    object-fit: contain;
     transition: 0.2s;
 
     &.active {
-      max-width: 95vw;
-      max-height: 95vh;
+      width: 95vw;
+      height: 95vh;
+    }
+
+    &__large-picture {
+      max-width: 100%;
+      max-height: 100%;
+
+      align-self: flex-end;
+
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    &__btn--close {
+      margin: 0 0 0 10px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+
+      transition: 0.2s;
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .dialog {
+    &__content {
+      justify-content: flex-start;
+
+      &__btn--close {
+        margin: 10px 0 0 0;
+        align-self: flex-end;
+      }
     }
   }
 }

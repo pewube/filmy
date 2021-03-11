@@ -74,8 +74,16 @@ export class ResultsComponent implements OnInit {
                 ]);
               }
             },
-            (error) =>
-              console.log('Błąd pobierania results dla movies: ', error)
+            (error) => {
+              console.log(error);
+              this.router.navigate([`/page-not-found/${error.status}`], {
+                state: {
+                  serverStatus: error.status,
+                  apiStatus: error.error.status_code,
+                  apiMessage: error.error.status_message,
+                },
+              });
+            }
           );
 
         this.setPaginatorPage(params.get('page'));
@@ -88,8 +96,16 @@ export class ResultsComponent implements OnInit {
               this.length = res.total_results;
               // console.log('http shows: ', this.shows);
             },
-            (error) =>
-              console.log('Błąd pobierania results dla shows:  ', error)
+            (error) => {
+              console.log(error);
+              this.router.navigate([`/page-not-found/${error.status}`], {
+                state: {
+                  serverStatus: error.status,
+                  apiStatus: error.error.status_code,
+                  apiMessage: error.error.status_message,
+                },
+              });
+            }
           );
 
         this.setPaginatorPage(params.get('page'));

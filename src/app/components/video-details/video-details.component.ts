@@ -7,7 +7,7 @@ import {
   ViewChildren,
   ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
 import {
@@ -62,6 +62,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location,
     private translator: GtranslateService,
     private data: DataService
@@ -138,7 +139,16 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             }
             this.scrollElements();
           },
-          (error) => console.log('Błąd pobierania details dla movie: ', error)
+          (error) => {
+            console.log(error);
+            this.router.navigate([`/page-not-found/${error.status}`], {
+              state: {
+                serverStatus: error.status,
+                apiStatus: error.error.status_code,
+                apiMessage: error.error.status_message,
+              },
+            });
+          }
         );
       } else {
         // polish tv series details
@@ -196,7 +206,16 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             }
             this.scrollElements();
           },
-          (error) => console.log('Błąd pobierania details dla tvshow: ', error)
+          (error) => {
+            console.log(error);
+            this.router.navigate([`/page-not-found/${error.status}`], {
+              state: {
+                serverStatus: error.status,
+                apiStatus: error.error.status_code,
+                apiMessage: error.error.status_message,
+              },
+            });
+          }
         );
       }
     });

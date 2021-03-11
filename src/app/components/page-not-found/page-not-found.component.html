@@ -1,0 +1,20 @@
+<article class="page-not-found">
+  <p>Houston, mamy problem ...</p>
+  <p>Nie mogę znaleźć takiej strony ...</p>
+  <p><mat-icon>warning_amber</mat-icon></p>
+
+  <section
+    class="page-not-found__error-details"
+    *ngIf="serverStatus || apiStatus || apiMessage"
+  >
+    <p *ngIf="apiStatus" class="mat-body custom">
+      <span class="mat-caption gray">Kod błędu:</span> {{ apiStatus }}
+    </p>
+    <p *ngIf="serverStatus" class="mat-body custom">
+      <span class="mat-caption gray">Nr błędu:</span> {{ serverStatus }}
+    </p>
+    <p *ngIf="apiMessage" class="mat-body custom">
+      <span class="mat-caption gray">Opis błędu:</span> {{ apiMessage }}
+    </p>
+  </section>
+</article>
