@@ -24,8 +24,8 @@ export class HttpService {
 
   private urlShowsRestrictions: string = `${this.urlBase}/certification/tv/list?api_key=${this.apiKey}`;
 
-  private urlPopularMovies: string = `${this.urlBase}/trending/movie/day?api_key=${this.apiKey}`;
-  private urlPopularShows: string = `${this.urlBase}/trending/tv/day?api_key=${this.apiKey}`;
+  private urlPopularMovies: string = `${this.urlBase}/movie/popular?api_key=${this.apiKey}`;
+  private urlPopularShows: string = `${this.urlBase}/tv/popular?api_key=${this.apiKey}`;
 
   private urlSearchMovies: string = `${this.urlBase}/search/movie?api_key=${this.apiKey}`;
   private urlSearchShows: string = `${this.urlBase}/search/tv?api_key=${this.apiKey}`;

@@ -26,6 +26,7 @@ import { PersonDetailsComponent } from './components/person-details/person-detai
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FullSizeDialogComponent } from './components/full-size-dialog/full-size-dialog.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { MinutesToHoursPipe } from './pipes/minutes-to-hours.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     PersonDetailsComponent,
     FullSizeDialogComponent,
     PageNotFoundComponent,
+    MinutesToHoursPipe,
   ],
   imports: [
     BrowserModule,

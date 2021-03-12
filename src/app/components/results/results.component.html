@@ -1,4 +1,7 @@
-<article class="results">
+<article
+  class="results"
+  *ngIf="movies?.total_results > 0 || shows?.total_results > 0"
+>
   <section>
     <ul
       class="results__list"

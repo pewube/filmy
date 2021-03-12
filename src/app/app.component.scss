@@ -3,12 +3,16 @@
 @import "src/mixins";
 
 .background-generator {
+  width: 100vw;
+  height: 100vh;
+
   position: fixed;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 100vh;
   z-index: -10;
+
+  object-fit: cover;
+  opacity: 0.2;
 }
 .wrapper {
   min-height: 100vh;

@@ -116,7 +116,7 @@
         margin: 0 0 5px 3px;
 
         position: absolute;
-        right: 0;
+        right: -10px;
         bottom: -20px;
       }
     }
@@ -165,7 +165,7 @@
         //scrollbar end
 
         &__item {
-          margin-right: 10px;
+          margin: 0 10px 5px 0;
 
           a {
             color: #000;
@@ -177,7 +177,9 @@
             }
 
             &:hover {
-              color: $main-color;
+              .video-details__info__actors__actor__photo {
+                box-shadow: 0 5px 0 0 $main-color;
+              }
             }
           }
         }
@@ -199,6 +201,8 @@
           padding: 0;
           margin: 0 0 10px 0;
           overflow: hidden;
+          transition: 0.2s;
+
           img {
             height: 141px;
             font-size: 12px;
@@ -207,6 +211,10 @@
 
         &__details {
           padding: 0 4px 0 2px;
+
+          &__character {
+            color: $note-gray;
+          }
         }
       }
     }
@@ -230,7 +238,7 @@
         justify-content: flex-start;
 
         &__item {
-          margin-right: 10px;
+          margin: 0 10px 5px 0;
         }
       }
 
@@ -438,6 +446,12 @@
 
     &__info {
       padding: 10px;
+
+      &__overview {
+        .video-details__info__overview__btn--translate {
+          right: 0;
+        }
+      }
     }
   }
 }

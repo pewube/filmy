@@ -1,4 +1,3 @@
-import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { HttpService } from 'src/app/services/http.service';
 import {
   Component,
@@ -13,6 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-search-bar',
@@ -21,45 +21,74 @@ import { DataService } from 'src/app/services/data.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() initQuery: string;
-  @Input() initYear: string;
-  @Input() initResultsMovies: TmdbResponse;
-  @Input() initResultsShows: TmdbResponse;
   @ViewChild('searcherInput') searcherInput: ElementRef;
-
+  @Input() isReset: boolean = false;
   query: string;
+  page: string;
   year: string = '';
   numberOfMovies: number;
   numberOfShows: number;
+
   isMovie: boolean;
   isMovieSubscription: Subscription;
 
   constructor(
     private http: HttpService,
     private router: Router,
-    private data: DataService
+    private data: DataService,
+    private location: Location
   ) {}
 
   ngOnChanges() {
-    this.query = this.initQuery ? this.initQuery : '';
-    this.year = this.initYear ? this.initYear : '';
-
-    this.numberOfMovies = this.initResultsMovies
-      ? this.initResultsMovies.total_results
-      : null;
-    this.numberOfShows = this.initResultsShows
-      ? this.initResultsShows.total_results
-      : null;
+    if (this.isReset) {
+      this.resetData();
+    }
   }
 
   ngOnInit(): void {
     this.isMovieSubscription = this.data.currentMediaType.subscribe(
       (isMovie) => (this.isMovie = isMovie)
     );
+    this.getInitialData();
   }
 
   ngOnDestroy() {
     this.isMovieSubscription.unsubscribe();
+  }
+
+  getInitialData() {
+    const initialParameters: Array<string> = this.location.path().split(`/`);
+
+    if (
+      initialParameters[1] === 'results-movies' ||
+      initialParameters[1] === 'results-shows'
+    ) {
+      this.query = decodeURIComponent(initialParameters[2]);
+      this.page = initialParameters[3];
+      this.year = initialParameters[4];
+
+      this.http.getMovies(this.query, this.page, this.year).subscribe(
+        (res) => {
+          this.numberOfMovies = res.total_results;
+        },
+        (error) => console.log(error)
+      );
+
+      this.http.getShows(this.query, this.page, this.year).subscribe(
+        (res) => {
+          this.numberOfShows = res.total_results;
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  resetData() {
+    this.query = '';
+    this.page = '';
+    this.year = '';
+    this.numberOfMovies = null;
+    this.numberOfShows = null;
   }
 
   search() {

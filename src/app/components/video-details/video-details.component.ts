@@ -222,7 +222,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.changeBackdropPath(this.defaultPosterPath);
+    this.changeBackdropPath(this.defaultBackdropPath);
   }
 
   switchData() {
@@ -250,10 +250,10 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
         this.statusTranslated = 'zakończony';
         break;
       case 'returning series':
-        this.statusTranslated = 'aktywny';
+        this.statusTranslated = 'planowany kolejny sezon';
         break;
       case 'post production':
-        this.statusTranslated = 'postprodukcja';
+        this.statusTranslated = 'w postprodukcji';
         break;
       case 'in production':
         this.statusTranslated = 'w produkcji';

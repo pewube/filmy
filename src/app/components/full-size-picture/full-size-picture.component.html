@@ -1,17 +1,17 @@
 <article class="dialog" [ngClass]="{ closed: isOff }">
   <button class="dialog__btn--bg" (click)="close()"></button>
-  <article class="dialog__content" [ngClass]="{ active: isOn }">
-    <img
-      class="dialog__content__large-picture"
-      src="{{ path }}"
-      alt="Duże zdjęcie {{ title }}"
-    />
-    <button
-      class="dialog__content__btn--close"
-      mat-icon-button
-      (click)="close()"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </article>
+  <img
+    class="dialog__large-picture"
+    [ngClass]="{ active: isOn }"
+    src="{{ path }}"
+    alt="Duże zdjęcie {{ title }}"
+  />
+  <button
+    class="dialog__btn--close"
+    [ngClass]="{ active: isOn }"
+    mat-icon-button
+    (click)="close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
 </article>

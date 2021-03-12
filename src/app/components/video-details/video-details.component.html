@@ -31,7 +31,7 @@
         *ngIf="details?.runtime"
         class="video-details__header__summary__runtime mat-body custom"
       >
-        {{ details?.runtime + " min." }}
+        {{ details.runtime | minutesToHours }}
       </p>
 
       <p
@@ -294,7 +294,7 @@
                 </p>
 
                 <p
-                  class="video-details__info__crew__actor__details__character mat-body custom mat-caption"
+                  class="video-details__info__actors__actor__details__character mat-body custom mat-caption"
                   *ngIf="actor.character"
                 >
                   jako {{ actor.character }}
@@ -434,10 +434,7 @@
         <span *ngIf="last">{{ company.name }}</span>
       </ng-container>
     </p>
-    <p class="video-details__info__status mat-body custom">
-      <span class="gray mat-body">status</span>
-      {{ details?.status ? statusTranslated : "brak danych" }}
-    </p>
+
     <section class="video-details__info__homepage" *ngIf="details?.homepage">
       <p class="mat-body custom">
         <span class="gray mat-body">oficjalna strona:</span>
@@ -450,6 +447,27 @@
         >
       </p>
     </section>
+    <section
+      class="video-details__info__homepage"
+      *ngIf="details?.external_ids?.imdb_id"
+    >
+      <p class="mat-body custom">
+        <span class="gray mat-body">strona na IMDb:</span>
+        <a
+          href="https://www.imdb.com/title/{{
+            details?.external_ids?.imdb_id
+          }}/"
+          target="_blank"
+          matTooltip="otwiera w nowym oknie link do filmu na stronie IMDb"
+          rel="noopener"
+          >kliknij tutaj</a
+        >
+      </p>
+    </section>
+    <p class="video-details__info__status mat-body custom">
+      <span class="gray mat-body">status:</span>
+      {{ details?.status ? statusTranslated : "brak danych" }}
+    </p>
     <section
       *ngIf="
         details?.recommendations?.results &&

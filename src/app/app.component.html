@@ -1,20 +1,15 @@
-<div class="background-generator" [ngStyle]="setBackgroundStyle()"></div>
+<img class="background-generator" [src]="setBackgroundSrc()" />
 <div class="wrapper">
   <header class="header">
     <mat-toolbar class="header__toolbar" color="primary">
-      <a class="toolbar__top-logo" (click)="reset()" routerLink="/"
+      <a class="toolbar__top-logo" (click)="reset()" routerLink="/home"
         ><img src="assets/img/logo-header.svg" alt="" srcset="" /><span
           >Filmoteka</span
         ></a
       >
     </mat-toolbar>
   </header>
-  <app-search-bar
-    [initQuery]="initQuery"
-    [initYear]="initYear"
-    [initResultsMovies]="initResultsMovies"
-    [initResultsShows]="initResultsShows"
-  ></app-search-bar>
+  <app-search-bar [isReset]="isReset"></app-search-bar>
   <router-outlet class="router-outlet"></router-outlet>
   <app-footer></app-footer>
 </div>
