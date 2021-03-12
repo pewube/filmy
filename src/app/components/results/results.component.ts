@@ -60,56 +60,43 @@ export class ResultsComponent implements OnInit {
             params.get('page'),
             params.get('year')
           )
-          .subscribe(
-            (res) => {
-              this.movies = res;
-              this.length = res.total_results;
-              // console.log('http movies: ', this.movies);
-              if (res.total_results === 0) {
-                this.router.navigate([
-                  '/results-shows',
-                  this.query,
-                  1,
-                  this.year,
-                ]);
-              }
-            },
-            (error) => {
-              console.log(error);
-              this.router.navigate([`/page-not-found/${error.status}`], {
-                state: {
-                  serverStatus: error.status,
-                  apiStatus: error.error.status_code,
-                  apiMessage: error.error.status_message,
-                },
-              });
-            }
-          );
-
-        this.setPaginatorPage(params.get('page'));
+          .toPromise()
+          .then((res) => {
+            this.movies = res;
+            this.length = res.total_results;
+            // console.log('http movies: ', this.movies);
+          })
+          .catch((error) => {
+            console.log(error);
+            this.router.navigate([`/page-not-found/${error.status}`], {
+              state: {
+                serverStatus: error.status,
+                apiStatus: error.error.status_code,
+                apiMessage: error.error.status_message,
+              },
+            });
+          });
       } else {
         this.http
           .getShows(params.get('query'), params.get('page'), params.get('year'))
-          .subscribe(
-            (res) => {
-              this.shows = res;
-              this.length = res.total_results;
-              // console.log('http shows: ', this.shows);
-            },
-            (error) => {
-              console.log(error);
-              this.router.navigate([`/page-not-found/${error.status}`], {
-                state: {
-                  serverStatus: error.status,
-                  apiStatus: error.error.status_code,
-                  apiMessage: error.error.status_message,
-                },
-              });
-            }
-          );
-
-        this.setPaginatorPage(params.get('page'));
+          .toPromise()
+          .then((res) => {
+            this.shows = res;
+            this.length = res.total_results;
+            // console.log('http movies: ', this.movies);
+          })
+          .catch((error) => {
+            console.log(error);
+            this.router.navigate([`/page-not-found/${error.status}`], {
+              state: {
+                serverStatus: error.status,
+                apiStatus: error.error.status_code,
+                apiMessage: error.error.status_message,
+              },
+            });
+          });
       }
+      this.setPaginatorPage(params.get('page'));
     });
   }
 

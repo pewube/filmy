@@ -74,12 +74,14 @@
       class="search-bar__search-nav__movies"
       [routerLink]="['/results-movies', query, '1', year]"
       [ngClass]="{ active: isMovie }"
+      (click)="setIsMovie(true)"
       >Filmy <span>{{ numberOfMovies }}</span></a
     >
     <a
       class="search-bar__search-nav__shows"
       [routerLink]="['/results-shows', query, '1', year]"
       [ngClass]="{ active: !isMovie }"
+      (click)="setIsMovie(false)"
       >Seriale <span>{{ numberOfShows }}</span></a
     >
   </nav>
@@ -87,7 +89,7 @@
 <section class="no-results" *ngIf="numberOfMovies === 0 && numberOfShows === 0">
   <p>
     Motyla noga ! Nie mamy w bazie ani filmów ani seriali, które odpowiadałyby
-    poszukiwanej frazie <em>{{ query }}</em> ...
+    poszukiwanej frazie ...
   </p>
   <p><mat-icon>sentiment_dissatisfied</mat-icon></p>
 </section>

@@ -1,3 +1,4 @@
+import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { HttpService } from 'src/app/services/http.service';
 import {
   Component,
@@ -65,21 +66,23 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
     ) {
       this.query = decodeURIComponent(initialParameters[2]);
       this.page = initialParameters[3];
-      this.year = initialParameters[4];
+      this.year = initialParameters[4] ? initialParameters[4] : '';
 
-      this.http.getMovies(this.query, this.page, this.year).subscribe(
-        (res) => {
+      this.http
+        .getMovies(this.query, this.page, this.year)
+        .toPromise()
+        .then((res) => {
           this.numberOfMovies = res.total_results;
-        },
-        (error) => console.log(error)
-      );
+        })
+        .catch((error) => console.log(error));
 
-      this.http.getShows(this.query, this.page, this.year).subscribe(
-        (res) => {
+      this.http
+        .getShows(this.query, this.page, this.year)
+        .toPromise()
+        .then((res) => {
           this.numberOfShows = res.total_results;
-        },
-        (error) => console.log(error)
-      );
+        })
+        .catch((error) => console.log(error));
     }
   }
 
@@ -91,26 +94,31 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
     this.numberOfShows = null;
   }
 
-  search() {
+  async search() {
     this.query = this.query.replace(/\./g, ' ');
-    this.http.getMovies(this.query, '1', this.year).subscribe(
-      (res) => {
-        this.numberOfMovies = res.total_results;
-      },
-      (error) => console.log('Błąd pobierania results dla movies: ', error)
-    );
 
-    this.http.getShows(this.query, '1', this.year).subscribe(
-      (res) => {
-        this.numberOfShows = res.total_results;
-      },
-      (error) => console.log('Błąd pobierania results dla tvshows: ', error)
-    );
+    const movies: TmdbResponse = await this.http
+      .getMovies(this.query, '1', this.year)
+      .toPromise();
 
-    this.router.navigate(['/results-movies', this.query, '1', this.year]);
+    this.numberOfMovies = movies.total_results;
+
+    const shows: TmdbResponse = await this.http
+      .getShows(this.query, '1', this.year)
+      .toPromise();
+
+    this.numberOfShows = shows.total_results;
+
+    if (this.numberOfShows > this.numberOfMovies) {
+      this.setIsMovie(false);
+      this.router.navigate(['/results-shows', this.query, '1', this.year]);
+    } else {
+      this.setIsMovie(true);
+      this.router.navigate(['/results-movies', this.query, '1', this.year]);
+    }
   }
 
-  changeMediaType(isMovie: boolean) {
+  setIsMovie(isMovie: boolean) {
     this.data.changeMediaType(isMovie);
   }
 
