@@ -3,7 +3,7 @@
     <figure *ngIf="details?.poster_path" class="video-details__header__poster">
       <button
         class="video-details__header__poster__btn--enlarge"
-        (click)="enlargePicture()"
+        (click)="enlargePicture(urlImg600 + details?.poster_path)"
       >
         <img
           src="{{ posterPath + details?.poster_path }}"
@@ -264,47 +264,15 @@
       <span class="gray mat-body">następny odcinek:</span>
       {{ details.next_episode_to_air.air_date }}
     </p>
-    <section class="video-details__info__actors" *ngIf="actors.length > 0">
-      <p class="video-details__info__actors__header mat-body custom">
-        <span class="gray mat-body">obsada:</span>
-      </p>
-      <ul class="video-details__info__actors__list" #list>
-        <li
-          class="video-details__info__actors__list__item"
-          *ngFor="let actor of actors"
-        >
-          <a [routerLink]="['/person', actor.id]">
-            <article class="video-details__info__actors__actor">
-              <figure class="video-details__info__actors__actor__photo">
-                <img
-                  src="{{
-                    actor?.profile_path
-                      ? profilePath + actor.profile_path
-                      : defaultProfilePath
-                  }}"
-                  alt="Photo of {{ actor.name }}"
-                />
-              </figure>
 
-              <section class="video-details__info__actors__actor__details">
-                <p
-                  class="video-details__info__actors__actor__details__name mat-body custom"
-                >
-                  {{ actor.name }}
-                </p>
-
-                <p
-                  class="video-details__info__actors__actor__details__character mat-body custom mat-caption"
-                  *ngIf="actor.character"
-                >
-                  jako {{ actor.character }}
-                </p>
-              </section>
-            </article>
-          </a>
-        </li>
-      </ul>
-    </section>
+    <app-person-panel
+      [sourceArray]="actors"
+      [title]="'obsada: '"
+      [photoPath]="profilePath"
+      [routeUrl]="'/person'"
+      [imgWidth]="'94px'"
+      [imgHeight]="'141px'"
+    ></app-person-panel>
 
     <div class="video-details__info__crew-container">
       <section
@@ -468,6 +436,25 @@
       <span class="gray mat-body">status:</span>
       {{ details?.status ? statusTranslated : "brak danych" }}
     </p>
+    <app-photo-panel
+      [sourceArray]="posters"
+      [title]="'plakaty: '"
+      [photoPath]="profilePath"
+      [imgWidth]="'94px'"
+      [imgHeight]="'141px'"
+      [altImgDescription]="'Alternatywny plakat'"
+      (enlarge)="enlargePicture(urlImg600 + $event)"
+    ></app-photo-panel>
+
+    <app-photo-panel
+      [sourceArray]="backdrops"
+      [title]="'tła: '"
+      [photoPath]="urlImgWide250"
+      [imgWidth]="'250px'"
+      [imgHeight]="'141px'"
+      [altImgDescription]="'Alternatywne tło'"
+      (enlarge)="enlargePicture(backdropPath + $event)"
+    ></app-photo-panel>
     <section
       *ngIf="
         details?.recommendations?.results &&
@@ -526,7 +513,7 @@
 </article>
 <app-full-size-picture
   *ngIf="showLargePicture"
-  [path]="urlImg600 + details?.poster_path"
+  [path]="largePicturePath"
   [title]="details?.title ? details?.title : details?.name"
   (closeLargePicture)="closeLargePicture($event)"
 ></app-full-size-picture>

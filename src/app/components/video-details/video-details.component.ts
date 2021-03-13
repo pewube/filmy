@@ -15,6 +15,7 @@ import {
   VideoCertification,
   VideoCrew,
   VideoDetails,
+  VideoImage,
   VideoSeason,
 } from 'src/app/models/video-details';
 import { ToTranslate } from 'src/app/models/google-translation';
@@ -39,8 +40,11 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   posterPath: string;
   profilePath: string;
   backdropPath: string;
+  largePicturePath: string;
   urlImg130: string;
   urlImg600: string;
+  urlImgWide250: string;
+  urlImgWide780: string;
   defaultPosterPath: string = 'assets/img/movie220.jpg';
   defaultProfilePath: string = 'assets/img/cast94.jpg';
   defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
@@ -51,10 +55,12 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   buttonOn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
-  numberOfActorsInArray: number = 20;
+  numberOfItemsInArray: number = 20;
   actors: Array<VideoActor> = [];
   seasons: Array<VideoSeason> = [];
   certifications: Array<VideoCertification> = [];
+  backdrops: Array<VideoImage> = [];
+  posters: Array<VideoImage> = [];
   imdbRating: number;
   imdbRatingCount: number;
   statusTranslated: string;
@@ -72,6 +78,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     this.posterPath = this.http.urlImg220;
     this.profilePath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
+    this.urlImgWide250 = this.http.urlImgWide250;
+    this.urlImgWide780 = this.http.urlImgWide780;
   }
 
   ngOnInit(): void {
@@ -84,6 +92,13 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           (res) => {
             // console.log('Movie details: ', res);
             this.details = res;
+
+            this.changeBackdropPath(
+              `${this.backdropPath}${this.details.backdrop_path}`
+            );
+
+            this.translateStatus(this.details.status);
+
             this.screenwriters = [];
             this.createScreenwritersArray(
               this.details.credits,
@@ -95,19 +110,25 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             this.createActorsArray(
               this.details.credits,
               this.actors,
-              this.numberOfActorsInArray
+              this.numberOfItemsInArray
             );
             this.certifications = [];
             this.createMovieCertificationsArray(
               this.details.release_dates,
               this.certifications
             );
-
-            this.changeBackdropPath(
-              `${this.backdropPath}${this.details.backdrop_path}`
+            this.backdrops = [];
+            this.createBackdropsArray(
+              this.details.images,
+              this.backdrops,
+              this.numberOfItemsInArray
             );
-
-            this.translateStatus(this.details.status);
+            this.posters = [];
+            this.createPostersArray(
+              this.details.images,
+              this.posters,
+              this.numberOfItemsInArray
+            );
 
             // english movie details
             if (!this.details.overview) {
@@ -156,11 +177,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           (res) => {
             // console.log('TVShow details: ', res);
             this.details = res;
+
+            this.changeBackdropPath(
+              `${this.backdropPath}${this.details.backdrop_path}`
+            );
+
+            this.translateStatus(this.details.status);
+
             this.actors = [];
             this.createActorsArray(
               this.details.credits,
               this.actors,
-              this.numberOfActorsInArray
+              this.numberOfItemsInArray
             );
             this.certifications = [];
             this.createShowCertificationsArray(
@@ -169,12 +197,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             );
             this.seasons = [];
             this.createSeasonsArray(this.details.seasons, this.seasons);
-
-            this.changeBackdropPath(
-              `${this.backdropPath}${this.details.backdrop_path}`
+            this.backdrops = [];
+            this.createBackdropsArray(
+              this.details.images,
+              this.backdrops,
+              this.numberOfItemsInArray
             );
-
-            this.translateStatus(this.details.status);
+            this.posters = [];
+            this.createPostersArray(
+              this.details.images,
+              this.posters,
+              this.numberOfItemsInArray
+            );
 
             // english  tv series details
             if (!this.details.overview) {
@@ -290,7 +324,11 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  createActorsArray(input, output: Array<VideoActor>, outputLength: number) {
+  createActorsArray(
+    input,
+    output: Array<VideoActor>,
+    outputLength: number = 8
+  ) {
     if (input.cast.length < outputLength) {
       for (let actor of input.cast) {
         if (actor.character.toLowerCase().includes('self')) {
@@ -362,6 +400,38 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  createBackdropsArray(
+    input,
+    output: Array<VideoImage>,
+    outputLength: number = 8
+  ) {
+    if (input.backdrops.length < outputLength) {
+      for (let backdrop of input.backdrops) {
+        output.push(backdrop);
+      }
+    } else {
+      for (let i = 0; i < outputLength; i++) {
+        output.push(input.backdrops[i]);
+      }
+    }
+  }
+
+  createPostersArray(
+    input,
+    output: Array<VideoImage>,
+    outputLength: number = 8
+  ) {
+    if (input.posters.length < outputLength) {
+      for (let poster of input.posters) {
+        output.push(poster);
+      }
+    } else {
+      for (let i = 0; i < outputLength; i++) {
+        output.push(input.posters[i]);
+      }
+    }
+  }
+
   // english overview translation
   translate() {
     const text: ToTranslate = {
@@ -386,8 +456,13 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  enlargePicture() {
+  enlargePicture(path: string) {
     this.showLargePicture = true;
+    this.largePicturePath = path;
+  }
+
+  enlargePhotoComponentPicture(event) {
+    this.showLargePicture = event;
   }
 
   closeLargePicture(event) {
@@ -405,7 +480,9 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   scrollElements() {
     window.scrollTo(0, 0);
     setTimeout(() => {
-      this.listsToScroll.forEach((list) => list.nativeElement.scrollTo(0, 0));
+      this.listsToScroll.forEach((list) => {
+        list.nativeElement.scrollTo(0, 0);
+      });
     }, 0);
   }
 

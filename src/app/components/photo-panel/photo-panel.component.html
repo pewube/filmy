@@ -1,0 +1,26 @@
+<section class="photo-panel" *ngIf="sourceArray.length > 0">
+  <p class="photo-panel__header mat-body custom">
+    <span class="gray mat-body">{{ title }}</span>
+  </p>
+  <ul class="photo-panel__list" #list>
+    <li class="photo-panel__list__item" *ngFor="let item of sourceArray">
+      <article class="photo-panel__article" [ngStyle]="setWidth()">
+        <figure
+          class="photo-panel__article__photo"
+          [ngStyle]="setWidthAndHeight()"
+        >
+          <button
+            class="photo-panel__article__btn--enlarge"
+            (click)="enlargePicture(item.file_path)"
+          >
+            <img
+              src="{{ photoPath + item.file_path }}"
+              alt="{{ altImgDescription }}"
+              [ngStyle]="setHeight()"
+            />
+          </button>
+        </figure>
+      </article>
+    </li>
+  </ul>
+</section>
