@@ -13,8 +13,6 @@ export class FullSizePictureComponent implements OnInit {
   isOn: boolean = false;
   isOff: boolean = false;
 
-  constructor() {}
-
   ngOnInit(): void {
     setTimeout(() => {
       this.isOn = true;

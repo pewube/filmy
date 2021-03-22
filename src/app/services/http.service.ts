@@ -109,7 +109,7 @@ export class HttpService {
       .set('language', language)
       .set(
         'append_to_response',
-        'credits,external_ids,release_dates,images,recommendations,similar,reviews'
+        'credits,external_ids,release_dates,images,recommendations,reviews'
       )
       .set('include_image_language', 'pl,en,null');
 
@@ -128,7 +128,7 @@ export class HttpService {
       .set('language', language)
       .set(
         'append_to_response',
-        'credits,external_ids,content_ratings,images,recommendations,similar,reviews'
+        'credits,external_ids,content_ratings,images,recommendations,reviews'
       )
       .set('include_image_language', 'pl,en,null');
 

@@ -12,19 +12,21 @@ export class AppComponent implements OnInit, OnDestroy {
   isReset: boolean = false;
   backdropPath: string = '';
   backdropPathSubscription: Subscription;
-  backdropDefault: string = 'assets/img/popcorn1280.jpg';
+  backdropDefault: string = '';
   backgroundSrc: string = this.backdropPath
     ? this.backdropPath
     : this.backdropDefault;
 
-  constructor(private data: DataService) {}
+  constructor(private data: DataService) {
+    this.backdropDefault = this.data.defaultBackdropPath;
+  }
 
   ngOnInit() {
-    this.backdropPathSubscription = this.data.currentBackdropPath.subscribe(
-      (path) => {
+    this.backdropPathSubscription = this.data
+      .getBackdropPath()
+      .subscribe((path) => {
         this.backdropPath = path;
-      }
-    );
+      });
   }
 
   ngOnDestroy() {

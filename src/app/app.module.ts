@@ -29,6 +29,10 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { MinutesToHoursPipe } from './pipes/minutes-to-hours.pipe';
 import { PhotoPanelComponent } from './components/photo-panel/photo-panel.component';
 import { PersonPanelComponent } from './components/person-panel/person-panel.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+
+import { CreditsComponent } from './components/video-details/credits/credits.component';
+import { PhotoCollectionComponent } from './components/photo-collection/photo-collection.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +52,9 @@ import { PersonPanelComponent } from './components/person-panel/person-panel.com
     MinutesToHoursPipe,
     PhotoPanelComponent,
     PersonPanelComponent,
+    SpinnerComponent,
+    CreditsComponent,
+    PhotoCollectionComponent,
   ],
   imports: [
     BrowserModule,

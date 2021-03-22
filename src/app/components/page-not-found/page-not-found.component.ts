@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './page-not-found.component.html',
   styleUrls: ['./page-not-found.component.scss'],
 })
-export class PageNotFoundComponent implements OnInit {
+export class PageNotFoundComponent {
   routeState: any;
   serverStatus: number;
   apiStatus: number;
@@ -20,6 +20,4 @@ export class PageNotFoundComponent implements OnInit {
       this.apiMessage = this.routeState.apiMessage;
     }
   }
-
-  ngOnInit(): void {}
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-result-link',
@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./result-link.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ResultLinkComponent implements OnInit {
+export class ResultLinkComponent {
   @Input() imgsrc: string;
   @Input() title: string;
   @Input() originalTitle: string;
@@ -14,8 +14,4 @@ export class ResultLinkComponent implements OnInit {
   @Input() date: string;
 
   defaultImgsrc: string = 'assets/img/movie150.jpg';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

@@ -1,23 +1,54 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { PersonDetails } from '../models/person-details';
+import { VideoDetails } from '../models/video-details';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  private isMovie = new BehaviorSubject(true);
-  currentMediaType = this.isMovie.asObservable();
+  defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
+  defaultPosterPath: string = 'assets/img/movie220.jpg';
 
-  private backdropPath = new BehaviorSubject('assets/img/popcorn1280.jpg');
-  currentBackdropPath = this.backdropPath.asObservable();
+  private isMovie$ = new BehaviorSubject<boolean>(true);
 
-  constructor() {}
+  private backdropPath$ = new BehaviorSubject<string>(
+    'assets/img/popcorn1280.jpg'
+  );
 
-  changeMediaType(type: boolean) {
-    this.isMovie.next(type);
+  private videoDetails$ = new BehaviorSubject<VideoDetails>(null);
+
+  private personDetails$ = new BehaviorSubject<PersonDetails>(null);
+
+  getIsMovie(): Observable<boolean> {
+    return this.isMovie$.asObservable();
   }
 
-  changeBackdropPath(path: string) {
-    this.backdropPath.next(path);
+  setIsMovie(type: boolean) {
+    this.isMovie$.next(type);
+  }
+
+  getBackdropPath(): Observable<string> {
+    return this.backdropPath$.asObservable();
+  }
+
+  setBackdropPath(path: string) {
+    this.backdropPath$.next(path);
+  }
+
+  getVideoDetails(): Observable<VideoDetails> {
+    return this.videoDetails$.asObservable();
+  }
+
+  setVideoDetails(details: VideoDetails) {
+    this.videoDetails$.next(details);
+  }
+
+  getPersonDetails(): Observable<PersonDetails> {
+    return this.personDetails$.asObservable();
+  }
+
+  setPersonDetails(details: PersonDetails) {
+    this.personDetails$.next(details);
   }
 }

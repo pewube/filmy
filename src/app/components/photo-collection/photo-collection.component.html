@@ -1,0 +1,146 @@
+<section class="photo-collection">
+  <ng-container
+    *ngIf="detailsVideo?.title || detailsVideo?.name; else personContent"
+  >
+    <div class="photo-collection__title-container">
+      <h1 class="photo-collection__title mat-h1 custom">
+        {{ detailsVideo?.title ? detailsVideo?.title : detailsVideo?.name }}
+      </h1>
+      <p class="photo-collection__page-name mat-h4 custom">
+        {{ templatePageTitle() }}
+      </p>
+    </div>
+
+    <ul *ngIf="photoType === 'posters'" class="photo-collection__list">
+      <li
+        *ngFor="let item of detailsVideo?.images.posters; let i = index"
+        class="photo-collection__list__item"
+      >
+        <article
+          class="photo-collection__article"
+          [ngStyle]="{
+            width: dimensionsPoster[0] + 'px'
+          }"
+        >
+          <figure
+            class="photo-collection__article__photo"
+            [ngStyle]="{
+              width: dimensionsPoster[0] + 'px',
+              height: dimensionsPoster[1] + 'px'
+            }"
+          >
+            <button
+              class="photo-collection__article__btn--enlarge"
+              (click)="enlargePicture(urlImg600 + item.file_path)"
+            >
+              <img
+                src="{{ photoPath + item.file_path }}"
+                alt="#{{ i + 1 }} poster of {{ detailsVideo?.title }}"
+                [ngStyle]="{
+                  height: dimensionsPoster[1] + 'px'
+                }"
+              />
+            </button>
+          </figure>
+        </article>
+      </li>
+    </ul>
+
+    <ul
+      *ngIf="photoType === 'backdrops'"
+      class="photo-collection__list photo-collection__list--wide"
+    >
+      <li
+        *ngFor="let item of detailsVideo?.images.backdrops; let i = index"
+        class="photo-collection__list__item photo-collection__list--wide__item"
+      >
+        <article
+          class="photo-collection__article"
+          [ngStyle]="{
+            width: dimensionsBackdrop[0] + 'px'
+          }"
+        >
+          <figure
+            class="photo-collection__article__photo"
+            [ngStyle]="{
+              width: dimensionsBackdrop[0] + 'px',
+              height: dimensionsBackdrop[1] + 'px'
+            }"
+          >
+            <button
+              class="photo-collection__article__btn--enlarge"
+              (click)="enlargePicture(backdropPath + item.file_path)"
+            >
+              <img
+                src="{{ urlImgWide250 + item.file_path }}"
+                alt="#{{ i + 1 }} backdrop image of {{ detailsVideo?.title }}"
+                [ngStyle]="{
+                  height: dimensionsBackdrop[1] + 'px'
+                }"
+              />
+            </button>
+          </figure>
+        </article>
+      </li>
+    </ul>
+  </ng-container>
+  <ng-template #personContent>
+    <div class="photo-collection__title-container">
+      <h1 class="photo-collection__title mat-h1 custom">
+        {{ detailsPerson?.name }}
+      </h1>
+      <p class="photo-collection__page-name mat-h4 custom">
+        {{ templatePageTitle() }}
+      </p>
+    </div>
+    <ul class="photo-collection__list">
+      <li
+        *ngFor="let item of detailsPerson?.images?.profiles; let i = index"
+        class="photo-collection__list__item"
+      >
+        <article
+          class="photo-collection__article"
+          [ngStyle]="{
+            width: dimensionsPhoto[0] + 'px'
+          }"
+        >
+          <figure
+            class="photo-collection__article__photo"
+            [ngStyle]="{
+              width: dimensionsPhoto[0] + 'px',
+              height: dimensionsPhoto[1] + 'px'
+            }"
+          >
+            <button
+              class="photo-collection__article__btn--enlarge"
+              (click)="enlargePicture(urlImg600 + item.file_path)"
+            >
+              <img
+                src="{{ photoPath + item.file_path }}"
+                alt="#{{ i + 1 }} photo of {{ detailsPerson.name }}"
+                [ngStyle]="{
+                  height: dimensionsPhoto[1] + 'px'
+                }"
+              />
+            </button>
+          </figure>
+        </article>
+      </li>
+    </ul>
+  </ng-template>
+  <button
+    mat-mini-fab
+    class="video-details__btn--back"
+    color="primary"
+    type="button"
+    (click)="goBack()"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</section>
+<app-full-size-picture
+  *ngIf="showLargePicture"
+  [path]="largePicturePath"
+  [title]="detailsVideo?.name || detailsVideo?.title || detailsPerson?.name"
+  (closeLargePicture)="closeLargePicture($event)"
+></app-full-size-picture>

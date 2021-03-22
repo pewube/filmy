@@ -47,9 +47,9 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isMovieSubscription = this.data.currentMediaType.subscribe(
-      (isMovie) => (this.isMovie = isMovie)
-    );
+    this.isMovieSubscription = this.data
+      .getIsMovie()
+      .subscribe((isMovie) => (this.isMovie = isMovie));
     this.getInitialData();
   }
 
@@ -119,7 +119,7 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   setIsMovie(isMovie: boolean) {
-    this.data.changeMediaType(isMovie);
+    this.data.setIsMovie(isMovie);
   }
 
   cancelQuery(): void {

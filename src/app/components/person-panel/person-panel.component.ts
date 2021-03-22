@@ -6,7 +6,8 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-person-panel',
   templateUrl: './person-panel.component.html',
@@ -20,7 +21,10 @@ export class PersonPanelComponent implements OnChanges {
   @Input() routeUrl: string;
   @Input() imgWidth: string = '94px';
   @Input() imgHeight: string = '141px';
+  @Input() numberOfItems: number = 8;
   @ViewChild('list') listToScroll: ElementRef;
+
+  constructor(private router: Router, private location: Location) {}
 
   ngOnChanges(): void {
     if (this.listToScroll) {
@@ -50,5 +54,9 @@ export class PersonPanelComponent implements OnChanges {
     setTimeout(() => {
       this.listToScroll.nativeElement.scrollTo(0, 0);
     }, 0);
+  }
+
+  goToCredits(): void {
+    this.router.navigate([this.location.path(), 'credits']);
   }
 }

@@ -82,11 +82,11 @@
 
     <p
       class="person-details__info__biography mat-body custom"
-      *ngIf="details?.biography || biographyEn"
+      *ngIf="details?.biography || detailsEn?.biography"
     >
-      {{ details.biography ? details.biography : biographyEn }}
+      {{ details.biography ? details.biography : detailsEn?.biography }}
       <button
-        *ngIf="!details.biography && biographyEn && buttonOn"
+        *ngIf="!details.biography && detailsEn.biography && buttonOn"
         mat-mini-fab
         color="primary"
         class="person-details__info__biography__btn--translate"
@@ -112,6 +112,7 @@
 
     <app-photo-panel
       [sourceArray]="photos"
+      [photoType]="'photos'"
       [title]="'zdjęcia: '"
       [photoPath]="profilePath"
       [imgWidth]="'94px'"

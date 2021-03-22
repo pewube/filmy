@@ -1,5 +1,5 @@
+import { DataService } from './../../services/data.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -13,19 +13,18 @@ export class HomeComponent implements OnInit {
   movies: TmdbResponse;
   shows: TmdbResponse;
   urlImg150: string;
-  urlImg130: string;
-  urlImg94: string;
+  defaultBackdropPath: string;
 
-  constructor(private http: HttpService, private route: ActivatedRoute) {
+  constructor(private http: HttpService, private data: DataService) {
     this.urlImg150 = this.http.urlImg150;
-    this.urlImg130 = this.http.urlImg130;
-    this.urlImg94 = this.http.urlImg94;
+    this.defaultBackdropPath = this.data.defaultBackdropPath;
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.http.getPopularMovies().subscribe((res) => (this.movies = res));
-      this.http.getPopularShows().subscribe((res) => (this.shows = res));
-    });
+    this.http.getPopularMovies().subscribe((res) => (this.movies = res));
+    this.http.getPopularShows().subscribe((res) => (this.shows = res));
+    setTimeout(() => {
+      this.data.setBackdropPath(this.defaultBackdropPath);
+    }, 0);
   }
 }

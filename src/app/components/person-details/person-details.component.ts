@@ -6,6 +6,8 @@ import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
 import { ToTranslate } from 'src/app/models/google-translation';
 import { VideoImage } from 'src/app/models/video-details';
+import { DataService } from 'src/app/services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-person-details',
@@ -17,17 +19,18 @@ export class PersonDetailsComponent implements OnInit {
   posterPath: string;
   profilePath: string;
   urlImg600: string;
-  defaultPosterPath: string = 'assets/img/movie220.jpg';
-  defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
+  defaultBackdropPath: string;
   largePicturePath: string;
 
   details: PersonDetails;
-  biographyEn: string;
+  detailsEn: PersonDetails;
+  detailsSubscription: Subscription;
+  localDetails: PersonDetails;
   biographyTranslated: string;
   videos: Array<Partial<PersonVideo>> = [];
   listVideos: Array<Partial<PersonVideo>> = [];
   photos: Array<VideoImage> = [];
-  numberOfItemsInArray: number = 20;
+  numberOfItemsInArray: number = 165;
   buttonOn: boolean = true;
 
   checkedShows: boolean = true;
@@ -39,62 +42,88 @@ export class PersonDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private translator: GtranslateService
+    private translator: GtranslateService,
+    private data: DataService
   ) {
     this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
     this.profilePath = this.http.urlImg94;
+    this.defaultBackdropPath = this.data.defaultBackdropPath;
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      // polish person details
-      this.http.getPersonDetails(params.get('id')).subscribe(
-        (res) => {
-          // console.log('Person details: ', res);
-          this.details = res;
-          this.createVideoArray(res.combined_credits.cast, this.videos);
-          this.listVideos = this.videos.sort((a, b) => {
-            if (a.release_date > b.release_date) {
-              return -1;
-            }
-            if (a.release_date < b.release_date) {
-              return 1;
-            }
-            return 0;
-          });
-          this.photos = [];
-          this.createPhotosArray(
-            this.details.images,
-            this.photos,
-            this.numberOfItemsInArray
-          );
+    this.detailsSubscription = this.data
+      .getPersonDetails()
+      .subscribe((localDetails) => {
+        this.localDetails = localDetails;
+      });
 
-          // english movie details
-          if (!this.details.biography) {
-            this.http.getPersonDetails(params.get('id'), 'en').subscribe(
-              (res) => {
-                this.biographyEn = res.biography;
-              },
-              (error) =>
-                console.log('Błąd pobierania details en dla person: ', error)
-            );
-            this.buttonOn = true;
-          }
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.getData(params.get('id'));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.detailsSubscription.unsubscribe();
+  }
+
+  getData(personId: string) {
+    if (this.localDetails && this.localDetails.id.toString() === personId) {
+      this.details = this.localDetails;
+      this.processData();
+    } else {
+      this.http.getPersonDetails(personId).subscribe(
+        (res) => {
+          this.details = res;
+          this.processData();
+          // console.log('Person details: ', res);
         },
         (error) => {
-          console.log(error);
-          this.router.navigate([`/page-not-found/${error.status}`], {
-            state: {
-              serverStatus: error.status,
-              apiStatus: error.error.status_code,
-              apiMessage: error.error.status_message,
-            },
-          });
+          this.handleError(error);
         }
       );
+    }
+  }
+
+  processData() {
+    this.data.setPersonDetails(this.details);
+
+    this.videos = [];
+    this.createVideoArray(this.details.combined_credits.cast, this.videos);
+    this.listVideos = this.videos.sort((a, b) => {
+      if (a.release_date > b.release_date) {
+        return -1;
+      }
+      if (a.release_date < b.release_date) {
+        return 1;
+      }
+      return 0;
     });
-    window.scrollTo(0, 0);
+
+    this.photos = [];
+    this.createPhotosArray(
+      this.details.images,
+      this.photos,
+      this.numberOfItemsInArray
+    );
+
+    if (!this.details.biography) {
+      this.http
+        .getPersonDetails(this.route.snapshot.paramMap.get('id'), 'en')
+        .subscribe(
+          (res) => {
+            this.detailsEn = res;
+          },
+          (error) =>
+            console.log('Błąd pobierania details en dla person: ', error)
+        );
+      this.buttonOn = true;
+    }
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      this.data.setBackdropPath(this.defaultBackdropPath);
+    }, 0);
   }
 
   createVideoArray(input, output: Array<Partial<PersonVideo>>): void {
@@ -133,7 +162,7 @@ export class PersonDetailsComponent implements OnInit {
       }
     } else {
       for (let i = 0; i < outputLength; i++) {
-        output.push(input.photos[i]);
+        output.push(input.profiles[i]);
       }
     }
   }
@@ -141,7 +170,7 @@ export class PersonDetailsComponent implements OnInit {
   // english overview translation
   translate(): void {
     const text: ToTranslate = {
-      q: this.biographyEn,
+      q: this.detailsEn.biography,
       source: 'en',
       target: 'pl',
       format: 'text',
@@ -149,9 +178,19 @@ export class PersonDetailsComponent implements OnInit {
     this.buttonOn = false;
     this.translator.translate(text).subscribe((result) => {
       this.biographyTranslated = result.data.translations[0].translatedText;
-      this.biographyEn = this.biographyTranslated;
+      this.detailsEn.biography = this.biographyTranslated;
     }),
       (error) => console.log('Błąd tłumaczenia: ', error);
+  }
+
+  handleError(error) {
+    this.router.navigate([`/page-not-found/${error.status}`], {
+      state: {
+        serverStatus: error.status,
+        apiStatus: error.error.status_code,
+        apiMessage: error.error.status_message,
+      },
+    });
   }
 
   enlargePicture(path: string) {

@@ -1,0 +1,53 @@
+<section class="credits">
+  <div class="credits__title-container">
+    <h1 class="credits__title mat-h1 custom">
+      {{ details?.title ? details?.title : details?.name }}
+    </h1>
+    <p class="credits__page-name mat-h4 custom">Obsada</p>
+  </div>
+
+  <ul class="credits__list">
+    <li
+      *ngFor="let item of details?.credits?.cast; let i = index"
+      class="credits__list__item"
+    >
+      <a [routerLink]="['/person', item.id]">
+        <article class="credits__article">
+          <figure class="credits__article__photo">
+            <img
+              src="{{
+                item.profile_path
+                  ? photoPath + item.profile_path
+                  : defaultPhotoPath
+              }}"
+              alt="Photo of {{ item.name }}"
+            />
+          </figure>
+
+          <section class="credits__article__details">
+            <p class="credits__article__details__name mat-body custom">
+              {{ item.name }}
+            </p>
+
+            <p
+              class="credits__article__details__character mat-body custom mat-caption"
+              *ngIf="item.character"
+            >
+              jako {{ item.character }}
+            </p>
+          </section>
+        </article>
+      </a>
+    </li>
+  </ul>
+
+  <button
+    mat-mini-fab
+    class="video-details__btn--back"
+    color="primary"
+    type="button"
+    (click)="goBack()"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</section>

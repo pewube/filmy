@@ -3,23 +3,44 @@
     <span class="gray mat-body">{{ title }}</span>
   </p>
   <ul class="photo-panel__list" #list>
-    <li class="photo-panel__list__item" *ngFor="let item of sourceArray">
-      <article class="photo-panel__article" [ngStyle]="setWidth()">
-        <figure
-          class="photo-panel__article__photo"
-          [ngStyle]="setWidthAndHeight()"
-        >
-          <button
-            class="photo-panel__article__btn--enlarge"
-            (click)="enlargePicture(item.file_path)"
+    <ng-container *ngFor="let item of sourceArray; let i = index">
+      <li *ngIf="i <= numberOfItems - 1" class="photo-panel__list__item">
+        <article class="photo-panel__article" [ngStyle]="setWidth()">
+          <figure
+            class="photo-panel__article__photo"
+            [ngStyle]="setWidthAndHeight()"
           >
-            <img
-              src="{{ photoPath + item.file_path }}"
-              alt="{{ altImgDescription }}"
-              [ngStyle]="setHeight()"
-            />
-          </button>
-        </figure>
+            <button
+              class="photo-panel__article__btn--enlarge"
+              (click)="enlargePicture(item.file_path)"
+            >
+              <img
+                src="{{ photoPath + item.file_path }}"
+                alt="{{ altImgDescription }}"
+                [ngStyle]="setHeight()"
+              />
+            </button>
+          </figure>
+        </article>
+      </li>
+    </ng-container>
+    <li
+      *ngIf="sourceArray.length > numberOfItems"
+      class="photo-panel__list__item photo-panel__list__item--last"
+    >
+      <article
+        class="photo-panel__article photo-panel__article--last"
+        [ngStyle]="setWidth()"
+      >
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="pokaż wszystkie zdjęcia"
+          aria-label="show more photos"
+          (click)="goToPhotoCollection()"
+        >
+          <mat-icon>read_more</mat-icon>
+        </button>
       </article>
     </li>
   </ul>

@@ -23,6 +23,7 @@ import { GtranslateService } from 'src/app/services/gtranslate.service';
 import { DataService } from 'src/app/services/data.service';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
+import { Subscription } from 'rxjs';
 registerLocaleData(localePl);
 
 @Component({
@@ -34,7 +35,7 @@ registerLocaleData(localePl);
 export class VideoDetailsComponent implements OnInit, OnDestroy {
   @ViewChildren('list') listsToScroll: QueryList<ElementRef>;
 
-  movieFlag: boolean;
+  isMovie: boolean;
   showLargePicture: boolean = false;
   showDialog: boolean = false;
   posterPath: string;
@@ -47,15 +48,18 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   urlImgWide780: string;
   defaultPosterPath: string = 'assets/img/movie220.jpg';
   defaultProfilePath: string = 'assets/img/cast94.jpg';
-  defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
+  defaultBackdropPath: string;
 
   details: VideoDetails;
+  detailsEn: VideoDetails;
+  detailsSubscription: Subscription;
+  localDetails: VideoDetails;
   overviewEn: string;
   overviewTranslated: string;
   buttonOn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
-  numberOfItemsInArray: number = 20;
+  numberOfItemsInArray: number = 165;
   actors: Array<VideoActor> = [];
   seasons: Array<VideoSeason> = [];
   certifications: Array<VideoCertification> = [];
@@ -80,193 +84,165 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     this.backdropPath = this.http.urlImg1280;
     this.urlImgWide250 = this.http.urlImgWide250;
     this.urlImgWide780 = this.http.urlImgWide780;
+    this.defaultBackdropPath = this.data.defaultBackdropPath;
   }
 
   ngOnInit(): void {
-    this.switchData();
+    this.switchVideoType();
+    this.detailsSubscription = this.data
+      .getVideoDetails()
+      .subscribe((localDetails) => {
+        this.localDetails = localDetails;
+      });
 
     this.route.paramMap.subscribe((params: ParamMap) => {
-      if (this.movieFlag) {
-        // polish movie details
-        this.http.getMovieDetails(params.get('id')).subscribe(
-          (res) => {
-            // console.log('Movie details: ', res);
-            this.details = res;
-
-            this.changeBackdropPath(
-              `${this.backdropPath}${this.details.backdrop_path}`
-            );
-
-            this.translateStatus(this.details.status);
-
-            this.screenwriters = [];
-            this.createScreenwritersArray(
-              this.details.credits,
-              this.screenwriters
-            );
-            this.directors = [];
-            this.createDirectorsArray(this.details.credits, this.directors);
-            this.actors = [];
-            this.createActorsArray(
-              this.details.credits,
-              this.actors,
-              this.numberOfItemsInArray
-            );
-            this.certifications = [];
-            this.createMovieCertificationsArray(
-              this.details.release_dates,
-              this.certifications
-            );
-            this.backdrops = [];
-            this.createBackdropsArray(
-              this.details.images,
-              this.backdrops,
-              this.numberOfItemsInArray
-            );
-            this.posters = [];
-            this.createPostersArray(
-              this.details.images,
-              this.posters,
-              this.numberOfItemsInArray
-            );
-
-            // english movie details
-            if (!this.details.overview) {
-              this.http.getMovieDetails(params.get('id'), 'en').subscribe(
-                (res) => {
-                  this.overviewEn = res.overview;
-                },
-                (error) =>
-                  console.log('Błąd pobierania details en dla movie: ', error)
-              );
-              this.buttonOn = true;
-            }
-
-            //imdb movie data
-            if (res.external_ids.imdb_id) {
-              this.http.getOmdbData(res.external_ids.imdb_id).subscribe(
-                (omdbData) => {
-                  this.imdbRating =
-                    omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
-                      ? Number(omdbData.imdbRating)
-                      : null;
-                  this.imdbRatingCount =
-                    omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
-                      ? Number(omdbData.imdbVotes.replace(/,/g, ''))
-                      : null;
-                },
-                (error) => console.log('Błąd IMDB: ', error)
-              );
-            }
-            this.scrollElements();
-          },
-          (error) => {
-            console.log(error);
-            this.router.navigate([`/page-not-found/${error.status}`], {
-              state: {
-                serverStatus: error.status,
-                apiStatus: error.error.status_code,
-                apiMessage: error.error.status_message,
-              },
-            });
-          }
-        );
-      } else {
-        // polish tv series details
-        this.http.getShowDetails(params.get('id')).subscribe(
-          (res) => {
-            // console.log('TVShow details: ', res);
-            this.details = res;
-
-            this.changeBackdropPath(
-              `${this.backdropPath}${this.details.backdrop_path}`
-            );
-
-            this.translateStatus(this.details.status);
-
-            this.actors = [];
-            this.createActorsArray(
-              this.details.credits,
-              this.actors,
-              this.numberOfItemsInArray
-            );
-            this.certifications = [];
-            this.createShowCertificationsArray(
-              this.details.content_ratings,
-              this.certifications
-            );
-            this.seasons = [];
-            this.createSeasonsArray(this.details.seasons, this.seasons);
-            this.backdrops = [];
-            this.createBackdropsArray(
-              this.details.images,
-              this.backdrops,
-              this.numberOfItemsInArray
-            );
-            this.posters = [];
-            this.createPostersArray(
-              this.details.images,
-              this.posters,
-              this.numberOfItemsInArray
-            );
-
-            // english  tv series details
-            if (!this.details.overview) {
-              this.http.getShowDetails(params.get('id'), 'en').subscribe(
-                (res) => {
-                  this.overviewEn = res.overview;
-                },
-                (error) =>
-                  console.log('Błąd pobierania details en dla tvshow: ', error)
-              );
-              this.buttonOn = true;
-            }
-
-            //imdb  tv series data
-            if (res.external_ids.imdb_id) {
-              this.http.getOmdbData(res.external_ids.imdb_id).subscribe(
-                (omdbData) => {
-                  this.imdbRating =
-                    omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
-                      ? Number(omdbData.imdbRating)
-                      : null;
-                  this.imdbRatingCount =
-                    omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
-                      ? Number(omdbData.imdbVotes.replace(/,/g, ''))
-                      : null;
-                },
-                (error) => console.log('Błąd IMDB: ', error)
-              );
-            }
-            this.scrollElements();
-          },
-          (error) => {
-            console.log(error);
-            this.router.navigate([`/page-not-found/${error.status}`], {
-              state: {
-                serverStatus: error.status,
-                apiStatus: error.error.status_code,
-                apiMessage: error.error.status_message,
-              },
-            });
-          }
-        );
-      }
+      this.switchVideoType();
+      this.getData(params.get('id'));
     });
   }
 
   ngOnDestroy(): void {
-    this.changeBackdropPath(this.defaultBackdropPath);
+    this.detailsSubscription.unsubscribe();
   }
 
-  switchData() {
+  switchVideoType() {
     const initialParameters: Array<string> = this.location.path().split(`/`);
 
     if (initialParameters[1] === 'movie') {
-      this.movieFlag = true;
+      this.isMovie = true;
     } else {
-      this.movieFlag = false;
+      this.isMovie = false;
     }
+  }
+
+  getData(videoId: string) {
+    if (this.localDetails && this.localDetails.id.toString() === videoId) {
+      this.details = this.localDetails;
+      this.processData();
+    } else {
+      switch (this.isMovie) {
+        case true:
+          this.http.getMovieDetails(videoId).subscribe(
+            (res) => {
+              this.details = res;
+              this.processData();
+              // console.log('Movie details: ', this.details);
+            },
+            (error) => {
+              this.handleError(error);
+            }
+          );
+          break;
+        case false:
+          this.http.getShowDetails(videoId).subscribe(
+            (res) => {
+              this.details = res;
+              this.processData();
+              // console.log('Show details: ', this.details);
+            },
+            (error) => {
+              this.handleError(error);
+            }
+          );
+          break;
+      }
+    }
+  }
+
+  processData() {
+    this.data.setVideoDetails(this.details);
+
+    this.translateStatus(this.details.status);
+
+    this.actors = [];
+    this.createActorsArray(
+      this.details.credits,
+      this.actors,
+      this.numberOfItemsInArray
+    );
+
+    this.backdrops = [];
+    this.createBackdropsArray(
+      this.details.images,
+      this.backdrops,
+      this.numberOfItemsInArray
+    );
+
+    this.posters = [];
+    this.createPostersArray(
+      this.details.images,
+      this.posters,
+      this.numberOfItemsInArray
+    );
+
+    if (this.isMovie) {
+      this.screenwriters = [];
+      this.createScreenwritersArray(this.details.credits, this.screenwriters);
+
+      this.directors = [];
+
+      this.createDirectorsArray(this.details.credits, this.directors);
+      this.certifications = [];
+
+      this.createMovieCertificationsArray(
+        this.details.release_dates,
+        this.certifications
+      );
+
+      if (!this.details.overview) {
+        this.http
+          .getMovieDetails(this.route.snapshot.paramMap.get('id'), 'en')
+          .subscribe(
+            (res) => {
+              this.detailsEn = res;
+            },
+            (error) => console.log('Movie english data error: ', error)
+          );
+        this.buttonOn = true;
+      }
+    } else {
+      this.certifications = [];
+      this.createShowCertificationsArray(
+        this.details.content_ratings,
+        this.certifications
+      );
+
+      this.seasons = [];
+      this.createSeasonsArray(this.details.seasons, this.seasons);
+
+      if (!this.details.overview) {
+        this.http
+          .getShowDetails(this.route.snapshot.paramMap.get('id'), 'en')
+          .subscribe(
+            (res) => {
+              this.detailsEn = res;
+            },
+            (error) => console.log('TVShows english data error: ', error)
+          );
+        this.buttonOn = true;
+      }
+    }
+
+    if (this.details.external_ids.imdb_id) {
+      this.http.getOmdbData(this.details.external_ids.imdb_id).subscribe(
+        (omdbData) => {
+          this.imdbRating =
+            omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
+              ? Number(omdbData.imdbRating)
+              : null;
+          this.imdbRatingCount =
+            omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
+              ? Number(omdbData.imdbVotes.replace(/,/g, ''))
+              : null;
+        },
+        (error) => console.log('OMDB data error ', error)
+      );
+    }
+
+    setTimeout(() => {
+      this.scrollElements();
+      this.setBackdropPath(`${this.backdropPath}${this.details.backdrop_path}`);
+    }, 0);
   }
 
   translateStatus(input: string) {
@@ -435,7 +411,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   // english overview translation
   translate() {
     const text: ToTranslate = {
-      q: this.overviewEn,
+      q: this.detailsEn.overview,
       source: 'en',
       target: 'pl',
       format: 'text',
@@ -443,17 +419,27 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     this.buttonOn = false;
     this.translator.translate(text).subscribe((result) => {
       this.overviewTranslated = result.data.translations[0].translatedText;
-      this.overviewEn = this.overviewTranslated;
+      this.detailsEn.overview = this.overviewTranslated;
     }),
       (error) => console.log('Błąd tłumaczenia: ', error);
   }
 
-  changeBackdropPath(path: string) {
+  setBackdropPath(path: string) {
     if (this.details && this.details.backdrop_path) {
-      this.data.changeBackdropPath(path);
+      this.data.setBackdropPath(path);
     } else {
-      this.data.changeBackdropPath(this.defaultBackdropPath);
+      this.data.setBackdropPath(this.defaultBackdropPath);
     }
+  }
+
+  handleError(error) {
+    this.router.navigate([`/page-not-found/${error.status}`], {
+      state: {
+        serverStatus: error.status,
+        apiStatus: error.error.status_code,
+        apiMessage: error.error.status_message,
+      },
+    });
   }
 
   enlargePicture(path: string) {
@@ -479,14 +465,12 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
   scrollElements() {
     window.scrollTo(0, 0);
-    setTimeout(() => {
-      this.listsToScroll.forEach((list) => {
-        list.nativeElement.scrollTo(0, 0);
-      });
-    }, 0);
+    this.listsToScroll.forEach((list) => {
+      list.nativeElement.scrollTo(0, 0);
+    });
   }
 
-  goToResults() {
+  goBack() {
     this.location.back();
   }
 }

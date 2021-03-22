@@ -7,7 +7,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { VideoImage } from 'src/app/models/video-details';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-photo-panel',
@@ -16,13 +18,17 @@ import { VideoImage } from 'src/app/models/video-details';
 })
 export class PhotoPanelComponent implements OnChanges {
   @Input() sourceArray: Array<Partial<VideoImage>>;
+  @Input() photoType: string;
   @Input() title: string;
   @Input() photoPath: string;
   @Input() imgWidth: string = '94px';
   @Input() imgHeight: string = '141px';
+  @Input() numberOfItems: number = 8;
   @Input() altImgDescription: string;
   @Output() enlarge = new EventEmitter<string>();
   @ViewChild('list') listToScroll: ElementRef;
+
+  constructor(private router: Router, private location: Location) {}
 
   ngOnChanges(): void {
     if (this.listToScroll) {
@@ -56,5 +62,9 @@ export class PhotoPanelComponent implements OnChanges {
     setTimeout(() => {
       this.listToScroll.nativeElement.scrollTo(0, 0);
     }, 0);
+  }
+
+  goToPhotoCollection(): void {
+    this.router.navigate([this.location.path(), this.photoType]);
   }
 }

@@ -97,5 +97,22 @@
         color: $note-gray;
       }
     }
+
+    &--last {
+      padding: 0 10px;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        border: 1px solid $main-color;
+        border-radius: 50%;
+        transition: 0.2s;
+
+        &:hover {
+          color: white;
+          background-color: $main-color;
+        }
+      }
+    }
   }
 }

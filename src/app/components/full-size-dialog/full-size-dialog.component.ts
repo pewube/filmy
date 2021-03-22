@@ -17,8 +17,6 @@ export class FullSizeDialogComponent implements OnInit {
   isOn: boolean = false;
   isOff: boolean = false;
 
-  constructor() {}
-
   ngOnInit(): void {
     setTimeout(() => {
       this.isOn = true;

@@ -105,10 +105,10 @@ export class ResultsComponent implements OnInit {
 
     if (initialParameters[1] === 'results-movies') {
       this.movieFlag = true;
-      this.data.changeMediaType(true);
+      this.data.setIsMovie(true);
     } else {
       this.movieFlag = false;
-      this.data.changeMediaType(false);
+      this.data.setIsMovie(false);
     }
   }
 

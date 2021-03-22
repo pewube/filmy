@@ -123,7 +123,7 @@
     <app-kodi-nfo
       class="video-details__header__kodi-nfo-component"
       [details]="details"
-      [overviewEn]="overviewEn"
+      [overviewEn]="detailsEn?.overview"
       [overviewTranslated]="overviewTranslated"
       [screenwriters]="screenwriters"
       [directors]="directors"
@@ -139,7 +139,7 @@
   <app-kodi-nfo
     class="video-details__kodi-nfo-component"
     [details]="details"
-    [overviewEn]="overviewEn"
+    [overviewEn]="detailsEn?.overview"
     [overviewTranslated]="overviewTranslated"
     [screenwriters]="screenwriters"
     [directors]="directors"
@@ -157,7 +157,7 @@
         <h1 class="video-details__info__title mat-h1 custom">
           {{ details.title }}
         </h1>
-        <h4
+        <p
           class="video-details__info__original-title mat-h4 custom"
           *ngIf="
             details.original_title &&
@@ -165,13 +165,13 @@
           "
         >
           {{ details.original_title }}
-        </h4>
+        </p>
       </ng-container>
       <ng-template #showNames>
         <h1 class="video-details__info__title mat-h1 custom">
           {{ details?.name }}
         </h1>
-        <h4
+        <p
           class="video-details__info__original-title mat-h4 custom"
           *ngIf="
             details?.original_name &&
@@ -179,7 +179,7 @@
           "
         >
           {{ details.original_name }}
-        </h4>
+        </p>
       </ng-template>
     </div>
     <p
@@ -190,11 +190,11 @@
     </p>
     <p
       class="video-details__info__overview mat-body custom"
-      *ngIf="details?.overview || overviewEn"
+      *ngIf="details?.overview || detailsEn?.overview"
     >
-      {{ details.overview ? details.overview : overviewEn }}
+      {{ details.overview ? details.overview : detailsEn?.overview }}
       <button
-        *ngIf="!details.overview && overviewEn && buttonOn"
+        *ngIf="!details.overview && detailsEn?.overview && buttonOn"
         mat-mini-fab
         color="primary"
         class="video-details__info__overview__btn--translate"
@@ -253,7 +253,7 @@
       class="video-details__info__last-episode mat-body custom"
       *ngIf="details?.last_air_date"
     >
-      <span class="gray mat-body">ostatni odcinek:</span>
+      <span class="gray mat-body">ostatnia emisja:</span>
       {{ details.last_air_date }}
     </p>
 
@@ -272,6 +272,7 @@
       [routeUrl]="'/person'"
       [imgWidth]="'94px'"
       [imgHeight]="'141px'"
+      [numberOfItems]="8"
     ></app-person-panel>
 
     <div class="video-details__info__crew-container">
@@ -438,20 +439,24 @@
     </p>
     <app-photo-panel
       [sourceArray]="posters"
+      [photoType]="'posters'"
       [title]="'plakaty: '"
       [photoPath]="profilePath"
       [imgWidth]="'94px'"
       [imgHeight]="'141px'"
+      [numberOfItems]="8"
       [altImgDescription]="'Alternatywny plakat'"
       (enlarge)="enlargePicture(urlImg600 + $event)"
     ></app-photo-panel>
 
     <app-photo-panel
       [sourceArray]="backdrops"
+      [photoType]="'backdrops'"
       [title]="'tła: '"
       [photoPath]="urlImgWide250"
       [imgWidth]="'250px'"
       [imgHeight]="'141px'"
+      [numberOfItems]="4"
       [altImgDescription]="'Alternatywne tło'"
       (enlarge)="enlargePicture(backdropPath + $event)"
     ></app-photo-panel>
@@ -464,7 +469,7 @@
     >
       <p class="mat-body custom gray">polecane:</p>
       <ul class="video-details__other-videos__list" #list>
-        <ng-container *ngIf="movieFlag; else tvshows">
+        <ng-container *ngIf="isMovie; else tvshows">
           <li
             class="video-details__other-videos__list__item"
             *ngFor="let movie of details.recommendations.results"
@@ -505,7 +510,7 @@
       class="video-details__btn--back"
       color="primary"
       type="button"
-      (click)="goToResults()"
+      (click)="goBack()"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>
@@ -523,6 +528,6 @@
   [height]="'85vh'"
   (dialogOff)="dialogOff($event)"
   ><app-restrictions-content-dialog
-    [isMovie]="movieFlag"
+    [isMovie]="isMovie"
   ></app-restrictions-content-dialog
 ></app-full-size-dialog>

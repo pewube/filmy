@@ -3,38 +3,59 @@
     <span class="gray mat-body">{{ title }}</span>
   </p>
   <ul class="person-panel__list" #list>
-    <li class="person-panel__list__item" *ngFor="let item of sourceArray">
-      <a [routerLink]="[routeUrl, item.id]">
-        <article class="person-panel__article" [ngStyle]="setWidth()">
-          <figure
-            class="person-panel__article__photo"
-            [ngStyle]="setWidthAndHeight()"
-          >
-            <img
-              src="{{
-                item.profile_path
-                  ? photoPath + item.profile_path
-                  : defaultPhotoPath
-              }}"
-              alt="Photo of {{ item.name }}"
-              [ngStyle]="setHeight()"
-            />
-          </figure>
-
-          <section class="person-panel__article__details">
-            <p class="person-panel__article__details__name mat-body custom">
-              {{ item.name }}
-            </p>
-
-            <p
-              class="person-panel__article__details__character mat-body custom mat-caption"
-              *ngIf="item.character"
+    <ng-container *ngFor="let item of sourceArray; let i = index">
+      <li *ngIf="i <= numberOfItems - 1" class="person-panel__list__item">
+        <a [routerLink]="[routeUrl, item.id]">
+          <article class="person-panel__article" [ngStyle]="setWidth()">
+            <figure
+              class="person-panel__article__photo"
+              [ngStyle]="setWidthAndHeight()"
             >
-              jako {{ item.character }}
-            </p>
-          </section>
-        </article>
-      </a>
+              <img
+                src="{{
+                  item.profile_path
+                    ? photoPath + item.profile_path
+                    : defaultPhotoPath
+                }}"
+                alt="Photo of {{ item.name }}"
+                [ngStyle]="setHeight()"
+              />
+            </figure>
+
+            <section class="person-panel__article__details">
+              <p class="person-panel__article__details__name mat-body custom">
+                {{ item.name }}
+              </p>
+
+              <p
+                class="person-panel__article__details__character mat-body custom mat-caption"
+                *ngIf="item.character"
+              >
+                jako {{ item.character }}
+              </p>
+            </section>
+          </article>
+        </a>
+      </li>
+    </ng-container>
+    <li
+      *ngIf="sourceArray.length > numberOfItems"
+      class="person-panel__list__item person-panel__list__item--last"
+    >
+      <article
+        class="person-panel__article person-panel__article--last"
+        [ngStyle]="setWidth()"
+      >
+        <button
+          mat-icon-button
+          color="primary"
+          matTooltip="pokaż całą ekipę filmową"
+          aria-label="show more"
+          (click)="goToCredits()"
+        >
+          <mat-icon>read_more</mat-icon>
+        </button>
+      </article>
     </li>
   </ul>
 </section>
