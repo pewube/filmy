@@ -7,6 +7,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
 import { OnDestroy } from '@angular/core';
+import { MetaDefinition } from '@angular/platform-browser';
+import { SeoService } from 'src/app/services/seo.service';
 
 @Component({
   selector: 'app-photo-collection',
@@ -37,7 +39,8 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
     private data: DataService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private seo: SeoService
   ) {
     this.photoPath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
@@ -55,6 +58,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
           .subscribe((details) => {
             if (details) {
               this.detailsVideo = details;
+              this.setMetaTagsVideo();
             } else {
               this.getVideoDetailsFromServer();
             }
@@ -66,6 +70,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
           .subscribe((details) => {
             if (details) {
               this.detailsPerson = details;
+              this.setMetaTagsPerson();
             } else {
               this.getPersonDetailsFromServer();
             }
@@ -99,6 +104,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
         this.http.getMovieDetails(params.get('id')).subscribe(
           (res) => {
             this.detailsVideo = res;
+            this.setMetaTagsVideo();
             this.data.setVideoDetails(this.detailsVideo);
             setTimeout(() => {
               this.setBackdropPath(
@@ -114,6 +120,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
         this.http.getShowDetails(params.get('id')).subscribe(
           (res) => {
             this.detailsVideo = res;
+            this.setMetaTagsVideo();
             this.data.setVideoDetails(this.detailsVideo);
             setTimeout(() => {
               this.setBackdropPath(
@@ -134,6 +141,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
       this.http.getPersonDetails(params.get('id')).subscribe(
         (res) => {
           this.detailsPerson = res;
+          this.setMetaTagsPerson();
           this.data.setPersonDetails(this.detailsPerson);
         },
         (error) => {
@@ -141,6 +149,92 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
         }
       );
     });
+  }
+
+  setMetaTagsVideo() {
+    const title: string = this.detailsVideo.title
+      ? `${
+          this.detailsVideo.title.length < 44
+            ? this.detailsVideo.title
+            : this.detailsVideo.title.slice(0) + '...'
+        } | Filmoteka`
+      : `${
+          this.detailsVideo.name.length < 44
+            ? this.detailsVideo.name
+            : this.detailsVideo.name.slice(0) + '...'
+        } | Filmoteka`;
+
+    this.seo.setMetaTitle(title);
+
+    const description: string = this.detailsVideo.overview
+      ? this.detailsVideo.overview
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+    const imgPath: string = this.detailsVideo.poster_path
+      ? this.photoPath + this.detailsVideo.poster_path
+      : 'https://filmy.pewube.eu/filmoteka-ogi.png';
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      { property: 'og:title', content: title },
+      {
+        property: 'og:description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      {
+        property: 'og:image',
+        content: imgPath,
+      },
+      {
+        property: 'og:url',
+        content: `https://filmy.pewube.eu${this.location.path(false)}`,
+      },
+    ];
+    this.seo.setMetaTags(tags);
+  }
+
+  setMetaTagsPerson() {
+    const title: string = this.detailsPerson.name
+      ? `${
+          this.detailsPerson.name.length < 44
+            ? this.detailsPerson.name
+            : this.detailsPerson.name.slice(0) + '...'
+        } | Filmoteka`
+      : `${
+          this.detailsPerson.name.length < 44
+            ? this.detailsPerson.name
+            : this.detailsPerson.name.slice(0) + '...'
+        } | Filmoteka`;
+
+    this.seo.setMetaTitle(title);
+
+    const description: string = this.detailsPerson.biography
+      ? this.detailsPerson.biography
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+    const imgPath: string = this.detailsPerson.profile_path
+      ? this.photoPath + this.detailsPerson.profile_path
+      : 'https://filmy.pewube.eu/filmoteka-ogi.png';
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      { property: 'og:title', content: title },
+      {
+        property: 'og:description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      {
+        property: 'og:image',
+        content: imgPath,
+      },
+      {
+        property: 'og:url',
+        content: `https://filmy.pewube.eu${this.location.path(false)}`,
+      },
+    ];
+    this.seo.setMetaTags(tags);
   }
 
   setBackdropPath(path: string) {
@@ -170,7 +264,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
         return 'Plakaty';
         break;
       case 'backdrops':
-        return 'Obrazy';
+        return 'Grafiki';
         break;
     }
   }

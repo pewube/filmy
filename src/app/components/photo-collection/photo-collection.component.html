@@ -35,7 +35,9 @@
             >
               <img
                 src="{{ photoPath + item.file_path }}"
-                alt="#{{ i + 1 }} poster of {{ detailsVideo?.title }}"
+                alt="#{{ i + 1 }} poster of {{
+                  detailsVideo?.title ? detailsVideo?.title : detailsVideo?.name
+                }}"
                 [ngStyle]="{
                   height: dimensionsPoster[1] + 'px'
                 }"
@@ -73,7 +75,9 @@
             >
               <img
                 src="{{ urlImgWide250 + item.file_path }}"
-                alt="#{{ i + 1 }} backdrop image of {{ detailsVideo?.title }}"
+                alt="#{{ i + 1 }} backdrop image of {{
+                  detailsVideo?.title ? detailsVideo?.title : detailsVideo?.name
+                }}"
                 [ngStyle]="{
                   height: dimensionsBackdrop[1] + 'px'
                 }"

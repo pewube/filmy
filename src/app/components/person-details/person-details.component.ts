@@ -8,6 +8,8 @@ import { ToTranslate } from 'src/app/models/google-translation';
 import { VideoImage } from 'src/app/models/video-details';
 import { DataService } from 'src/app/services/data.service';
 import { Subscription } from 'rxjs';
+import { MetaDefinition } from '@angular/platform-browser';
+import { SeoService } from 'src/app/services/seo.service';
 
 @Component({
   selector: 'app-person-details',
@@ -43,7 +45,8 @@ export class PersonDetailsComponent implements OnInit {
     private router: Router,
     private location: Location,
     private translator: GtranslateService,
-    private data: DataService
+    private data: DataService,
+    private seo: SeoService
   ) {
     this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
@@ -70,11 +73,13 @@ export class PersonDetailsComponent implements OnInit {
   getData(personId: string) {
     if (this.localDetails && this.localDetails.id.toString() === personId) {
       this.details = this.localDetails;
+      this.setMetaTags();
       this.processData();
     } else {
       this.http.getPersonDetails(personId).subscribe(
         (res) => {
           this.details = res;
+          this.setMetaTags();
           this.processData();
           // console.log('Person details: ', res);
         },
@@ -124,6 +129,49 @@ export class PersonDetailsComponent implements OnInit {
       window.scrollTo(0, 0);
       this.data.setBackdropPath(this.defaultBackdropPath);
     }, 0);
+  }
+
+  setMetaTags() {
+    const title: string = this.details.name
+      ? `${
+          this.details.name.length < 44
+            ? this.details.name
+            : this.details.name.slice(0) + '...'
+        } | Filmoteka`
+      : `${
+          this.details.name.length < 44
+            ? this.details.name
+            : this.details.name.slice(0) + '...'
+        } | Filmoteka`;
+
+    this.seo.setMetaTitle(title);
+
+    const description: string = this.details.biography
+      ? this.details.biography
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+    const imgPath: string = this.details.profile_path
+      ? this.profilePath + this.details.profile_path
+      : 'https://filmy.pewube.eu/filmoteka-ogi.png';
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      { property: 'og:title', content: title },
+      {
+        property: 'og:description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      {
+        property: 'og:image',
+        content: imgPath,
+      },
+      {
+        property: 'og:url',
+        content: `https://filmy.pewube.eu${this.location.path(false)}`,
+      },
+    ];
+    this.seo.setMetaTags(tags);
   }
 
   createVideoArray(input, output: Array<Partial<PersonVideo>>): void {

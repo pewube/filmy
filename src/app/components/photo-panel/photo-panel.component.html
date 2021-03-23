@@ -16,7 +16,7 @@
             >
               <img
                 src="{{ photoPath + item.file_path }}"
-                alt="{{ altImgDescription }}"
+                alt="#{{ i + 1 }} {{ altImgDescription }}"
                 [ngStyle]="setHeight()"
               />
             </button>
@@ -28,10 +28,7 @@
       *ngIf="sourceArray.length > numberOfItems"
       class="photo-panel__list__item photo-panel__list__item--last"
     >
-      <article
-        class="photo-panel__article photo-panel__article--last"
-        [ngStyle]="setWidth()"
-      >
+      <article class="photo-panel__article photo-panel__article--last">
         <button
           mat-icon-button
           color="primary"

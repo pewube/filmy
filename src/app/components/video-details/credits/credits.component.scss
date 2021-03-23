@@ -18,13 +18,13 @@
   &__list {
     margin-bottom: 20px;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(104px, auto));
+    justify-items: center;
+    align-items: start;
 
     &__item {
-      margin: 10px 13px 10px 0;
+      margin: 5px 0;
 
       a {
         color: #000;
@@ -74,47 +74,6 @@
 
       &__character {
         color: $note-gray;
-      }
-    }
-  }
-}
-
-@media (max-width: 1024px) {
-  .credits {
-    &__list {
-      &__item {
-        margin: 10px 17px 10px 0;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .credits {
-    &__list {
-      &__item {
-        margin: 10px 12px 10px 0;
-      }
-    }
-  }
-}
-
-@media (max-width: 640px) {
-  .credits {
-    &__list {
-      &__item {
-        margin: 10px 4px 10px 4px;
-      }
-    }
-  }
-}
-
-@media (max-width: 430px) {
-  .credits {
-    &__list {
-      justify-content: center;
-      &__item {
-        margin: 10px 10px 10px 4px;
       }
     }
   }

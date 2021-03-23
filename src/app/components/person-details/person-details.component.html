@@ -117,7 +117,7 @@
       [photoPath]="profilePath"
       [imgWidth]="'94px'"
       [imgHeight]="'141px'"
-      [altImgDescription]="'Alternatywne zdjęcie'"
+      [altImgDescription]="'photo of ' + details?.name"
       (enlarge)="enlargePicture(urlImg600 + $event)"
     ></app-photo-panel>
 

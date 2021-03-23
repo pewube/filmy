@@ -2,7 +2,7 @@
   <section>
     <article class="home__movies">
       <h2 class="home__movie-list__header mat-body custom">
-        Najpopularniejsze filmy
+        Najczęściej wyszukiwane filmy
       </h2>
       <ul class="home__movie-list" *ngIf="movies && movies?.total_results > 0">
         <li class="home__movie-list__item" *ngFor="let movie of movies.results">
@@ -20,7 +20,7 @@
     </article>
     <article class="home__shows">
       <h2 class="home__show-list__header mat-body custom">
-        Najpopularniejsze seriale
+        Najczęściej wyszukiwane seriale
       </h2>
       <ul class="home__show-list" *ngIf="shows && shows?.total_results > 0">
         <li class="home__show-list__item" *ngFor="let show of shows.results">

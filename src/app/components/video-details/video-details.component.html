@@ -445,19 +445,23 @@
       [imgWidth]="'94px'"
       [imgHeight]="'141px'"
       [numberOfItems]="8"
-      [altImgDescription]="'Alternatywny plakat'"
+      [altImgDescription]="
+        'poster of ' + (details?.title ? details?.title : details?.name)
+      "
       (enlarge)="enlargePicture(urlImg600 + $event)"
     ></app-photo-panel>
 
     <app-photo-panel
       [sourceArray]="backdrops"
       [photoType]="'backdrops'"
-      [title]="'tła: '"
+      [title]="'grafiki: '"
       [photoPath]="urlImgWide250"
       [imgWidth]="'250px'"
       [imgHeight]="'141px'"
-      [numberOfItems]="4"
-      [altImgDescription]="'Alternatywne tło'"
+      [numberOfItems]="3"
+      [altImgDescription]="
+        'backdrop image of ' + (details?.title ? details?.title : details?.name)
+      "
       (enlarge)="enlargePicture(backdropPath + $event)"
     ></app-photo-panel>
     <section

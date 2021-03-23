@@ -1,3 +1,4 @@
+import { SeoService } from './../../services/seo.service';
 import {
   Component,
   ElementRef,
@@ -24,6 +25,7 @@ import { DataService } from 'src/app/services/data.service';
 import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { MetaDefinition } from '@angular/platform-browser';
 registerLocaleData(localePl);
 
 @Component({
@@ -75,7 +77,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private translator: GtranslateService,
-    private data: DataService
+    private data: DataService,
+    private seo: SeoService
   ) {
     this.urlImg130 = this.http.urlImg130;
     this.urlImg600 = this.http.urlImg600;
@@ -118,6 +121,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   getData(videoId: string) {
     if (this.localDetails && this.localDetails.id.toString() === videoId) {
       this.details = this.localDetails;
+      this.setMetaTags();
       this.processData();
     } else {
       switch (this.isMovie) {
@@ -125,8 +129,9 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           this.http.getMovieDetails(videoId).subscribe(
             (res) => {
               this.details = res;
-              this.processData();
               // console.log('Movie details: ', this.details);
+              this.setMetaTags();
+              this.processData();
             },
             (error) => {
               this.handleError(error);
@@ -137,8 +142,9 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
           this.http.getShowDetails(videoId).subscribe(
             (res) => {
               this.details = res;
-              this.processData();
               // console.log('Show details: ', this.details);
+              this.setMetaTags();
+              this.processData();
             },
             (error) => {
               this.handleError(error);
@@ -243,6 +249,49 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       this.scrollElements();
       this.setBackdropPath(`${this.backdropPath}${this.details.backdrop_path}`);
     }, 0);
+  }
+
+  setMetaTags() {
+    const title: string = this.details.title
+      ? `${
+          this.details.title.length < 44
+            ? this.details.title
+            : this.details.title.slice(0) + '...'
+        } | Filmoteka`
+      : `${
+          this.details.name.length < 44
+            ? this.details.name
+            : this.details.name.slice(0) + '...'
+        } | Filmoteka`;
+
+    this.seo.setMetaTitle(title);
+
+    const description: string = this.details.overview
+      ? this.details.overview
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+    const imgPath: string = this.details.poster_path
+      ? this.profilePath + this.details.poster_path
+      : 'https://filmy.pewube.eu/filmoteka-ogi.png';
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      { property: 'og:title', content: title },
+      {
+        property: 'og:description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      {
+        property: 'og:image',
+        content: imgPath,
+      },
+      {
+        property: 'og:url',
+        content: `https://filmy.pewube.eu${this.location.path(false)}`,
+      },
+    ];
+    this.seo.setMetaTags(tags);
   }
 
   translateStatus(input: string) {

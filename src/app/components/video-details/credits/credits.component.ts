@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { SeoService } from 'src/app/services/seo.service';
+import { MetaDefinition } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-credits',
@@ -24,7 +26,8 @@ export class CreditsComponent implements OnInit, OnDestroy {
     private data: DataService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private seo: SeoService
   ) {
     this.photoPath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
@@ -37,6 +40,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
       .subscribe((details) => {
         if (details) {
           this.details = details;
+          this.setMetaTags();
           setTimeout(() => {
             this.setBackdropPath(
               `${this.backdropPath}${this.details.backdrop_path}`
@@ -62,6 +66,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
         this.http.getMovieDetails(params.get('id')).subscribe(
           (res) => {
             this.details = res;
+            this.setMetaTags();
             this.data.setVideoDetails(this.details);
             setTimeout(() => {
               this.setBackdropPath(
@@ -77,6 +82,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
         this.http.getShowDetails(params.get('id')).subscribe(
           (res) => {
             this.details = res;
+            this.setMetaTags();
             this.data.setVideoDetails(this.details);
             setTimeout(() => {
               this.setBackdropPath(
@@ -90,6 +96,49 @@ export class CreditsComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+
+  setMetaTags() {
+    const title: string = this.details.title
+      ? `${
+          this.details.title.length < 44
+            ? this.details.title
+            : this.details.title.slice(0) + '...'
+        } | Filmoteka`
+      : `${
+          this.details.name.length < 44
+            ? this.details.name
+            : this.details.name.slice(0) + '...'
+        } | Filmoteka`;
+
+    this.seo.setMetaTitle(title);
+
+    const description: string = this.details.overview
+      ? this.details.overview
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+    const imgPath: string = this.details.poster_path
+      ? this.photoPath + this.details.poster_path
+      : 'https://filmy.pewube.eu/filmoteka-ogi.png';
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      { property: 'og:title', content: title },
+      {
+        property: 'og:description',
+        content: `${description.slice(0, 150)} ...`,
+      },
+      {
+        property: 'og:image',
+        content: imgPath,
+      },
+      {
+        property: 'og:url',
+        content: `https://filmy.pewube.eu${this.location.path(false)}`,
+      },
+    ];
+    this.seo.setMetaTags(tags);
   }
 
   setBackdropPath(path: string) {

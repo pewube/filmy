@@ -5,6 +5,8 @@ import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { PageEvent, MatPaginatorIntl } from '@angular/material/paginator';
 import { Location } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
+import { SeoService } from 'src/app/services/seo.service';
+import { MetaDefinition } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-results',
@@ -34,6 +36,7 @@ export class ResultsComponent implements OnInit {
     private http: HttpService,
     private location: Location,
     private data: DataService,
+    private seo: SeoService,
     private paginatorLabels: MatPaginatorIntl
   ) {
     this.urlImg150 = this.http.urlImg150;
@@ -43,6 +46,7 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.switchMoviesOrShows();
+    this.setMetaTags();
     this.paginatorLabels.nextPageLabel = 'Następna strona';
     this.paginatorLabels.previousPageLabel = 'Poprzednia strona';
     this.paginatorLabels.firstPageLabel = 'Pierwsza strona';
@@ -98,6 +102,28 @@ export class ResultsComponent implements OnInit {
       }
       this.setPaginatorPage(params.get('page'));
     });
+  }
+
+  setMetaTags() {
+    this.seo.setMetaTitle('Filmoteka | filmy i seriale');
+
+    const tags: MetaDefinition[] = [
+      {
+        name: 'description',
+        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+      },
+      { property: 'og:title', content: 'Filmoteka | filmy i seriale' },
+      {
+        property: 'og:description',
+        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+      },
+      {
+        property: 'og:image',
+        content: 'https://filmy.pewube.eu/filmoteka-ogi.png',
+      },
+      { property: 'og:url', content: 'https://filmy.pewube.eu/' },
+    ];
+    this.seo.setMetaTags(tags);
   }
 
   switchMoviesOrShows(): void {
