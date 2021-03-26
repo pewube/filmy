@@ -1,3 +1,5 @@
+import { SpinnerService } from './../../services/spinner.service';
+import { ImdbRating } from './../../models/imdb-data';
 import { SeoService } from './../../services/seo.service';
 import {
   Component,
@@ -53,12 +55,20 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   defaultBackdropPath: string;
 
   details: VideoDetails;
-  detailsEn: VideoDetails;
   detailsSubscription: Subscription;
   localDetails: VideoDetails;
-  overviewEn: string;
+  detailsEn: VideoDetails;
+  detailsEnSubscription: Subscription;
+  localDetailsEn: VideoDetails;
+  imdbData: ImdbRating = {
+    imdbRating: null,
+    imdbVotes: null,
+  };
+  imdbDataSubscription: Subscription;
+  localImdbData: ImdbRating;
+
   overviewTranslated: string;
-  buttonOn: boolean = true;
+  translateBtn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
   numberOfItemsInArray: number = 165;
@@ -67,8 +77,6 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   certifications: Array<VideoCertification> = [];
   backdrops: Array<VideoImage> = [];
   posters: Array<VideoImage> = [];
-  imdbRating: number;
-  imdbRatingCount: number;
   statusTranslated: string;
 
   constructor(
@@ -78,7 +86,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private location: Location,
     private translator: GtranslateService,
     private data: DataService,
-    private seo: SeoService
+    private seo: SeoService,
+    private spinner: SpinnerService
   ) {
     this.urlImg130 = this.http.urlImg130;
     this.urlImg600 = this.http.urlImg600;
@@ -97,6 +106,16 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       .subscribe((localDetails) => {
         this.localDetails = localDetails;
       });
+    this.detailsEnSubscription = this.data
+      .getVideoDetailsEn()
+      .subscribe((localDetailsEn) => {
+        this.localDetailsEn = localDetailsEn;
+      });
+    this.imdbDataSubscription = this.data
+      .getImdbData()
+      .subscribe((localImdbData) => {
+        this.localImdbData = localImdbData;
+      });
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.switchVideoType();
@@ -106,6 +125,8 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.detailsSubscription.unsubscribe();
+    this.detailsEnSubscription.unsubscribe();
+    this.imdbDataSubscription.unsubscribe();
   }
 
   switchVideoType() {
@@ -121,6 +142,15 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   getData(videoId: string) {
     if (this.localDetails && this.localDetails.id.toString() === videoId) {
       this.details = this.localDetails;
+      if (
+        this.localDetailsEn &&
+        this.localDetailsEn.id.toString() === videoId
+      ) {
+        this.detailsEn = this.localDetailsEn;
+      }
+      if (this.details.external_ids.imdb_id && this.localImdbData) {
+        this.imdbData = this.localImdbData;
+      }
       this.setMetaTags();
       this.processData();
     } else {
@@ -130,6 +160,36 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             (res) => {
               this.details = res;
               // console.log('Movie details: ', this.details);
+              if (!this.details.overview) {
+                this.http
+                  .getMovieDetails(this.route.snapshot.paramMap.get('id'), 'en')
+                  .subscribe(
+                    (res) => {
+                      this.detailsEn = res;
+                      this.data.setVideoDetailsEn(this.detailsEn);
+                    },
+                    (error) => console.log('Movie english data error: ', error)
+                  );
+                this.translateBtn = true;
+              }
+              if (this.details.external_ids.imdb_id) {
+                this.http
+                  .getOmdbData(this.details.external_ids.imdb_id)
+                  .subscribe(
+                    (omdbData) => {
+                      this.imdbData.imdbRating =
+                        omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
+                          ? Number(omdbData.imdbRating)
+                          : null;
+                      this.imdbData.imdbVotes =
+                        omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
+                          ? Number(omdbData.imdbVotes.replace(/,/g, ''))
+                          : null;
+                      this.data.setImdbData(this.imdbData);
+                    },
+                    (error) => console.log('OMDB data error ', error)
+                  );
+              }
               this.setMetaTags();
               this.processData();
             },
@@ -143,6 +203,36 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
             (res) => {
               this.details = res;
               // console.log('Show details: ', this.details);
+              if (!this.details.overview) {
+                this.http
+                  .getShowDetails(this.route.snapshot.paramMap.get('id'), 'en')
+                  .subscribe(
+                    (res) => {
+                      this.detailsEn = res;
+                      this.data.setVideoDetailsEn(this.detailsEn);
+                    },
+                    (error) =>
+                      console.log('TVShows english data error: ', error)
+                  );
+                this.translateBtn = true;
+              }
+              if (this.details.external_ids.imdb_id) {
+                this.http
+                  .getOmdbData(this.details.external_ids.imdb_id)
+                  .subscribe(
+                    (omdbData) => {
+                      this.imdbData.imdbRating =
+                        omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
+                          ? Number(omdbData.imdbRating)
+                          : null;
+                      this.imdbData.imdbVotes =
+                        omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
+                          ? Number(omdbData.imdbVotes.replace(/,/g, ''))
+                          : null;
+                    },
+                    (error) => console.log('OMDB data error ', error)
+                  );
+              }
               this.setMetaTags();
               this.processData();
             },
@@ -194,18 +284,6 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
         this.details.release_dates,
         this.certifications
       );
-
-      if (!this.details.overview) {
-        this.http
-          .getMovieDetails(this.route.snapshot.paramMap.get('id'), 'en')
-          .subscribe(
-            (res) => {
-              this.detailsEn = res;
-            },
-            (error) => console.log('Movie english data error: ', error)
-          );
-        this.buttonOn = true;
-      }
     } else {
       this.certifications = [];
       this.createShowCertificationsArray(
@@ -215,34 +293,6 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
       this.seasons = [];
       this.createSeasonsArray(this.details.seasons, this.seasons);
-
-      if (!this.details.overview) {
-        this.http
-          .getShowDetails(this.route.snapshot.paramMap.get('id'), 'en')
-          .subscribe(
-            (res) => {
-              this.detailsEn = res;
-            },
-            (error) => console.log('TVShows english data error: ', error)
-          );
-        this.buttonOn = true;
-      }
-    }
-
-    if (this.details.external_ids.imdb_id) {
-      this.http.getOmdbData(this.details.external_ids.imdb_id).subscribe(
-        (omdbData) => {
-          this.imdbRating =
-            omdbData.imdbRating && omdbData.imdbRating !== 'N/A'
-              ? Number(omdbData.imdbRating)
-              : null;
-          this.imdbRatingCount =
-            omdbData.imdbVotes && omdbData.imdbVotes !== 'N/A'
-              ? Number(omdbData.imdbVotes.replace(/,/g, ''))
-              : null;
-        },
-        (error) => console.log('OMDB data error ', error)
-      );
     }
 
     setTimeout(() => {
@@ -465,7 +515,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       target: 'pl',
       format: 'text',
     };
-    this.buttonOn = false;
+    this.translateBtn = false;
     this.translator.translate(text).subscribe((result) => {
       this.overviewTranslated = result.data.translations[0].translatedText;
       this.detailsEn.overview = this.overviewTranslated;
@@ -494,6 +544,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   enlargePicture(path: string) {
     this.showLargePicture = true;
     this.largePicturePath = path;
+    this.spinner.loading = true;
   }
 
   enlargePhotoComponentPicture(event) {
@@ -514,9 +565,11 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
   scrollElements() {
     window.scrollTo(0, 0);
-    this.listsToScroll.forEach((list) => {
-      list.nativeElement.scrollTo(0, 0);
-    });
+    if (this.listsToScroll) {
+      this.listsToScroll.forEach((list) => {
+        list.nativeElement.scrollTo(0, 0);
+      });
+    }
   }
 
   goBack() {

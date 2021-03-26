@@ -51,6 +51,17 @@
   }
 }
 
+.btn-up.mat-mini-fab {
+  position: fixed;
+  right: 10px;
+  bottom: 110px;
+  opacity: 0;
+  transition: 0.5s;
+  &.active {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 599px) {
   .wrapper {
     .header {

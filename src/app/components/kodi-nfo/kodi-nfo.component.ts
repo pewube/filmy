@@ -25,7 +25,7 @@ export class KodiNfoComponent implements OnInit {
   @Input() seasons: Array<VideoSeason> = [];
   @Input() certifications: Array<VideoCertification> = [];
   @Input() imdbRating: number;
-  @Input() imdbRatingCount: number;
+  @Input() imdbVotes: number;
   @Input() statusTranslated: string;
 
   movieFlag: boolean;
@@ -55,7 +55,7 @@ export class KodiNfoComponent implements OnInit {
       `  <ratings>
         <rating name="imdb" max="10" default="true">
           <value>${this.imdbRating ? this.imdbRating : ''}</value>
-          <votes>${this.imdbRatingCount ? this.imdbRatingCount : ''}</votes>
+          <votes>${this.imdbVotes ? this.imdbVotes : ''}</votes>
         </rating>
         <rating name="themoviedb" max="10">
           <value>${this.details.vote_average}</value>

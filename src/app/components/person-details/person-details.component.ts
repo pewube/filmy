@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { Subscription } from 'rxjs';
 import { MetaDefinition } from '@angular/platform-browser';
 import { SeoService } from 'src/app/services/seo.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-person-details',
@@ -27,13 +28,15 @@ export class PersonDetailsComponent implements OnInit {
   details: PersonDetails;
   detailsEn: PersonDetails;
   detailsSubscription: Subscription;
+  detailsEnSubscription: Subscription;
   localDetails: PersonDetails;
+  localDetailsEn: PersonDetails;
   biographyTranslated: string;
   videos: Array<Partial<PersonVideo>> = [];
   listVideos: Array<Partial<PersonVideo>> = [];
   photos: Array<VideoImage> = [];
   numberOfItemsInArray: number = 165;
-  buttonOn: boolean = true;
+  translateBtn: boolean = true;
 
   checkedShows: boolean = true;
   checkedMovies: boolean = true;
@@ -46,7 +49,8 @@ export class PersonDetailsComponent implements OnInit {
     private location: Location,
     private translator: GtranslateService,
     private data: DataService,
-    private seo: SeoService
+    private seo: SeoService,
+    private spinner: SpinnerService
   ) {
     this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
@@ -60,6 +64,11 @@ export class PersonDetailsComponent implements OnInit {
       .subscribe((localDetails) => {
         this.localDetails = localDetails;
       });
+    this.detailsEnSubscription = this.data
+      .getPersonDetailsEn()
+      .subscribe((localDetailsEn) => {
+        this.localDetailsEn = localDetailsEn;
+      });
 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.getData(params.get('id'));
@@ -68,17 +77,37 @@ export class PersonDetailsComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.detailsSubscription.unsubscribe();
+    this.detailsEnSubscription.unsubscribe();
   }
 
   getData(personId: string) {
     if (this.localDetails && this.localDetails.id.toString() === personId) {
       this.details = this.localDetails;
+      if (
+        this.localDetailsEn &&
+        this.localDetailsEn.id.toString() === personId
+      ) {
+        this.detailsEn = this.localDetailsEn;
+      }
       this.setMetaTags();
       this.processData();
     } else {
       this.http.getPersonDetails(personId).subscribe(
         (res) => {
           this.details = res;
+          if (!this.details.biography) {
+            this.http
+              .getPersonDetails(this.route.snapshot.paramMap.get('id'), 'en')
+              .subscribe(
+                (res) => {
+                  this.detailsEn = res;
+                  this.data.setPersonDetailsEn(this.detailsEn);
+                },
+                (error) =>
+                  console.log('Błąd pobierania details en dla person: ', error)
+              );
+            this.translateBtn = true;
+          }
           this.setMetaTags();
           this.processData();
           // console.log('Person details: ', res);
@@ -111,19 +140,6 @@ export class PersonDetailsComponent implements OnInit {
       this.photos,
       this.numberOfItemsInArray
     );
-
-    if (!this.details.biography) {
-      this.http
-        .getPersonDetails(this.route.snapshot.paramMap.get('id'), 'en')
-        .subscribe(
-          (res) => {
-            this.detailsEn = res;
-          },
-          (error) =>
-            console.log('Błąd pobierania details en dla person: ', error)
-        );
-      this.buttonOn = true;
-    }
 
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -223,7 +239,7 @@ export class PersonDetailsComponent implements OnInit {
       target: 'pl',
       format: 'text',
     };
-    this.buttonOn = false;
+    this.translateBtn = false;
     this.translator.translate(text).subscribe((result) => {
       this.biographyTranslated = result.data.translations[0].translatedText;
       this.detailsEn.biography = this.biographyTranslated;
@@ -244,6 +260,7 @@ export class PersonDetailsComponent implements OnInit {
   enlargePicture(path: string) {
     this.showLargePicture = true;
     this.largePicturePath = path;
+    this.spinner.loading = true;
   }
 
   closeLargePicture(event): void {

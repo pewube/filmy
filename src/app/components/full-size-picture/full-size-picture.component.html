@@ -1,13 +1,14 @@
-<article class="dialog" [ngClass]="{ closed: isOff }">
-  <button class="dialog__btn--bg" (click)="close()"></button>
+<article class="full-pic" [ngClass]="{ closed: isOff }">
+  <button class="full-pic__btn--bg" (click)="close()"></button>
   <img
-    class="dialog__large-picture"
-    [ngClass]="{ active: isOn }"
+    class="full-pic__large-picture"
+    [ngClass]="{ active: isOn && !(spinner.isLoading | async) }"
     src="{{ path }}"
     alt="Powiększenie {{ title }}"
+    (load)="spinner.loading = false"
   />
   <button
-    class="dialog__btn--close"
+    class="full-pic__btn--close"
     [ngClass]="{ active: isOn }"
     mat-icon-button
     (click)="close()"

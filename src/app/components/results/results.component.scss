@@ -6,13 +6,17 @@
 
   margin: 20px auto;
 
+  overflow: hidden;
+
   &__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, auto));
+    justify-items: center;
+    align-items: start;
 
     &__item {
       padding: 10px;
+      height: 100%;
 
       &:hover {
         .result-link {
@@ -40,7 +44,23 @@
   &__paginator {
     max-width: 350px;
     padding-right: 25px;
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
     background-color: rgba(255, 255, 255, 0);
+  }
+}
+
+@media (max-width: 424px) {
+  .results {
+    &__paginator {
+      margin: 40px auto 40px auto;
+    }
+  }
+}
+
+@media (max-width: 320px), (max-height: 360px) {
+  .results {
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(140px, auto));
+    }
   }
 }

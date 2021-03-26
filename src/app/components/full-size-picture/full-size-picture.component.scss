@@ -1,4 +1,4 @@
-.dialog {
+.full-pic {
   width: 100%;
   height: 100vh;
   position: fixed;
@@ -7,10 +7,10 @@
 
   z-index: 10;
 
-  animation: bgc-on 0.3s linear 1 both;
+  animation: full-pic-bg-on 0.3s linear 1 both;
 
   &.closed {
-    animation: bgc-off 0.3s linear 1 both;
+    animation: full-pic-bg-off 0.3s linear 1 both;
   }
 
   &__btn--bg {
@@ -62,7 +62,7 @@
   }
 }
 
-@keyframes bgc-on {
+@keyframes full-pic-bg-on {
   0% {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -71,7 +71,7 @@
     background-color: rgba(0, 0, 0, 0.7);
   }
 }
-@keyframes bgc-off {
+@keyframes full-pic-bg-off {
   0% {
     background-color: rgba(0, 0, 0, 0.7);
   }

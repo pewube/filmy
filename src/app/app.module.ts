@@ -57,7 +57,7 @@ import { PhotoCollectionComponent } from './components/photo-collection/photo-co
     PhotoCollectionComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     FormsModule,
     AppRoutingModule,

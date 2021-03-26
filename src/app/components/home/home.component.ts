@@ -1,9 +1,10 @@
 import { DataService } from './../../services/data.service';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { TmdbResponse } from 'src/app/models/tmdb-response';
 import { HttpService } from 'src/app/services/http.service';
 import { SeoService } from 'src/app/services/seo.service';
 import { MetaDefinition } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +12,13 @@ import { MetaDefinition } from '@angular/platform-browser';
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   movies: TmdbResponse;
+  moviesSubscription: Subscription;
+  localMovies: TmdbResponse;
   shows: TmdbResponse;
+  showsSubscription: Subscription;
+  localShows: TmdbResponse;
   urlImg150: string;
   defaultBackdropPath: string;
 
@@ -28,11 +33,48 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.setMetaTags();
-    this.http.getPopularMovies().subscribe((res) => (this.movies = res));
-    this.http.getPopularShows().subscribe((res) => (this.shows = res));
+
+    this.moviesSubscription = this.data
+      .getPopularMovies()
+      .subscribe((localMovies) => {
+        this.localMovies = localMovies;
+      });
+
+    this.showsSubscription = this.data
+      .getPopularShows()
+      .subscribe((localShows) => {
+        this.localShows = localShows;
+      });
+
+    this.getData();
+
     setTimeout(() => {
       this.data.setBackdropPath(this.defaultBackdropPath);
     }, 0);
+  }
+
+  ngOnDestroy(): void {
+    this.moviesSubscription.unsubscribe();
+    this.showsSubscription.unsubscribe();
+  }
+
+  getData() {
+    if (this.localMovies) {
+      this.movies = this.localMovies;
+    } else {
+      this.http.getPopularMovies().subscribe((res) => {
+        this.movies = res;
+        this.data.setPopularMovies(this.movies);
+      });
+    }
+    if (this.localShows) {
+      this.shows = this.localShows;
+    } else {
+      this.http.getPopularShows().subscribe((res) => {
+        this.shows = res;
+        this.data.setPopularShows(this.shows);
+      });
+    }
   }
 
   setMetaTags() {

@@ -52,7 +52,9 @@ export class PersonPanelComponent implements OnChanges {
 
   scrollElement() {
     setTimeout(() => {
-      this.listToScroll.nativeElement.scrollTo(0, 0);
+      if (this.listToScroll) {
+        this.listToScroll.nativeElement.scrollTo(0, 0);
+      }
     }, 0);
   }
 

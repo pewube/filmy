@@ -86,7 +86,7 @@
     >
       {{ details.biography ? details.biography : detailsEn?.biography }}
       <button
-        *ngIf="!details.biography && detailsEn.biography && buttonOn"
+        *ngIf="!details.biography && detailsEn.biography && translateBtn"
         mat-mini-fab
         color="primary"
         class="person-details__info__biography__btn--translate"

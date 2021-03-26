@@ -72,7 +72,7 @@
         </button>
       </div>
       <div
-        *ngIf="details?.vote_average || imdbRating"
+        *ngIf="details?.vote_average || imdbData?.imdbRating"
         class="video-details__header__summary__ratings"
       >
         <p class="mat-body custom">
@@ -108,12 +108,12 @@
         >
           <p
             class="video-details__header__summary__ratings-imdb mat-body custom"
-            *ngIf="imdbRating"
+            *ngIf="imdbData?.imdbRating"
           >
-            {{ imdbRating.toFixed(1)
+            {{ imdbData?.imdbRating.toFixed(1)
             }}<span class="gray mat-caption">{{
               " /10 | IMDb | " +
-                (imdbRatingCount | number: "1.0-0":"pl") +
+                (imdbData?.imdbVotes | number: "1.0-0":"pl") +
                 " głosów"
             }}</span>
           </p>
@@ -130,8 +130,8 @@
       [seasons]="seasons"
       [actors]="actors"
       [certifications]="certifications"
-      [imdbRating]="imdbRating"
-      [imdbRatingCount]="imdbRatingCount"
+      [imdbRating]="imdbData?.imdbRating"
+      [imdbVotes]="imdbData?.imdbVotes"
       [statusTranslated]="statusTranslated"
     ></app-kodi-nfo>
   </aside>
@@ -146,8 +146,8 @@
     [seasons]="seasons"
     [actors]="actors"
     [certifications]="certifications"
-    [imdbRating]="imdbRating"
-    [imdbRatingCount]="imdbRatingCount"
+    [imdbRating]="imdbData?.imdbRating"
+    [imdbVotes]="imdbData?.imdbVotes"
     [statusTranslated]="statusTranslated"
   ></app-kodi-nfo>
 
@@ -194,7 +194,7 @@
     >
       {{ details.overview ? details.overview : detailsEn?.overview }}
       <button
-        *ngIf="!details.overview && detailsEn?.overview && buttonOn"
+        *ngIf="!details.overview && detailsEn?.overview && translateBtn"
         mat-mini-fab
         color="primary"
         class="video-details__info__overview__btn--translate"

@@ -1,10 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DataService } from './services/data.service';
 import { SeoService } from './services/seo.service';
-import { filter, map, mergeMap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { SpinnerService } from './services/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +18,7 @@ import { environment } from 'src/environments/environment';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit, OnDestroy {
+  btnUp: boolean = false;
   isReset: boolean = false;
   metaTagsSubscription: Subscription;
   metaTitleSubscription: Subscription;
@@ -24,16 +30,31 @@ export class AppComponent implements OnInit, OnDestroy {
     ? this.backdropPath
     : this.backdropDefault;
 
+  @HostListener('window:scroll')
+  showBtnUp(): void {
+    if (window.scrollY > window.innerHeight) {
+      this.btnUp = true;
+    } else {
+      this.btnUp = false;
+    }
+  }
+
+  @HostListener('window:load')
+  loaded(): void {
+    this.spinner.loading = false;
+  }
+
   constructor(
     private data: DataService,
+    private seo: SeoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private seo: SeoService
+    public spinner: SpinnerService
   ) {
     this.backdropDefault = this.data.defaultBackdropPath;
   }
 
   ngOnInit() {
+    this.spinner.loading = true;
     this.metaTitleSubscription = this.seo.getMetaTitle().subscribe((title) => {
       this.seo.updateTitle(title);
     });
@@ -47,6 +68,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((path) => {
         this.backdropPath = path;
       });
+
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     console.log('navigation start');
+    //   } else if (event instanceof NavigationEnd) {
+    //     console.log('navigation end');
+    //   }
+    // });
   }
 
   ngOnDestroy() {
@@ -57,6 +86,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setBackgroundSrc() {
     return this.backdropPath ? this.backdropPath : this.backdropDefault;
+  }
+
+  goUp() {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 
   reset() {

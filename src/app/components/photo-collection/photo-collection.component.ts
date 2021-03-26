@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { OnDestroy } from '@angular/core';
 import { MetaDefinition } from '@angular/platform-browser';
 import { SeoService } from 'src/app/services/seo.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-photo-collection',
@@ -40,7 +41,8 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    private seo: SeoService
+    private seo: SeoService,
+    private spinner: SpinnerService
   ) {
     this.photoPath = this.http.urlImg94;
     this.backdropPath = this.http.urlImg1280;
@@ -272,6 +274,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
   enlargePicture(path: string) {
     this.showLargePicture = true;
     this.largePicturePath = path;
+    this.spinner.loading = true;
   }
 
   closeLargePicture(event): void {

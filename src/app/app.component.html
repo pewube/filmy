@@ -13,3 +13,14 @@
   <router-outlet class="router-outlet"></router-outlet>
   <app-footer></app-footer>
 </div>
+<button
+  class="btn-up"
+  mat-mini-fab
+  color="primary"
+  (click)="goUp()"
+  aria-label="go up"
+  [ngClass]="{ active: btnUp }"
+>
+  <mat-icon>vertical_align_top</mat-icon>
+</button>
+<app-spinner></app-spinner>

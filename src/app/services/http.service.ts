@@ -1,3 +1,4 @@
+import { ImdbRating, OmdbRating } from './../models/imdb-data';
 import { TmdbResponse } from './../models/tmdb-response';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -174,12 +175,12 @@ export class HttpService {
   // }
 
   // OmdbAPI query
-  getOmdbData(imdbId: string): Observable<any> {
-    return this.httpClient.get(this.UrlOmdb + imdbId);
+  getOmdbData(imdbId: string): Observable<OmdbRating> {
+    return this.httpClient.get<OmdbRating>(this.UrlOmdb + imdbId);
   }
 
   // test version
-  // getOmdbData(query: string): Observable<any> {
+  // getOmdbData(query: string): Observable<OmdbRating> {
   //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
   //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });

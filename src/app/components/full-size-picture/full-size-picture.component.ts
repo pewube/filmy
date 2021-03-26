@@ -1,3 +1,4 @@
+import { SpinnerService } from './../../services/spinner.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -12,6 +13,8 @@ export class FullSizePictureComponent implements OnInit {
 
   isOn: boolean = false;
   isOff: boolean = false;
+
+  constructor(public spinner: SpinnerService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
