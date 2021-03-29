@@ -5,13 +5,11 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import { Location } from '@angular/common';
 
@@ -21,7 +19,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./search-bar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
+export class SearchBarComponent implements OnInit, OnChanges {
   @ViewChild('searcherInput') searcherInput: ElementRef;
   @Input() isReset: boolean = false;
   query: string;
@@ -30,13 +28,10 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   numberOfMovies: number;
   numberOfShows: number;
 
-  isMovie: boolean;
-  isMovieSubscription: Subscription;
-
   constructor(
     private http: HttpService,
     private router: Router,
-    private data: DataService,
+    public data: DataService,
     private location: Location
   ) {}
 
@@ -47,14 +42,7 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isMovieSubscription = this.data
-      .getIsMovie()
-      .subscribe((isMovie) => (this.isMovie = isMovie));
     this.getInitialData();
-  }
-
-  ngOnDestroy() {
-    this.isMovieSubscription.unsubscribe();
   }
 
   getInitialData() {
@@ -110,16 +98,12 @@ export class SearchBarComponent implements OnInit, OnChanges, OnDestroy {
     this.numberOfShows = shows.total_results;
 
     if (this.numberOfShows > this.numberOfMovies) {
-      this.setIsMovie(false);
+      this.data.isMovie = false;
       this.router.navigate(['/results-shows', this.query, '1', this.year]);
     } else {
-      this.setIsMovie(true);
+      this.data.isMovie = true;
       this.router.navigate(['/results-movies', this.query, '1', this.year]);
     }
-  }
-
-  setIsMovie(isMovie: boolean) {
-    this.data.setIsMovie(isMovie);
   }
 
   cancelQuery(): void {

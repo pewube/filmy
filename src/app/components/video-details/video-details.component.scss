@@ -74,9 +74,13 @@
     }
 
     &__kodi-nfo {
-      padding: 10px 0;
+      padding: 5px 0;
       border-top: 1px solid $inactive-gray;
-      text-align: right;
+
+      &__header {
+        color: $note-gray;
+        font-size: 12px;
+      }
     }
   }
 
@@ -188,7 +192,7 @@
 
   &__other-videos {
     width: 100%;
-    padding-top: 11px;
+    margin-top: 11px;
     margin-bottom: 8px;
 
     &__list {
@@ -283,6 +287,10 @@
   color: $note-gray;
 }
 
+.main {
+  color: $main-color;
+}
+
 @media (max-width: 767px) {
   .video-details {
     &__header {
@@ -333,18 +341,13 @@
     }
 
     &__kodi-nfo {
-      padding: 5px 0 10px;
-      margin: 10px 10px 0 10px;
-
-      overflow: hidden;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-
-      border-top: 1px solid $inactive-gray;
+      padding: 0;
+      margin: 11px 0 8px 0;
+      border-top: none;
 
       &__header {
-        padding-right: 10px;
+        color: $main-color;
+        font-size: 14px;
       }
     }
 

@@ -23,4 +23,4 @@
 >
   <mat-icon>vertical_align_top</mat-icon>
 </button>
-<app-spinner></app-spinner>
+<app-spinner [ngClass]="{ hidden: !(spinner.isLoading | async) }"></app-spinner>

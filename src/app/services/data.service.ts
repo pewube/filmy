@@ -42,11 +42,11 @@ export class DataService {
     this.popularShows$.next(data);
   }
 
-  getIsMovie(): Observable<boolean> {
+  get isItMovie(): Observable<boolean> {
     return this.isMovie$.asObservable();
   }
 
-  setIsMovie(type: boolean) {
+  set isMovie(type: boolean) {
     this.isMovie$.next(type);
   }
 

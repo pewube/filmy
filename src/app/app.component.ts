@@ -41,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @HostListener('window:load')
   loaded(): void {
+    console.log('hostListener loaded');
     this.spinner.loading = false;
   }
 

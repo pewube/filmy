@@ -136,21 +136,6 @@
     ></app-kodi-nfo>
   </aside>
 
-  <app-kodi-nfo
-    class="video-details__kodi-nfo-component"
-    [details]="details"
-    [overviewEn]="detailsEn?.overview"
-    [overviewTranslated]="overviewTranslated"
-    [screenwriters]="screenwriters"
-    [directors]="directors"
-    [seasons]="seasons"
-    [actors]="actors"
-    [certifications]="certifications"
-    [imdbRating]="imdbData?.imdbRating"
-    [imdbVotes]="imdbData?.imdbVotes"
-    [statusTranslated]="statusTranslated"
-  ></app-kodi-nfo>
-
   <section class="video-details__info">
     <div class="video-details__info__title-container">
       <ng-container *ngIf="details?.title; else showNames">
@@ -210,7 +195,7 @@
       class="video-details__info__countries mat-body custom"
       *ngIf="details?.production_countries?.length > 0"
     >
-      <span class="gray mat-body">produkcja:</span>
+      <span class="main mat-body">produkcja:</span>
       <ng-container
         *ngFor="let country of details.production_countries; let last = last"
       >
@@ -222,14 +207,14 @@
       class="video-details__info__seasons mat-body custom"
       *ngIf="details?.number_of_seasons"
     >
-      <span class="gray mat-body">sezony:</span>
+      <span class="main mat-body">sezony:</span>
       {{ details?.number_of_seasons }}
     </p>
     <p
       class="video-details__info__episodes mat-body custom"
       *ngIf="details?.number_of_episodes"
     >
-      <span class="gray mat-body">odcinki:</span>
+      <span class="main mat-body">odcinki:</span>
       {{ details.number_of_episodes }}
     </p>
 
@@ -237,7 +222,7 @@
       class="video-details__info__release mat-body custom"
       *ngIf="details?.first_air_date"
     >
-      <span class="gray mat-body">pierwszy odcinek:</span>
+      <span class="main mat-body">pierwszy odcinek:</span>
       {{ details.first_air_date }}
     </p>
 
@@ -245,7 +230,7 @@
       class="video-details__info__release mat-body custom"
       *ngIf="details?.release_date"
     >
-      <span class="gray mat-body">premiera:</span>
+      <span class="main mat-body">premiera:</span>
       {{ details.release_date }}
     </p>
 
@@ -253,7 +238,7 @@
       class="video-details__info__last-episode mat-body custom"
       *ngIf="details?.last_air_date"
     >
-      <span class="gray mat-body">ostatnia emisja:</span>
+      <span class="main mat-body">ostatnia emisja:</span>
       {{ details.last_air_date }}
     </p>
 
@@ -261,7 +246,7 @@
       class="video-details__info__next-episode mat-body custom"
       *ngIf="details?.next_episode_to_air"
     >
-      <span class="gray mat-body">następny odcinek:</span>
+      <span class="main mat-body">następny odcinek:</span>
       {{ details.next_episode_to_air.air_date }}
     </p>
 
@@ -275,13 +260,13 @@
       [numberOfItems]="8"
     ></app-person-panel>
 
-    <div class="video-details__info__crew-container">
+    <ng-container class="video-details__info__crew-container">
       <section
         class="video-details__info__crew"
         *ngIf="details?.created_by && details?.created_by.length > 0"
       >
         <p class="video-details__info__crew__header mat-body custom">
-          <span class="gray mat-body">twórcy:</span>
+          <span class="main mat-body">twórcy:</span>
         </p>
         <ul class="video-details__info__crew__list">
           <li
@@ -316,7 +301,7 @@
         *ngIf="screenwriters.length > 0"
       >
         <p class="video-details__info__crew__header mat-body custom">
-          <span class="gray mat-body">scenariusz:</span>
+          <span class="main mat-body">scenariusz:</span>
         </p>
         <ul class="video-details__info__crew__list">
           <li
@@ -349,7 +334,7 @@
 
       <section class="video-details__info__crew" *ngIf="directors.length > 0">
         <p class="video-details__info__crew__header mat-body custom">
-          <span class="gray mat-body">reżyseria:</span>
+          <span class="main mat-body">reżyseria:</span>
         </p>
         <ul class="video-details__info__crew__list">
           <li
@@ -379,12 +364,12 @@
           </li>
         </ul>
       </section>
-    </div>
+    </ng-container>
     <p
       class="video-details__info__networks mat-body custom"
       *ngIf="details?.networks && details?.networks?.length > 0"
     >
-      <span class="gray mat-body">sieci tv/vod:</span>
+      <span class="main mat-body">sieci tv/vod:</span>
       <ng-container *ngFor="let network of details.networks; let last = last">
         <span *ngIf="!last">{{ network.name }}, </span>
         <span *ngIf="last">{{ network.name }}</span>
@@ -395,7 +380,7 @@
       class="video-details__info__studios mat-body custom"
       *ngIf="details?.production_companies?.length > 0"
     >
-      <span class="gray mat-body">studia filmowe:</span>
+      <span class="main mat-body">studia filmowe:</span>
       <ng-container
         *ngFor="let company of details.production_companies; let last = last"
       >
@@ -406,7 +391,7 @@
 
     <section class="video-details__info__homepage" *ngIf="details?.homepage">
       <p class="mat-body custom">
-        <span class="gray mat-body">oficjalna strona:</span>
+        <span class="main mat-body">oficjalna strona:</span>
         <a
           href="{{ details.homepage }}"
           target="_blank"
@@ -421,7 +406,7 @@
       *ngIf="details?.external_ids?.imdb_id"
     >
       <p class="mat-body custom">
-        <span class="gray mat-body">strona na IMDb:</span>
+        <span class="main mat-body">strona na IMDb:</span>
         <a
           href="https://www.imdb.com/title/{{
             details?.external_ids?.imdb_id
@@ -434,7 +419,7 @@
       </p>
     </section>
     <p class="video-details__info__status mat-body custom">
-      <span class="gray mat-body">status:</span>
+      <span class="main mat-body">status:</span>
       {{ details?.status ? statusTranslated : "brak danych" }}
     </p>
     <app-photo-panel
@@ -464,6 +449,22 @@
       "
       (enlarge)="enlargePicture(backdropPath + $event)"
     ></app-photo-panel>
+
+    <app-kodi-nfo
+      class="video-details__kodi-nfo-component"
+      [details]="details"
+      [overviewEn]="detailsEn?.overview"
+      [overviewTranslated]="overviewTranslated"
+      [screenwriters]="screenwriters"
+      [directors]="directors"
+      [seasons]="seasons"
+      [actors]="actors"
+      [certifications]="certifications"
+      [imdbRating]="imdbData?.imdbRating"
+      [imdbVotes]="imdbData?.imdbVotes"
+      [statusTranslated]="statusTranslated"
+    ></app-kodi-nfo>
+
     <section
       *ngIf="
         details?.recommendations?.results &&
@@ -471,7 +472,7 @@
       "
       class="video-details__other-videos"
     >
-      <p class="mat-body custom gray">polecane:</p>
+      <p class="mat-body custom main">podobne:</p>
       <ul class="video-details__other-videos__list" #list>
         <ng-container *ngIf="isMovie; else tvshows">
           <li

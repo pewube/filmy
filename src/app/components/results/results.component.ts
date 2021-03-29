@@ -15,7 +15,7 @@ import { MetaDefinition } from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.None,
 })
 export class ResultsComponent implements OnInit {
-  movieFlag: boolean;
+  isMovie: boolean;
   query: string;
   year: string = '';
   movies: TmdbResponse;
@@ -57,7 +57,7 @@ export class ResultsComponent implements OnInit {
       this.query = params.get('query');
       this.year = params.get('year') ? params.get('year') : '';
 
-      if (this.movieFlag) {
+      if (this.isMovie) {
         this.http
           .getMovies(
             params.get('query'),
@@ -130,11 +130,11 @@ export class ResultsComponent implements OnInit {
     const initialParameters: Array<string> = this.location.path().split(`/`);
 
     if (initialParameters[1] === 'results-movies') {
-      this.movieFlag = true;
-      this.data.setIsMovie(true);
+      this.isMovie = true;
+      this.data.isMovie = true;
     } else {
-      this.movieFlag = false;
-      this.data.setIsMovie(false);
+      this.isMovie = false;
+      this.data.isMovie = false;
     }
   }
 
@@ -155,7 +155,7 @@ export class ResultsComponent implements OnInit {
   }
 
   changePage(event: PageEvent): void {
-    if (this.movieFlag) {
+    if (this.isMovie) {
       this.router.navigate([
         '/results-movies',
         this.query,

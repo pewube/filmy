@@ -49,5 +49,6 @@ Thumbs.db
 
 src/app/services/config.service.ts
 /grafika
+/temp
 
 

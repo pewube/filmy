@@ -10,7 +10,7 @@
 
   z-index: 10;
 
-  animation: bg-on 0.3s linear 1 both, content-on 0.2s 0.4s linear 1 both;
+  animation: bg-on 0.3s linear 1 both, content-on 0.4s 0.2s linear 1 both;
 
   &.closed {
     animation: bg-off 0.3s linear 1 both;
@@ -49,7 +49,7 @@
     border-radius: 5px;
     background-color: #fff;
 
-    transition: 0.2s;
+    transition: 0.3s;
 
     &.active {
       width: 95vw;

@@ -99,7 +99,7 @@
     </p>
     <section class="person-details__info__homepage" *ngIf="details?.homepage">
       <p class="mat-body custom">
-        <span class="gray mat-body">oficjalna strona:</span>
+        <span class="main mat-body">oficjalna strona:</span>
         <a
           href="{{ details.homepage }}"
           target="_blank"
@@ -124,9 +124,9 @@
     <section class="person-details__info__videos" *ngIf="videos.length > 0">
       <header class="person-details__info__videos__header">
         <p
-          class="person-details__info__videos__header__title mat-body custom gray"
+          class="person-details__info__videos__header__title mat-body custom main"
         >
-          {{ details?.gender === 1 ? "wystąpiła w:" : "wystapił w:" }}
+          {{ details?.gender === 1 ? "wystąpiła w:" : "wystąpił w:" }}
         </p>
         <div class="person-details__info__videos__header__toggle__container">
           <mat-checkbox

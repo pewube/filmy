@@ -168,6 +168,10 @@
   color: $note-gray;
 }
 
+.main {
+  color: $main-color;
+}
+
 @media (max-width: 767px) {
   .person-details {
     &__header {

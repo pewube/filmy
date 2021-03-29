@@ -242,7 +242,7 @@ export class PersonDetailsComponent implements OnInit {
     this.translateBtn = false;
     this.translator.translate(text).subscribe((result) => {
       this.biographyTranslated = result.data.translations[0].translatedText;
-      this.detailsEn.biography = this.biographyTranslated;
+      this.details.biography = this.biographyTranslated;
     }),
       (error) => console.log('Błąd tłumaczenia: ', error);
   }

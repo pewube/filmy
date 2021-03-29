@@ -4,6 +4,7 @@ import { SeoService } from './../../services/seo.service';
 import {
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   QueryList,
@@ -518,7 +519,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     this.translateBtn = false;
     this.translator.translate(text).subscribe((result) => {
       this.overviewTranslated = result.data.translations[0].translatedText;
-      this.detailsEn.overview = this.overviewTranslated;
+      this.details.overview = this.overviewTranslated;
     }),
       (error) => console.log('Błąd tłumaczenia: ', error);
   }

@@ -21,9 +21,9 @@ export class HttpService {
 
   private urlBase: string = 'https://api.themoviedb.org/3';
 
-  private urlMoviesRestrictions: string = `${this.urlBase}/certification/movie/list?api_key=${this.apiKey}`;
+  private urlMoviesRestrictions: string = `assets/data/movie-restrictions.json`;
 
-  private urlShowsRestrictions: string = `${this.urlBase}/certification/tv/list?api_key=${this.apiKey}`;
+  private urlShowsRestrictions: string = `assets/data/tv-restrictions.json`;
 
   private urlPopularMovies: string = `${this.urlBase}/movie/popular?api_key=${this.apiKey}`;
   private urlPopularShows: string = `${this.urlBase}/tv/popular?api_key=${this.apiKey}`;

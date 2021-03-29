@@ -73,15 +73,15 @@
     <a
       class="search-bar__search-nav__movies"
       [routerLink]="['/results-movies', query, '1', year]"
-      [ngClass]="{ active: isMovie }"
-      (click)="setIsMovie(true)"
+      [ngClass]="{ active: (data.isItMovie | async) }"
+      (click)="data.isMovie = true"
       >Filmy <span>{{ numberOfMovies }}</span></a
     >
     <a
       class="search-bar__search-nav__shows"
       [routerLink]="['/results-shows', query, '1', year]"
-      [ngClass]="{ active: !isMovie }"
-      (click)="setIsMovie(false)"
+      [ngClass]="{ active: !(data.isItMovie | async) }"
+      (click)="data.isMovie = false"
       >Seriale <span>{{ numberOfShows }}</span></a
     >
   </nav>

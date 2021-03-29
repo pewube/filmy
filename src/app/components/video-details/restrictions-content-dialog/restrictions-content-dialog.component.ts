@@ -33,7 +33,7 @@ export class RestrictionsContentDialogComponent implements OnInit {
           this.es = res.certifications.ES.sort((a, b) => a.order - b.order);
           this.de = res.certifications.DE.sort((a, b) => a.order - b.order);
         },
-        (error) => console.log('Błąd pobierania restrykcji dla movies: ', error)
+        (error) => console.log('Movie restrictions error: ', error)
       );
     } else {
       this.http.getShowsRestrictionsDetails().subscribe(
@@ -45,8 +45,7 @@ export class RestrictionsContentDialogComponent implements OnInit {
           this.es = res.certifications.ES.sort((a, b) => a.order - b.order);
           this.de = res.certifications.DE.sort((a, b) => a.order - b.order);
         },
-        (error) =>
-          console.log('Błąd pobierania restrykcji dla tvshows: ', error)
+        (error) => console.log('TVShow restrictions error: ', error)
       );
     }
   }
