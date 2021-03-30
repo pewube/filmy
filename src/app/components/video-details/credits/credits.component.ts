@@ -61,7 +61,6 @@ export class CreditsComponent implements OnInit, OnDestroy {
     const initialParameters: Array<string> = this.location.path().split(`/`);
 
     this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params);
       if (initialParameters[1] === 'movie') {
         this.http.getMovieDetails(params.get('id')).subscribe(
           (res) => {
@@ -115,7 +114,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
 
     const description: string = this.details.overview
       ? this.details.overview
-      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator';
     const imgPath: string = this.details.poster_path
       ? this.photoPath + this.details.poster_path
       : 'https://filmy.pewube.eu/filmoteka-ogi.png';

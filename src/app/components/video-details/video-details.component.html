@@ -192,7 +192,7 @@
     </p>
 
     <p
-      class="video-details__info__countries mat-body custom"
+      class="video-details__info__countries mat-body custom pb-11"
       *ngIf="details?.production_countries?.length > 0"
     >
       <span class="main mat-body">produkcja:</span>
@@ -204,14 +204,14 @@
       </ng-container>
     </p>
     <p
-      class="video-details__info__seasons mat-body custom"
+      class="video-details__info__seasons mat-body custom pb-11"
       *ngIf="details?.number_of_seasons"
     >
       <span class="main mat-body">sezony:</span>
       {{ details?.number_of_seasons }}
     </p>
     <p
-      class="video-details__info__episodes mat-body custom"
+      class="video-details__info__episodes mat-body custom pb-11"
       *ngIf="details?.number_of_episodes"
     >
       <span class="main mat-body">odcinki:</span>
@@ -219,7 +219,7 @@
     </p>
 
     <p
-      class="video-details__info__release mat-body custom"
+      class="video-details__info__release mat-body custom pb-11"
       *ngIf="details?.first_air_date"
     >
       <span class="main mat-body">pierwszy odcinek:</span>
@@ -227,7 +227,7 @@
     </p>
 
     <p
-      class="video-details__info__release mat-body custom"
+      class="video-details__info__release mat-body custom pb-11"
       *ngIf="details?.release_date"
     >
       <span class="main mat-body">premiera:</span>
@@ -235,7 +235,7 @@
     </p>
 
     <p
-      class="video-details__info__last-episode mat-body custom"
+      class="video-details__info__last-episode mat-body custom pb-11"
       *ngIf="details?.last_air_date"
     >
       <span class="main mat-body">ostatnia emisja:</span>
@@ -243,7 +243,7 @@
     </p>
 
     <p
-      class="video-details__info__next-episode mat-body custom"
+      class="video-details__info__next-episode mat-body custom pb-11"
       *ngIf="details?.next_episode_to_air"
     >
       <span class="main mat-body">następny odcinek:</span>
@@ -260,7 +260,7 @@
       [numberOfItems]="8"
     ></app-person-panel>
 
-    <ng-container class="video-details__info__crew-container">
+    <div class="video-details__info__crew-container">
       <section
         class="video-details__info__crew"
         *ngIf="details?.created_by && details?.created_by.length > 0"
@@ -364,9 +364,9 @@
           </li>
         </ul>
       </section>
-    </ng-container>
+    </div>
     <p
-      class="video-details__info__networks mat-body custom"
+      class="video-details__info__networks mat-body custom pb-11"
       *ngIf="details?.networks && details?.networks?.length > 0"
     >
       <span class="main mat-body">sieci tv/vod:</span>
@@ -377,7 +377,7 @@
     </p>
 
     <p
-      class="video-details__info__studios mat-body custom"
+      class="video-details__info__studios mat-body custom pb-11"
       *ngIf="details?.production_companies?.length > 0"
     >
       <span class="main mat-body">studia filmowe:</span>
@@ -390,7 +390,7 @@
     </p>
 
     <section class="video-details__info__homepage" *ngIf="details?.homepage">
-      <p class="mat-body custom">
+      <p class="mat-body custom pb-11">
         <span class="main mat-body">oficjalna strona:</span>
         <a
           href="{{ details.homepage }}"
@@ -405,7 +405,7 @@
       class="video-details__info__homepage"
       *ngIf="details?.external_ids?.imdb_id"
     >
-      <p class="mat-body custom">
+      <p class="mat-body custom pb-11">
         <span class="main mat-body">strona na IMDb:</span>
         <a
           href="https://www.imdb.com/title/{{
@@ -418,7 +418,7 @@
         >
       </p>
     </section>
-    <p class="video-details__info__status mat-body custom">
+    <p class="video-details__info__status mat-body custom pb-11">
       <span class="main mat-body">status:</span>
       {{ details?.status ? statusTranslated : "brak danych" }}
     </p>

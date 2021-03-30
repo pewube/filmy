@@ -12,3 +12,19 @@ body {
 .hidden {
   display: none;
 }
+
+// font colors
+
+.gray {
+  color: $note-gray;
+}
+
+.main {
+  color: $main-color;
+}
+
+// paddings
+
+.pb-11 {
+  padding-bottom: 11px;
+}

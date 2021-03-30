@@ -170,7 +170,7 @@ export class PhotoCollectionComponent implements OnInit, OnDestroy {
 
     const description: string = this.detailsVideo.overview
       ? this.detailsVideo.overview
-      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator';
     const imgPath: string = this.detailsVideo.poster_path
       ? this.photoPath + this.detailsVideo.poster_path
       : 'https://filmy.pewube.eu/filmoteka-ogi.png';

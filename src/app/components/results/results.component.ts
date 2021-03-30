@@ -23,6 +23,7 @@ export class ResultsComponent implements OnInit {
   urlImg150: string;
   urlImg130: string;
   urlImg94: string;
+  defaultBackdropPath: string;
 
   //paginator settings
   length: number;
@@ -42,6 +43,7 @@ export class ResultsComponent implements OnInit {
     this.urlImg150 = this.http.urlImg150;
     this.urlImg130 = this.http.urlImg130;
     this.urlImg94 = this.http.urlImg94;
+    this.defaultBackdropPath = this.data.defaultBackdropPath;
   }
 
   ngOnInit(): void {
@@ -102,6 +104,10 @@ export class ResultsComponent implements OnInit {
       }
       this.setPaginatorPage(params.get('page'));
     });
+
+    setTimeout(() => {
+      this.data.setBackdropPath(this.defaultBackdropPath);
+    }, 0);
   }
 
   setMetaTags() {
@@ -110,12 +116,14 @@ export class ResultsComponent implements OnInit {
     const tags: MetaDefinition[] = [
       {
         name: 'description',
-        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+        content:
+          'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator',
       },
       { property: 'og:title', content: 'Filmoteka | filmy i seriale' },
       {
         property: 'og:description',
-        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+        content:
+          'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator',
       },
       {
         property: 'og:image',

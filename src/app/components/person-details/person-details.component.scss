@@ -87,8 +87,7 @@
 
     &__videos {
       width: 100%;
-      margin-top: 11px;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
 
       &__header {
         padding-bottom: 11px;
@@ -162,14 +161,6 @@
   &__btn--back {
     margin-top: 40px;
   }
-}
-
-.gray {
-  color: $note-gray;
-}
-
-.main {
-  color: $main-color;
 }
 
 @media (max-width: 767px) {

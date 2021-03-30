@@ -319,7 +319,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
     const description: string = this.details.overview
       ? this.details.overview
-      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator';
     const imgPath: string = this.details.poster_path
       ? this.profilePath + this.details.poster_path
       : 'https://filmy.pewube.eu/filmoteka-ogi.png';

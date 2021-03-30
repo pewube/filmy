@@ -83,12 +83,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     const tags: MetaDefinition[] = [
       {
         name: 'description',
-        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+        content:
+          'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator',
       },
       { property: 'og:title', content: 'Filmoteka | filmy i seriale' },
       {
         property: 'og:description',
-        content: 'Informacje o filmach, serialach, ich twórcach i aktorach',
+        content:
+          'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator',
       },
       {
         property: 'og:image',

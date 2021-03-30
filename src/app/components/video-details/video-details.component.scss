@@ -127,8 +127,6 @@
 
     &__crew-container {
       width: 100%;
-      padding-top: 6px;
-      margin-bottom: 16px;
 
       display: flex;
       flex-wrap: wrap;
@@ -137,6 +135,7 @@
 
     &__crew {
       flex-grow: 0;
+      margin-bottom: 16px;
 
       &__list {
         display: flex;
@@ -192,8 +191,7 @@
 
   &__other-videos {
     width: 100%;
-    margin-top: 11px;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
 
     &__list {
       display: flex;
@@ -281,14 +279,6 @@
   &__btn--back {
     margin-top: 40px;
   }
-}
-
-.gray {
-  color: $note-gray;
-}
-
-.main {
-  color: $main-color;
 }
 
 @media (max-width: 767px) {

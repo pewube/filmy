@@ -22,7 +22,7 @@ export class PersonDetailsComponent implements OnInit {
   posterPath: string;
   profilePath: string;
   urlImg600: string;
-  defaultBackdropPath: string;
+  personBackdropPath: string = 'assets/img/oscar1280.jpg';
   largePicturePath: string;
 
   details: PersonDetails;
@@ -55,7 +55,6 @@ export class PersonDetailsComponent implements OnInit {
     this.urlImg600 = this.http.urlImg600;
     this.posterPath = this.http.urlImg220;
     this.profilePath = this.http.urlImg94;
-    this.defaultBackdropPath = this.data.defaultBackdropPath;
   }
 
   ngOnInit(): void {
@@ -143,7 +142,7 @@ export class PersonDetailsComponent implements OnInit {
 
     setTimeout(() => {
       window.scrollTo(0, 0);
-      this.data.setBackdropPath(this.defaultBackdropPath);
+      this.data.setBackdropPath(this.personBackdropPath);
     }, 0);
   }
 
@@ -164,7 +163,7 @@ export class PersonDetailsComponent implements OnInit {
 
     const description: string = this.details.biography
       ? this.details.biography
-      : 'Informacje o filmach, serialach, ich twórcach i aktorach';
+      : 'Informacje o filmach, serialach, ich twórcach i aktorach, kodi nfo generator';
     const imgPath: string = this.details.profile_path
       ? this.profilePath + this.details.profile_path
       : 'https://filmy.pewube.eu/filmoteka-ogi.png';
