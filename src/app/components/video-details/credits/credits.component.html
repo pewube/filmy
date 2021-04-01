@@ -7,10 +7,7 @@
   </div>
 
   <ul class="credits__list">
-    <li
-      *ngFor="let item of details?.credits?.cast; let i = index"
-      class="credits__list__item"
-    >
+    <li *ngFor="let item of actors; let i = index" class="credits__list__item">
       <a [routerLink]="['/person', item.id]">
         <article class="credits__article">
           <figure class="credits__article__photo">
@@ -26,14 +23,22 @@
 
           <section class="credits__article__details">
             <p class="credits__article__details__name mat-body custom">
-              {{ item.name }}
+              {{
+                item.name.length < 20
+                  ? item.name
+                  : item.name.slice(0, 16) + " ..."
+              }}
             </p>
 
             <p
               class="credits__article__details__character mat-body custom mat-caption"
               *ngIf="item.character"
             >
-              jako {{ item.character }}
+              {{
+                item.character.length < 35
+                  ? item.character
+                  : item.character.slice(0, 31) + " ..."
+              }}
             </p>
           </section>
         </article>
@@ -47,6 +52,7 @@
     color="primary"
     type="button"
     (click)="goBack()"
+    aria-label="go back"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>

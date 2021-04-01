@@ -6,11 +6,13 @@
   </figure>
   <section class="result-link__details">
     <header class="result-link__details__title">
-      {{ title.length < 45 ? title : title.slice(0, 40) + " ..." }}
+      <p class="mat-body custom">
+        {{ title.length < 45 ? title : title.slice(0, 40) + " ..." }}
+      </p>
     </header>
     <div>
       <p
-        class="result-link__details__original-title"
+        class="result-link__details__original-title mat-body custom"
         *ngIf="
           originalTitle && originalTitle.toLowerCase() !== title.toLowerCase()
         "
@@ -22,7 +24,7 @@
         }}
       </p>
     </div>
-    <p class="result-link__details__date" *ngIf="date">
+    <p class="result-link__details__date mat-body custom" *ngIf="date">
       {{ date.slice(0, 4) }}
     </p>
   </section>

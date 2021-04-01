@@ -306,7 +306,7 @@ export class PersonDetailsComponent implements OnInit {
     }
   }
 
-  goToResults() {
+  goBack() {
     this.location.back();
   }
 }

@@ -5,7 +5,10 @@
   <ul class="person-panel__list" #list>
     <ng-container *ngFor="let item of sourceArray; let i = index">
       <li *ngIf="i <= numberOfItems - 1" class="person-panel__list__item">
-        <a [routerLink]="[routeUrl, item.id]">
+        <a
+          [routerLink]="[routeUrl, item.id]"
+          aria-label="read more about this person"
+        >
           <article class="person-panel__article" [ngStyle]="setWidth()">
             <figure
               class="person-panel__article__photo"
@@ -24,14 +27,22 @@
 
             <section class="person-panel__article__details">
               <p class="person-panel__article__details__name mat-body custom">
-                {{ item.name }}
+                {{
+                  item.name.length < 20
+                    ? item.name
+                    : item.name.slice(0, 16) + " ..."
+                }}
               </p>
 
               <p
                 class="person-panel__article__details__character mat-body custom mat-caption"
                 *ngIf="item.character"
               >
-                jako {{ item.character }}
+                {{
+                  item.character.length < 25
+                    ? item.character
+                    : item.character.slice(0, 21) + " ..."
+                }}
               </p>
             </section>
           </article>

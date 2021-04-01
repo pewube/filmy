@@ -1,4 +1,4 @@
-import { VideoDetails } from './../../../models/video-details';
+import { VideoActor, VideoDetails } from './../../../models/video-details';
 import { DataService } from 'src/app/services/data.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
   defaultPhotoPath: string = 'assets/img/cast94.jpg';
   backdropPath: string;
   defaultBackdropPath: string;
+  actors: Array<VideoActor> = [];
 
   constructor(
     private http: HttpService,
@@ -46,6 +47,15 @@ export class CreditsComponent implements OnInit, OnDestroy {
               `${this.backdropPath}${this.details.backdrop_path}`
             );
           }, 0);
+          this.actors = [];
+          if (this.details.title) {
+            this.createMovieActorsArray(this.details.credits, this.actors);
+          } else {
+            this.createShowActorsArray(
+              this.details.aggregate_credits,
+              this.actors
+            );
+          }
         } else {
           this.getDetailsFromServer();
         }
@@ -72,6 +82,8 @@ export class CreditsComponent implements OnInit, OnDestroy {
                 `${this.backdropPath}${this.details.backdrop_path}`
               );
             }, 0);
+            this.actors = [];
+            this.createMovieActorsArray(this.details.credits, this.actors);
           },
           (error) => {
             this.handleError(error);
@@ -88,6 +100,11 @@ export class CreditsComponent implements OnInit, OnDestroy {
                 `${this.backdropPath}${this.details.backdrop_path}`
               );
             }, 0);
+            this.actors = [];
+            this.createShowActorsArray(
+              this.details.aggregate_credits,
+              this.actors
+            );
           },
           (error) => {
             this.handleError(error);
@@ -145,6 +162,31 @@ export class CreditsComponent implements OnInit, OnDestroy {
       this.data.setBackdropPath(path);
     } else {
       this.data.setBackdropPath(this.defaultBackdropPath);
+    }
+  }
+
+  createMovieActorsArray(input, output: Array<VideoActor>) {
+    for (let actor of input.cast) {
+      if (actor.character.toLowerCase().includes('self')) {
+        actor.character = actor.name;
+      }
+      output.push(actor);
+    }
+  }
+
+  createShowActorsArray(input, output: Array<VideoActor>) {
+    let character: Array<string>;
+
+    for (let actor of input.cast) {
+      character = [];
+      for (let role of actor.roles) {
+        if (role.character.toLowerCase().includes('self')) {
+          role.character = actor.name;
+        }
+        character.push(role.character);
+      }
+      actor.character = character.join(' / ');
+      output.push(actor);
     }
   }
 

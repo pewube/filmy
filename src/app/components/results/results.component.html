@@ -2,13 +2,19 @@
   class="results"
   *ngIf="movies?.total_results > 0 || shows?.total_results > 0"
 >
+  <header class="results__header">
+    <h2 class="results__header__title mat-body custom">Wyniki wyszukiwania:</h2>
+  </header>
   <section>
     <ul
       class="results__list"
       *ngIf="movies && movies?.total_results > 0; else showsList"
     >
       <li class="results__list__item" *ngFor="let movie of movies.results">
-        <a [routerLink]="['/movie', movie.id]">
+        <a
+          [routerLink]="['/movie', movie.id]"
+          aria-label="read more about the movie"
+        >
           <app-result-link
             [imgsrc]="movie.poster_path ? urlImg150 + movie.poster_path : ''"
             [title]="movie.title"
@@ -22,7 +28,10 @@
     <ng-template #showsList>
       <ul class="results__list" *ngIf="shows && shows?.total_results > 0">
         <li class="results__list__item" *ngFor="let show of shows.results">
-          <a [routerLink]="['/tv', show.id]">
+          <a
+            [routerLink]="['/tv', show.id]"
+            aria-label="read more about the tv show"
+          >
             <app-result-link
               [imgsrc]="show.poster_path ? urlImg150 + show.poster_path : ''"
               [title]="show.name"

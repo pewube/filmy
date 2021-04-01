@@ -7,6 +7,7 @@
       <button
         class="person-details__header__poster__btn--enlarge"
         (click)="enlargePicture(urlImg600 + details?.profile_path)"
+        aria-label="enlarge image"
       >
         <img
           src="{{ posterPath + details?.profile_path }}"
@@ -169,6 +170,7 @@
                 ? ['/movie', video.id]
                 : ['/tv', video.id]
             "
+            aria-label="read more about the production"
           >
             <article class="person-details__info__videos__video">
               <div class="person-details__info__videos__video__year">
@@ -209,7 +211,8 @@
       class="person-details__btn--back"
       color="primary"
       type="button"
-      (click)="goToResults()"
+      (click)="goBack()"
+      aria-label="go back"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>

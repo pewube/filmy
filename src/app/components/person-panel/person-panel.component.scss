@@ -95,9 +95,13 @@
 
     &__details {
       padding: 0 4px 0 2px;
+      display: grid;
+      grid-template-rows: 45px 35px;
+      place-items: start;
 
       &__character {
         color: $note-gray;
+        line-height: 130%;
       }
     }
 

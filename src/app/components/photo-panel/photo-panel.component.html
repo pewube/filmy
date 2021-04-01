@@ -13,6 +13,7 @@
             <button
               class="photo-panel__article__btn--enlarge"
               (click)="enlargePicture(item.file_path)"
+              aria-label="enlarge image"
             >
               <img
                 src="{{ photoPath + item.file_path }}"

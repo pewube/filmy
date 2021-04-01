@@ -144,6 +144,21 @@
 
         &__item {
           margin: 0 10px 5px 0;
+          a {
+            color: #000;
+            text-decoration: none;
+            transition: 0.2s;
+
+            &:visited {
+              text-decoration: none;
+            }
+
+            &:hover {
+              .video-details__info__crew__member__photo {
+                box-shadow: 0 5px 0 0 $main-color;
+              }
+            }
+          }
         }
       }
 

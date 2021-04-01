@@ -32,6 +32,7 @@
             <button
               class="photo-collection__article__btn--enlarge"
               (click)="enlargePicture(urlImg600 + item.file_path)"
+              aria-label="enlarge image"
             >
               <img
                 src="{{ photoPath + item.file_path }}"
@@ -72,6 +73,7 @@
             <button
               class="photo-collection__article__btn--enlarge"
               (click)="enlargePicture(backdropPath + item.file_path)"
+              aria-label="enlarge image"
             >
               <img
                 src="{{ urlImgWide250 + item.file_path }}"
@@ -118,6 +120,7 @@
             <button
               class="photo-collection__article__btn--enlarge"
               (click)="enlargePicture(urlImg600 + item.file_path)"
+              aria-label="enlarge image"
             >
               <img
                 src="{{ photoPath + item.file_path }}"
@@ -138,6 +141,7 @@
     color="primary"
     type="button"
     (click)="goBack()"
+    aria-label="go back"
   >
     <mat-icon>arrow_back</mat-icon>
   </button>

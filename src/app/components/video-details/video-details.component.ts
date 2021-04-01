@@ -4,7 +4,6 @@ import { SeoService } from './../../services/seo.service';
 import {
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
   QueryList,
@@ -72,7 +71,6 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   translateBtn: boolean = true;
   screenwriters: Array<VideoCrew> = [];
   directors: Array<VideoCrew> = [];
-  numberOfItemsInArray: number = 165;
   actors: Array<VideoActor> = [];
   seasons: Array<VideoSeason> = [];
   certifications: Array<VideoCertification> = [];
@@ -251,41 +249,31 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
     this.translateStatus(this.details.status);
 
-    this.actors = [];
-    this.createActorsArray(
-      this.details.credits,
-      this.actors,
-      this.numberOfItemsInArray
-    );
-
     this.backdrops = [];
-    this.createBackdropsArray(
-      this.details.images,
-      this.backdrops,
-      this.numberOfItemsInArray
-    );
+    this.createBackdropsArray(this.details.images, this.backdrops);
 
     this.posters = [];
-    this.createPostersArray(
-      this.details.images,
-      this.posters,
-      this.numberOfItemsInArray
-    );
+    this.createPostersArray(this.details.images, this.posters);
 
     if (this.isMovie) {
+      this.actors = [];
+      this.createMovieActorsArray(this.details.credits, this.actors);
+
       this.screenwriters = [];
       this.createScreenwritersArray(this.details.credits, this.screenwriters);
 
       this.directors = [];
-
       this.createDirectorsArray(this.details.credits, this.directors);
-      this.certifications = [];
 
+      this.certifications = [];
       this.createMovieCertificationsArray(
         this.details.release_dates,
         this.certifications
       );
     } else {
+      this.actors = [];
+      this.createShowActorsArray(this.details.aggregate_credits, this.actors);
+
       this.certifications = [];
       this.createShowCertificationsArray(
         this.details.content_ratings,
@@ -400,25 +388,28 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  createActorsArray(
-    input,
-    output: Array<VideoActor>,
-    outputLength: number = 8
-  ) {
-    if (input.cast.length < outputLength) {
-      for (let actor of input.cast) {
-        if (actor.character.toLowerCase().includes('self')) {
-          actor.character = actor.name;
-        }
-        output.push(actor);
+  createMovieActorsArray(input, output: Array<VideoActor>) {
+    for (let actor of input.cast) {
+      if (actor.character.toLowerCase().includes('self')) {
+        actor.character = actor.name;
       }
-    } else {
-      for (let i = 0; i < outputLength; i++) {
-        if (input.cast[i].character.toLowerCase().includes('self')) {
-          input.cast[i].character = input.cast[i].name;
+      output.push(actor);
+    }
+  }
+
+  createShowActorsArray(input, output: Array<VideoActor>) {
+    let character: Array<string>;
+
+    for (let actor of input.cast) {
+      character = [];
+      for (let role of actor.roles) {
+        if (role.character.toLowerCase().includes('self')) {
+          role.character = actor.name;
         }
-        output.push(input.cast[i]);
+        character.push(role.character);
       }
+      actor.character = character.join(' / ');
+      output.push(actor);
     }
   }
 
@@ -476,35 +467,15 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  createBackdropsArray(
-    input,
-    output: Array<VideoImage>,
-    outputLength: number = 8
-  ) {
-    if (input.backdrops.length < outputLength) {
-      for (let backdrop of input.backdrops) {
-        output.push(backdrop);
-      }
-    } else {
-      for (let i = 0; i < outputLength; i++) {
-        output.push(input.backdrops[i]);
-      }
+  createBackdropsArray(input, output: Array<VideoImage>) {
+    for (let backdrop of input.backdrops) {
+      output.push(backdrop);
     }
   }
 
-  createPostersArray(
-    input,
-    output: Array<VideoImage>,
-    outputLength: number = 8
-  ) {
-    if (input.posters.length < outputLength) {
-      for (let poster of input.posters) {
-        output.push(poster);
-      }
-    } else {
-      for (let i = 0; i < outputLength; i++) {
-        output.push(input.posters[i]);
-      }
+  createPostersArray(input, output: Array<VideoImage>) {
+    for (let poster of input.posters) {
+      output.push(poster);
     }
   }
 

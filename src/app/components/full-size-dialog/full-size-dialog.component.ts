@@ -31,8 +31,8 @@ export class FullSizeDialogComponent implements OnInit {
       };
     } else {
       return {
-        width: '0',
-        height: '0',
+        width: '0vw',
+        height: '0vh',
       };
     }
   }

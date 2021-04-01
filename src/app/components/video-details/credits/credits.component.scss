@@ -70,10 +70,14 @@
     }
 
     &__details {
-      padding: 0 4px 0 2px;
+      padding: 0 4px 5px 2px;
+      display: grid;
+      grid-template-rows: 45px 45px;
+      place-items: start;
 
       &__character {
         color: $note-gray;
+        line-height: 130%;
       }
     }
   }

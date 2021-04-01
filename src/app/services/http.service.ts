@@ -129,7 +129,7 @@ export class HttpService {
       .set('language', language)
       .set(
         'append_to_response',
-        'credits,external_ids,content_ratings,images,recommendations,reviews'
+        'credits,aggregate_credits,external_ids,content_ratings,images,recommendations,reviews'
       )
       .set('include_image_language', 'pl,en,null');
 
@@ -175,14 +175,14 @@ export class HttpService {
   // }
 
   // OmdbAPI query
-  // getOmdbData(imdbId: string): Observable<OmdbRating> {
-  //   return this.httpClient.get<OmdbRating>(this.UrlOmdb + imdbId);
-  // }
+  getOmdbData(imdbId: string): Observable<OmdbRating> {
+    return this.httpClient.get<OmdbRating>(this.UrlOmdb + imdbId);
+  }
 
   // test version
-  getOmdbData(query: string): Observable<OmdbRating> {
-    console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
+  // getOmdbData(query: string): Observable<OmdbRating> {
+  //   console.log('=== ZAPYTANIE DO IMDB WYŁĄCZONE ===');
 
-    return of({ imdbRating: '9.9', imdbVotes: '99,999' });
-  }
+  //   return of({ imdbRating: '9.9', imdbVotes: '99,999' });
+  // }
 }

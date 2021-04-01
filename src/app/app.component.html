@@ -1,9 +1,17 @@
-<img class="background-generator" [src]="setBackgroundSrc()" />
+<img
+  class="background-generator"
+  [src]="setBackgroundSrc()"
+  alt="background image"
+/>
 <div class="wrapper">
   <header class="header">
     <mat-toolbar class="header__toolbar" color="primary">
-      <a class="toolbar__top-logo" (click)="reset()" routerLink="/home"
-        ><img src="assets/img/logo-header.svg" alt="" srcset="" /><span
+      <a
+        class="toolbar__top-logo"
+        (click)="reset()"
+        routerLink="/home"
+        aria-label="home page"
+        ><img src="assets/img/logo-header.svg" alt="filmoteka logo" /><span
           >Filmoteka</span
         ></a
       >

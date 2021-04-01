@@ -20,7 +20,7 @@
         type="reset"
         matSuffix
         mat-icon-button
-        aria-label="clear input content"
+        aria-label="clear query input content"
         (mousedown)="cancelQuery()"
         (touchstart)="cancelQuery()"
       >
@@ -49,7 +49,7 @@
           type="reset"
           matSuffix
           mat-icon-button
-          aria-label="clear input content"
+          aria-label="clear year input content"
           (mousedown)="cancelYear()"
           (touchstart)="cancelYear()"
         >
@@ -64,6 +64,7 @@
         aria-label="search"
         [disabled]="form.invalid"
         [ngStyle]="{ 'margin-left': '10px' }"
+        aria-label="search"
       >
         <mat-icon>search</mat-icon>
       </button>

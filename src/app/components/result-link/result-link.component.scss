@@ -25,10 +25,10 @@
 
   &__details {
     height: 100%;
-    padding: 12px 4px 0 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 15px 5px 0 5px;
+    display: grid;
+    grid-template-rows: 65px 50px 20px;
+    place-items: center;
     background-color: #fff;
     transition: 0.3s;
 
@@ -38,14 +38,14 @@
       transition: 0.3s;
     }
     &__original-title {
-      color: $inactive-gray;
+      color: $note-gray;
       font-size: 12px;
       transition: 0.3s;
     }
   }
 }
 
-@media (max-width: 320px), (max-height: 360px) {
+@media (max-width: 320px) {
   .result-link {
     width: $poster-width-130;
 

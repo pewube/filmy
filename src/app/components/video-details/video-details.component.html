@@ -4,6 +4,7 @@
       <button
         class="video-details__header__poster__btn--enlarge"
         (click)="enlargePicture(urlImg600 + details?.poster_path)"
+        aria-label="enlarge image"
       >
         <img
           src="{{ posterPath + details?.poster_path }}"
@@ -50,7 +51,11 @@
         <p class="mat-body custom">
           <span class="gray mat-caption">ograniczenia wiekowe:</span>
         </p>
-        <button (click)="dialogOn()">
+        <button
+          (click)="dialogOn()"
+          matTooltip="otwiera okno z informacjami dotyczącymi ograniczeń wiekowych"
+          aria-label="read more about age ratings"
+        >
           <p class="mat-body custom">
             <ng-container
               *ngFor="let certification of certifications; let last = last"
@@ -84,6 +89,7 @@
           rel="noopener"
           target="_blank"
           matTooltip="otwiera w nowym oknie link do filmu na stronie TMDB"
+          aria-label="read more on the tmdb website"
         >
           <p
             *ngIf="details?.vote_average"
@@ -105,6 +111,7 @@
           rel="noopener"
           target="_blank"
           matTooltip="otwiera w nowym oknie link do filmu na stronie IMDb"
+          aria-label="read more on the imdb website"
         >
           <p
             class="video-details__header__summary__ratings-imdb mat-body custom"
@@ -273,26 +280,31 @@
             class="video-details__info__crew__list__item"
             *ngFor="let creator of details.created_by"
           >
-            <article class="video-details__info__crew__member">
-              <figure class="video-details__info__crew__member__photo">
-                <img
-                  src="{{
-                    creator?.profile_path
-                      ? profilePath + creator.profile_path
-                      : defaultProfilePath
-                  }}"
-                  alt="Photo of {{ creator.name }}"
-                />
-              </figure>
+            <a
+              [routerLink]="['/person', creator.id]"
+              aria-label="read more about this person"
+            >
+              <article class="video-details__info__crew__member">
+                <figure class="video-details__info__crew__member__photo">
+                  <img
+                    src="{{
+                      creator?.profile_path
+                        ? profilePath + creator.profile_path
+                        : defaultProfilePath
+                    }}"
+                    alt="Photo of {{ creator.name }}"
+                  />
+                </figure>
 
-              <section class="video-details__info__crew__member__details">
-                <p
-                  class="video-details__info__crew__member__details__name mat-body custom"
-                >
-                  {{ creator.name }}
-                </p>
-              </section>
-            </article>
+                <section class="video-details__info__crew__member__details">
+                  <p
+                    class="video-details__info__crew__member__details__name mat-body custom"
+                  >
+                    {{ creator.name }}
+                  </p>
+                </section>
+              </article>
+            </a>
           </li>
         </ul>
       </section>
@@ -308,26 +320,31 @@
             class="video-details__info__crew__list__item"
             *ngFor="let screenwriter of screenwriters"
           >
-            <article class="video-details__info__crew__member">
-              <figure class="video-details__info__crew__member__photo">
-                <img
-                  src="{{
-                    screenwriter?.profile_path
-                      ? profilePath + screenwriter.profile_path
-                      : defaultProfilePath
-                  }}"
-                  alt="Photo of {{ screenwriter.name }}"
-                />
-              </figure>
+            <a
+              [routerLink]="['/person', screenwriter.id]"
+              aria-label="read more about this person"
+            >
+              <article class="video-details__info__crew__member">
+                <figure class="video-details__info__crew__member__photo">
+                  <img
+                    src="{{
+                      screenwriter?.profile_path
+                        ? profilePath + screenwriter.profile_path
+                        : defaultProfilePath
+                    }}"
+                    alt="Photo of {{ screenwriter.name }}"
+                  />
+                </figure>
 
-              <section class="video-details__info__crew__member__details">
-                <p
-                  class="video-details__info__crew__member__details__name mat-body custom"
-                >
-                  {{ screenwriter.name }}
-                </p>
-              </section>
-            </article>
+                <section class="video-details__info__crew__member__details">
+                  <p
+                    class="video-details__info__crew__member__details__name mat-body custom"
+                  >
+                    {{ screenwriter.name }}
+                  </p>
+                </section>
+              </article>
+            </a>
           </li>
         </ul>
       </section>
@@ -341,26 +358,31 @@
             class="video-details__info__crew__list__item"
             *ngFor="let director of directors"
           >
-            <article class="video-details__info__crew__member">
-              <figure class="video-details__info__crew__member__photo">
-                <img
-                  src="{{
-                    director?.profile_path
-                      ? profilePath + director.profile_path
-                      : defaultProfilePath
-                  }}"
-                  alt="Photo of {{ director.name }}"
-                />
-              </figure>
+            <a
+              [routerLink]="['/person', director.id]"
+              aria-label="read more about this person"
+            >
+              <article class="video-details__info__crew__member">
+                <figure class="video-details__info__crew__member__photo">
+                  <img
+                    src="{{
+                      director?.profile_path
+                        ? profilePath + director.profile_path
+                        : defaultProfilePath
+                    }}"
+                    alt="Photo of {{ director.name }}"
+                  />
+                </figure>
 
-              <section class="video-details__info__crew__member__details">
-                <p
-                  class="video-details__info__crew__member__details__name mat-body custom"
-                >
-                  {{ director.name }}
-                </p>
-              </section>
-            </article>
+                <section class="video-details__info__crew__member__details">
+                  <p
+                    class="video-details__info__crew__member__details__name mat-body custom"
+                  >
+                    {{ director.name }}
+                  </p>
+                </section>
+              </article>
+            </a>
           </li>
         </ul>
       </section>
@@ -396,6 +418,7 @@
           href="{{ details.homepage }}"
           target="_blank"
           matTooltip="otwiera w nowym oknie link {{ details.homepage }}"
+          aria-label="read more on the official website"
           rel="noopener"
           >kliknij tutaj</a
         >
@@ -413,6 +436,7 @@
           }}/"
           target="_blank"
           matTooltip="otwiera w nowym oknie link do filmu na stronie IMDb"
+          aria-label="read more on the imdb website"
           rel="noopener"
           >kliknij tutaj</a
         >
@@ -479,7 +503,10 @@
             class="video-details__other-videos__list__item"
             *ngFor="let movie of details.recommendations.results"
           >
-            <a [routerLink]="['/movie', movie.id]">
+            <a
+              [routerLink]="['/movie', movie.id]"
+              aria-label="read more about the movie"
+            >
               <app-result-link
                 [imgsrc]="
                   movie.poster_path ? urlImg130 + movie.poster_path : ''
@@ -497,7 +524,10 @@
             class="video-details__other-videos__list__item"
             *ngFor="let show of details.recommendations.results"
           >
-            <a [routerLink]="['/tv', show.id]">
+            <a
+              [routerLink]="['/tv', show.id]"
+              aria-label="read more about the tv show"
+            >
               <app-result-link
                 [imgsrc]="show.poster_path ? urlImg130 + show.poster_path : ''"
                 [title]="show.name"
@@ -516,6 +546,7 @@
       color="primary"
       type="button"
       (click)="goBack()"
+      aria-label="go back"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>

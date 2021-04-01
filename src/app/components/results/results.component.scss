@@ -8,6 +8,12 @@
 
   overflow: hidden;
 
+  &__header {
+    padding-bottom: 10px;
+    color: $main-color;
+    text-align: center;
+  }
+
   &__list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(170px, auto));
@@ -57,7 +63,7 @@
   }
 }
 
-@media (max-width: 320px), (max-height: 360px) {
+@media (max-width: 320px) {
   .results {
     &__list {
       grid-template-columns: repeat(auto-fill, minmax(140px, auto));

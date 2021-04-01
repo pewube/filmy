@@ -29,6 +29,7 @@ export interface VideoDetails {
   belongs_to_collection?: VideoCollection;
   homepage?: string;
   credits?: VideoCredits;
+  aggregate_credits?: VideoCredits;
   images?: VideoImages;
   release_dates?: any;
   seasons?: Array<VideoSeason>;
@@ -68,8 +69,14 @@ export interface VideoCrew {
 export interface VideoActor {
   id?: number;
   name: string;
-  character: string;
+  character?: string;
+  roles?: Array<VideoActorRole>;
+  order: number;
   profile_path: string;
+}
+
+export interface VideoActorRole {
+  character: string;
 }
 
 export interface VideoData {

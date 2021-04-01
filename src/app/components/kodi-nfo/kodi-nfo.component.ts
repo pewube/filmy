@@ -325,7 +325,7 @@ export class KodiNfoComponent implements OnInit {
   }
 
   getKodiNfoActors(): string {
-    const actors = this.actors;
+    const actors = this.actors.filter((el, i) => i < 11);
     let kodiNfoActors: string = '';
 
     if (actors.length > 0) {
