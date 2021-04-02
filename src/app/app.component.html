@@ -5,17 +5,14 @@
 />
 <div class="wrapper">
   <header class="header">
-    <mat-toolbar class="header__toolbar" color="primary">
-      <a
-        class="toolbar__top-logo"
-        (click)="reset()"
-        routerLink="/home"
-        aria-label="home page"
-        ><img src="assets/img/logo-header.svg" alt="filmoteka logo" /><span
-          >Filmoteka</span
-        ></a
-      >
-    </mat-toolbar>
+    <figure class="header__top-logo">
+      <a (click)="reset()" routerLink="/home" aria-label="home page">
+        <img src="assets/img/logo-header.svg" alt="filmoteka logo" />
+      </a>
+      <a (click)="reset()" routerLink="/home" aria-label="home page">
+        <p>Filmoteka</p>
+      </a>
+    </figure>
   </header>
   <app-search-bar [isReset]="isReset"></app-search-bar>
   <router-outlet class="router-outlet"></router-outlet>

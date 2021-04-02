@@ -1,61 +1,67 @@
 <nav class="search-bar">
   <form class="search-bar__searcher" (ngSubmit)="search()" #form="ngForm">
-    <mat-form-field class="search-bar__searcher__query">
-      <mat-label>Szukaj filmu lub serialu</mat-label>
+    <div class="search-bar__searcher__query">
+      <label for="inputQuery" [ngClass]="{ active: query }"
+        >szukany tytuł</label
+      >
       <input
-        matInput
         class="search-bar__searcher__query__input"
         #searcherInput
         type="search"
         name="inputQuery"
+        id="inputQuery"
+        placeholder="szukaj filmu lub serialu"
         aria-label="enter a title"
         [(ngModel)]="query"
+        (input)="deleteNumberOfResults()"
         autofocus
         required
       />
       <button
         *ngIf="query"
-        mat-button
+        mat-icon-button
         class="search-bar__searcher__query__cancel-btn"
         type="reset"
-        matSuffix
-        mat-icon-button
         aria-label="clear query input content"
         (mousedown)="cancelQuery()"
         (touchstart)="cancelQuery()"
       >
         <mat-icon>close</mat-icon>
       </button>
-    </mat-form-field>
-    <div>
-      <mat-form-field class="search-bar__searcher__year">
-        <mat-label>Rok premiery</mat-label>
+    </div>
+
+    <div class="search-bar__searcher__year-container">
+      <div class="search-bar__searcher__year">
+        <label
+          for="inputYear"
+          [ngClass]="{ active: year, red: !yearIsValid() }"
+          >{{ yearInputLabel }}</label
+        >
         <input
-          matInput
           class="search-bar__searcher__year__input"
           #searcherYear
-          type="text"
+          type="search"
           minlength="4"
           maxlength="4"
           name="inputYear"
+          id="inputYear"
+          placeholder="rok premiery"
           aria-label="enter a release date"
           [(ngModel)]="year"
+          (input)="deleteNumberOfResults()"
         />
-        <mat-hint align="end">{{ searcherYear.value.length }} / 4</mat-hint>
         <button
           *ngIf="year"
-          mat-button
+          mat-icon-button
           class="search-bar__searcher__year__cancel-btn"
           type="reset"
-          matSuffix
-          mat-icon-button
           aria-label="clear year input content"
           (mousedown)="cancelYear()"
           (touchstart)="cancelYear()"
         >
           <mat-icon>close</mat-icon>
         </button>
-      </mat-form-field>
+      </div>
       <button
         mat-mini-fab
         color="primary"

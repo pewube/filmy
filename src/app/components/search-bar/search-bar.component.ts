@@ -25,6 +25,7 @@ export class SearchBarComponent implements OnInit, OnChanges {
   query: string;
   page: string;
   year: string = '';
+  yearInputLabel: string = 'rok premiery';
   numberOfMovies: number;
   numberOfShows: number;
 
@@ -106,6 +107,11 @@ export class SearchBarComponent implements OnInit, OnChanges {
     }
   }
 
+  deleteNumberOfResults() {
+    this.numberOfMovies = null;
+    this.numberOfShows = null;
+  }
+
   cancelQuery(): void {
     this.query = '';
     this.numberOfMovies = null;
@@ -119,5 +125,21 @@ export class SearchBarComponent implements OnInit, OnChanges {
     this.year = '';
     this.numberOfMovies = null;
     this.numberOfShows = null;
+  }
+
+  yearIsValid(): boolean {
+    if (this.year.length !== 4 || !Number.isInteger(Number(this.year))) {
+      this.yearInputLabel = 'wpisz 4 cyfry';
+      return false;
+    } else if (
+      Number.isInteger(Number(this.year)) &&
+      Number(this.year) < 1872
+    ) {
+      this.yearInputLabel = 'min. 1872';
+      return false;
+    } else {
+      this.yearInputLabel = 'rok premiery';
+      return true;
+    }
   }
 }

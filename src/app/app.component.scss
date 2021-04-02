@@ -18,31 +18,29 @@
   min-height: 100vh;
   position: relative;
   padding-bottom: 80px;
+
   .header {
     max-width: 1200px;
+    height: 64px;
+    padding: 0 5px;
     margin: 0 auto;
+    border-radius: 0 0 5px 5px;
+    background-color: $main-color;
+    @include main-box-shadow;
 
-    &__toolbar {
-      position: relative;
+    &__top-logo {
+      height: 100%;
       display: flex;
-      justify-content: space-between;
-      border-radius: 0 0 5px 5px;
-      @include main-box-shadow;
 
       a {
-        margin-left: 5px;
-
         text-decoration: none;
 
         img {
-          height: 90%;
-          position: absolute;
-          left: 10px;
-          top: 2px;
+          height: 80px;
         }
 
-        span {
-          margin-left: 45px;
+        p {
+          padding-top: 30px;
           color: #f9f3d4;
           font-size: 24px;
         }
@@ -65,10 +63,15 @@
 @media (max-width: 599px) {
   .wrapper {
     .header {
-      &__toolbar {
+      height: 56px;
+      &__top-logo {
         a {
-          span {
-            margin-left: 40px;
+          img {
+            height: 60px;
+          }
+
+          p {
+            padding-top: 23px;
           }
         }
       }

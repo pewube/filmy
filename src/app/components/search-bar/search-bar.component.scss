@@ -4,6 +4,7 @@
 .search-bar {
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 10px;
 
   display: flex;
   justify-content: center;
@@ -23,16 +24,69 @@
 
     &__query,
     &__year {
+      height: 40px;
       margin: 0;
       margin-right: 15px;
+
+      position: relative;
+
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid $inactive-gray;
+
+      & label {
+        width: 100%;
+        font-size: 11px;
+        color: $inactive-gray;
+        line-height: 100%;
+        opacity: 0;
+        transition: 0.2s;
+
+        &.active {
+          opacity: 1;
+        }
+
+        &.red {
+          color: red;
+        }
+      }
+
+      &__input {
+        height: 22px;
+        padding: 0;
+        padding-top: 5px;
+        border: none;
+
+        flex-grow: 1;
+
+        background-color: rgba(255, 255, 255, 0);
+        font-size: 14px;
+        line-height: 100%;
+      }
+
+      &__cancel-btn {
+        margin-bottom: 5px;
+
+        position: absolute;
+        right: -10px;
+        top: -5px;
+      }
     }
 
     &__query {
       flex-grow: 1;
+      margin-bottom: 10px;
     }
 
     &__year {
       width: 90px;
+      &__input {
+        width: 20px;
+      }
+    }
+
+    &__year-container {
+      display: flex;
     }
   }
 
@@ -151,12 +205,13 @@
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 400px) {
   .search-bar {
     flex-wrap: wrap;
     justify-content: center;
     &__searcher {
       order: 0;
+      justify-content: center;
 
       &__query {
         margin-right: 0;

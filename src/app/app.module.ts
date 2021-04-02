@@ -8,8 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ResultLinkComponent } from './components/result-link/result-link.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './components/footer/footer.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -63,8 +61,6 @@ import { PhotoCollectionComponent } from './components/photo-collection/photo-co
     AppRoutingModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
-    MatToolbarModule,
-    MatInputModule,
     MatIconModule,
     MatButtonModule,
     ClipboardModule,
