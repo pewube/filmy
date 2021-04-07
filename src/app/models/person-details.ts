@@ -54,3 +54,7 @@ export interface PersonImage {
   width: number;
   iso_639_1: string;
 }
+
+export interface PersonVideoList {
+  department?: Array<PersonVideo>;
+}

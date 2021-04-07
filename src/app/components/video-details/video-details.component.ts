@@ -83,7 +83,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private translator: GtranslateService,
+    private gtranslator: GtranslateService,
     private data: DataService,
     private seo: SeoService,
     private spinner: SpinnerService
@@ -488,7 +488,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       format: 'text',
     };
     this.translateBtn = false;
-    this.translator.translate(text).subscribe((result) => {
+    this.gtranslator.translate(text).subscribe((result) => {
       this.overviewTranslated = result.data.translations[0].translatedText;
       this.details.overview = this.overviewTranslated;
     }),

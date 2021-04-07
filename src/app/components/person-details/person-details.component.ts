@@ -1,6 +1,7 @@
+import { TranslateService } from './../../services/translate.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { PersonDetails, PersonVideo } from 'src/app/models/person-details';
+import { PersonDetails, PersonVideoList } from 'src/app/models/person-details';
 import { GtranslateService } from 'src/app/services/gtranslate.service';
 import { HttpService } from 'src/app/services/http.service';
 import { Location } from '@angular/common';
@@ -32,8 +33,9 @@ export class PersonDetailsComponent implements OnInit {
   localDetails: PersonDetails;
   localDetailsEn: PersonDetails;
   biographyTranslated: string;
-  videos: Array<Partial<PersonVideo>> = [];
-  listVideos: Array<Partial<PersonVideo>> = [];
+  videos: PersonVideoList = {};
+  videosList: any = {};
+  selectedDepartment: string = 'all';
   photos: Array<VideoImage> = [];
   numberOfItemsInArray: number = 165;
   translateBtn: boolean = true;
@@ -47,7 +49,8 @@ export class PersonDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private translator: GtranslateService,
+    private gtranslator: GtranslateService,
+    public translator: TranslateService,
     private data: DataService,
     private seo: SeoService,
     private spinner: SpinnerService
@@ -121,17 +124,24 @@ export class PersonDetailsComponent implements OnInit {
   processData() {
     this.data.setPersonDetails(this.details);
 
-    this.videos = [];
-    this.createVideoArray(this.details.combined_credits.cast, this.videos);
-    this.listVideos = this.videos.sort((a, b) => {
-      if (a.release_date > b.release_date) {
-        return -1;
-      }
-      if (a.release_date < b.release_date) {
-        return 1;
-      }
-      return 0;
-    });
+    this.videos = {};
+    this.createVideos(
+      this.details.combined_credits.cast,
+      this.details.combined_credits.crew,
+      this.videos
+    );
+    this.videosList = this.videos;
+    for (let department in this.videosList) {
+      this.videosList[department].sort((a, b) => {
+        if (a.release_date > b.release_date) {
+          return -1;
+        }
+        if (a.release_date < b.release_date) {
+          return 1;
+        }
+        return 0;
+      });
+    }
 
     this.photos = [];
     this.createPhotosArray(
@@ -189,28 +199,59 @@ export class PersonDetailsComponent implements OnInit {
     this.seo.setMetaTags(tags);
   }
 
-  createVideoArray(input, output: Array<Partial<PersonVideo>>): void {
-    for (let video of input) {
-      if (video.character && video.character.toLowerCase().includes('self')) {
-        video.character = this.details.name;
+  createVideos(cast, crew, output: PersonVideoList): void {
+    if (cast.length > 0) {
+      for (let video of cast) {
+        video.department = 'Acting';
+
+        if (!output[video.department]) {
+          output[video.department] = [];
+        }
+        if (video.character && video.character.toLowerCase().includes('self')) {
+          video.character = this.details.name;
+        }
+        if (!video.release_date && !video.first_air_date) {
+          video.release_date = '-';
+        }
+
+        const videoSummary = {
+          release_date: video.release_date
+            ? video.release_date
+            : video.first_air_date,
+          title: video.title ? video.title : video.name,
+          character: video.character,
+          id: video.id,
+          media_type: video.media_type,
+          episode_count: video.episode_count,
+          department: video.department,
+        };
+
+        output[video.department].push(videoSummary);
       }
+    }
+    if (crew.length > 0) {
+      for (let video of crew) {
+        if (!output[video.department]) {
+          output[video.department] = [];
+        }
+        if (!video.release_date && !video.first_air_date) {
+          video.release_date = '-';
+        }
 
-      if (!video.release_date && !video.first_air_date) {
-        video.first_air_date = '-';
+        const videoSummary = {
+          release_date: video.release_date
+            ? video.release_date
+            : video.first_air_date,
+          title: video.title ? video.title : video.name,
+          character: video.job,
+          id: video.id,
+          media_type: video.media_type,
+          episode_count: video.episode_count,
+          department: video.department,
+        };
+
+        output[video.department].push(videoSummary);
       }
-
-      const videoSummary = {
-        release_date: video.release_date
-          ? video.release_date
-          : video.first_air_date,
-        title: video.title ? video.title : video.name,
-        character: video.character,
-        id: video.id,
-        media_type: video.media_type,
-        episode_count: video.episode_count,
-      };
-
-      output.push(videoSummary);
     }
   }
 
@@ -239,7 +280,7 @@ export class PersonDetailsComponent implements OnInit {
       format: 'text',
     };
     this.translateBtn = false;
-    this.translator.translate(text).subscribe((result) => {
+    this.gtranslator.translate(text).subscribe((result) => {
       this.biographyTranslated = result.data.translations[0].translatedText;
       this.details.biography = this.biographyTranslated;
     }),
@@ -267,41 +308,53 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   toggleVideos() {
-    this.listVideos = [];
+    this.videosList = {};
     if (this.checkedMovies && this.checkedShows) {
-      this.listVideos = this.videos.filter((video) => video);
+      for (let department in this.videos) {
+        this.videosList[department] = this.videos[department].filter(
+          (video) => video
+        );
+      }
     } else if (this.checkedMovies && !this.checkedShows) {
-      this.listVideos = this.videos.filter(
-        (video) => video.media_type === 'movie'
-      );
+      for (let department in this.videos) {
+        this.videosList[department] = this.videos[department].filter(
+          (video) => video.media_type === 'movie'
+        );
+      }
     } else if (!this.checkedMovies && this.checkedShows) {
-      this.listVideos = this.videos.filter(
-        (video) => video.media_type === 'tv'
-      );
+      for (let department in this.videos) {
+        this.videosList[department] = this.videos[department].filter(
+          (video) => video.media_type === 'tv'
+        );
+      }
     }
 
     switch (this.checkedDescend) {
       case true:
-        this.listVideos.sort((a, b) => {
-          if (a.release_date > b.release_date) {
-            return -1;
-          }
-          if (a.release_date < b.release_date) {
-            return 1;
-          }
-          return 0;
-        });
+        for (let department in this.videosList) {
+          this.videosList[department].sort((a, b) => {
+            if (a.release_date > b.release_date) {
+              return -1;
+            }
+            if (a.release_date < b.release_date) {
+              return 1;
+            }
+            return 0;
+          });
+        }
         break;
       case false:
-        this.listVideos.sort((a, b) => {
-          if (a.release_date > b.release_date) {
-            return 1;
-          }
-          if (a.release_date < b.release_date) {
-            return -1;
-          }
-          return 0;
-        });
+        for (let department in this.videosList) {
+          this.videosList[department].sort((a, b) => {
+            if (a.release_date > b.release_date) {
+              return 1;
+            }
+            if (a.release_date < b.release_date) {
+              return -1;
+            }
+            return 0;
+          });
+        }
         break;
     }
   }

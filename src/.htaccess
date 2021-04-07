@@ -45,7 +45,7 @@
 	Header set X-Content-Type-Options "nosniff"
 	Header set X-XSS-Protection "1; mode=block"
 	Header set Referrer-Policy "same-origin"
-	Header set Feature-Policy: "microphone 'none'; camera 'none'; payment 'none'; geolocation 'self'"
+	Header set Permissions-Policy "geolocation=(), midi=(), sync-xhr=(), accelerometer=(), gyroscope=(), magnetometer=(), payment=(), camera=(), microphone=(), usb=(), fullscreen=(self)"
 </IfModule>
 
 <ifModule mod_headers.c>

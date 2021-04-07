@@ -23,6 +23,10 @@
         margin: 0;
         border: none;
         background-color: rgba(255, 255, 255, 0);
+
+        &:focus > img {
+          filter: brightness(3);
+        }
       }
 
       img {
@@ -37,8 +41,7 @@
       padding-top: 10px;
 
       &__deathday--gray,
-      &__place--gray,
-      &__aliases--gray {
+      &__place--gray {
         padding-top: 10px;
         border-top: 1px solid $inactive-gray;
       }
@@ -90,17 +93,60 @@
       margin-bottom: 16px;
 
       &__header {
-        padding-bottom: 11px;
+        // padding-bottom: 11px;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        &__dashboard {
+          text-align: right;
+        }
+
+        &__select {
+          background-color: transparent;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 10px 10px 10px;
+          margin: -10px 0 0 0;
+          font-family: inherit;
+          font-size: 14px;
+          text-align: right;
+          cursor: pointer;
+          line-height: inherit;
+
+          &:hover,
+          &:focus {
+            background-color: $main-color-focus;
+          }
+        }
 
         &__toggle__container {
+          width: 100%;
+          margin-right: 10px;
           text-align: right;
         }
         &__toggle {
-          margin-right: 10px;
+          margin-left: 15px;
+
+          mat-icon {
+            width: 24px;
+            height: 24px;
+            margin: 8px 0;
+          }
         }
       }
 
       &__list {
+        padding: 0 5px;
+        &__header {
+          padding: 0 5px;
+          margin-top: 10px;
+          background-color: $main-color-focus;
+          border-radius: 2px;
+          font-size: 1em;
+        }
+
         &__item {
           a {
             color: #000;
@@ -111,8 +157,14 @@
               text-decoration: none;
             }
 
-            &:hover {
-              color: $main-color;
+            &:hover,
+            &:focus {
+              .person-details__info__videos__video {
+                margin: -5px -5px 0 -5px;
+                padding: 5px 5px 0 5px;
+                background-color: $main-color-focus;
+                border-radius: 2px;
+              }
             }
           }
         }
@@ -201,8 +253,7 @@
         padding: 0;
 
         &__deathday--gray,
-        &__place--gray,
-        &__aliases--gray {
+        &__place--gray {
           padding-top: 5px;
           border-top: 1px solid $inactive-gray;
         }
