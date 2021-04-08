@@ -43,6 +43,18 @@
         &:visited {
           text-decoration: none;
         }
+
+        &:focus-within {
+          .result-link {
+            &__details {
+              background-color: #3f51b5;
+              &__title,
+              &__date {
+                color: #fff;
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -25,7 +25,8 @@
     &__item {
       margin: 5px 0;
 
-      &:hover {
+      &:hover,
+      &:focus-within {
         .photo-collection__article__photo {
           box-shadow: 0 5px 0 0 $main-color;
         }
@@ -52,10 +53,6 @@
       margin: 0;
       border: none;
       background-color: rgba(255, 255, 255, 0);
-
-      &:focus > img {
-        filter: brightness(3);
-      }
     }
 
     &__photo {

@@ -20,11 +20,11 @@
 </div>
 <button
   class="btn-up"
+  [ngClass]="{ active: btnUp }"
   mat-mini-fab
   color="primary"
-  (click)="goUp()"
   aria-label="go up"
-  [ngClass]="{ active: btnUp }"
+  (click)="goUp()"
 >
   <mat-icon>vertical_align_top</mat-icon>
 </button>

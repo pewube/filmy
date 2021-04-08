@@ -26,6 +26,9 @@
           class="video-details__header__summary__date mat-body custom"
         >
           {{ details.first_air_date.slice(0, 4) }}
+          <span *ngIf="details?.last_air_date">{{
+            " - " + details.last_air_date.slice(0, 4)
+          }}</span>
         </p>
       </ng-template>
       <p
@@ -229,7 +232,7 @@
       class="video-details__info__release mat-body custom pb-11"
       *ngIf="details?.first_air_date"
     >
-      <span class="main mat-body">pierwszy odcinek:</span>
+      <span class="main mat-body">premiera:</span>
       {{ details.first_air_date }}
     </p>
 
@@ -245,7 +248,7 @@
       class="video-details__info__last-episode mat-body custom pb-11"
       *ngIf="details?.last_air_date"
     >
-      <span class="main mat-body">ostatnia emisja:</span>
+      <span class="main mat-body">ostatni odcinek:</span>
       {{ details.last_air_date }}
     </p>
 
@@ -545,8 +548,9 @@
       class="video-details__btn--back"
       color="primary"
       type="button"
-      (click)="goBack()"
+      matTooltip="wróć do poprzedniej strony"
       aria-label="go back"
+      (click)="goBack()"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>

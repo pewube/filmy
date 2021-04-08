@@ -24,8 +24,11 @@
         border: none;
         background-color: rgba(255, 255, 255, 0);
 
-        &:focus > img {
-          filter: brightness(3);
+        &:hover,
+        &:focus-within {
+          & img {
+            box-shadow: 0 5px 0 0 $main-color;
+          }
         }
       }
 
@@ -104,20 +107,28 @@
         }
 
         &__select {
+          width: 188px;
+          padding: 15px 25px 5px 10px;
+          margin: -15px 0 0 0;
+          appearance: none;
           background-color: transparent;
           border: none;
-          border-radius: 5px;
-          padding: 10px 10px 10px 10px;
-          margin: -10px 0 0 0;
+          border-bottom: 1px solid $inactive-gray;
+          color: $note-gray;
           font-family: inherit;
           font-size: 14px;
           text-align: right;
-          cursor: pointer;
           line-height: inherit;
+          background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="%233f51b5"%3E%3Cpath d="M0 0h24v24H0z" fill="none"/%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E');
+          background-repeat: no-repeat;
+          background-position: right -3px top 12px;
+          cursor: pointer;
+          transition: 0.3s;
 
           &:hover,
           &:focus {
-            background-color: $main-color-focus;
+            color: #000;
+            border-bottom: 1px solid $main-color;
           }
         }
 

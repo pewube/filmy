@@ -7,14 +7,17 @@
     class="page-not-found__error-details"
     *ngIf="serverStatus || apiStatus || apiMessage"
   >
-    <p *ngIf="apiStatus" class="mat-body custom">
-      <span class="mat-caption gray">Kod błędu:</span> {{ apiStatus }}
-    </p>
-    <p *ngIf="serverStatus" class="mat-body custom">
-      <span class="mat-caption gray">Nr błędu:</span> {{ serverStatus }}
-    </p>
-    <p *ngIf="apiMessage" class="mat-body custom">
-      <span class="mat-caption gray">Opis błędu:</span> {{ apiMessage }}
-    </p>
+    <div *ngIf="apiStatus" class="page-not-found__message-container">
+      <p class="mat-body custom mat-caption gray">Kod błędu:</p>
+      <p class="mat-body custom">{{ apiStatus }}</p>
+    </div>
+    <div *ngIf="serverStatus" class="page-not-found__message-container">
+      <p class="mat-body custom mat-caption gray">Nr błędu:</p>
+      <p class="mat-body custom">{{ serverStatus }}</p>
+    </div>
+    <div *ngIf="apiMessage" class="page-not-found__message-container">
+      <p class="mat-body custom mat-caption gray">Opis błędu:</p>
+      <p class="mat-body custom">{{ apiMessage }}</p>
+    </div>
   </section>
 </article>

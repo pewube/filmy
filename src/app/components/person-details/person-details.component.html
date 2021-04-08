@@ -119,8 +119,10 @@
           <select
             [(ngModel)]="selectedDepartment"
             class="person-details__info__videos__header__select"
+            matTooltip="wybierz elementy listy"
+            aria-label="select list items"
           >
-            <option [value]="'all'">wszystkie</option>
+            <option [value]="'all'">pokaż wszystkie</option>
             <option
               class="person-details__info__videos__header__select__option"
               *ngFor="let department of videosList | keyvalue"
@@ -134,6 +136,8 @@
               class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
               color="primary"
               labelPosition="before"
+              matTooltip="zaznacz jeśli lista ma zawierać filmy"
+              aria-label="include movies"
               [(ngModel)]="checkedMovies"
               (change)="toggleVideos()"
             >
@@ -143,6 +147,8 @@
               class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
               color="primary"
               labelPosition="before"
+              matTooltip="zaznacz jeśli lista ma zawierać seriale"
+              aria-label="include tv shows"
               [(ngModel)]="checkedShows"
               (change)="toggleVideos()"
             >
@@ -152,6 +158,8 @@
               class="person-details__info__videos__header__toggle person-details__info__videos__header__toggle--tv"
               color="primary"
               labelPosition="before"
+              matTooltip="zaznacz jeśli lista ma byc sortowana od najnowszych"
+              aria-label="sort from newest"
               [(ngModel)]="checkedDescend"
               (change)="toggleVideos()"
             >
@@ -279,8 +287,9 @@
       class="person-details__btn--back"
       color="primary"
       type="button"
-      (click)="goBack()"
+      matTooltip="wróć do poprzedniej strony"
       aria-label="go back"
+      (click)="goBack()"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>

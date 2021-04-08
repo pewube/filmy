@@ -35,7 +35,8 @@
           text-decoration: none;
         }
 
-        &:hover {
+        &:hover,
+        &:focus-within {
           .credits__article__photo {
             box-shadow: 0 5px 0 0 $main-color;
           }

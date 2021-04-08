@@ -89,7 +89,7 @@ export class ResultsComponent implements OnInit {
           .then((res) => {
             this.shows = res;
             this.length = res.total_results;
-            // console.log('http movies: ', this.movies);
+            // console.log('http shows: ', this.shows);
           })
           .catch((error) => {
             console.log(error);

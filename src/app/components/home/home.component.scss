@@ -42,7 +42,8 @@
     scrollbar-color: #ddd rgba(255, 255, 255, 0);
     scrollbar-width: thin;
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       &::-webkit-scrollbar {
         &-thumb {
           background: $main-color;
@@ -79,6 +80,18 @@
 
         &:visited {
           text-decoration: none;
+        }
+
+        &:focus-within {
+          .result-link {
+            &__details {
+              background-color: #3f51b5;
+              &__title,
+              &__date {
+                color: #fff;
+              }
+            }
+          }
         }
       }
     }

@@ -81,6 +81,8 @@
       class="search-bar__search-nav__movies"
       [routerLink]="['/results-movies', query, '1', year]"
       [ngClass]="{ active: (data.isItMovie | async) }"
+      matTooltip="zobacz znalezione filmy"
+      aria-label="see found movies"
       (click)="data.isMovie = true"
       >Filmy <span>{{ numberOfMovies }}</span></a
     >
@@ -88,6 +90,8 @@
       class="search-bar__search-nav__shows"
       [routerLink]="['/results-shows', query, '1', year]"
       [ngClass]="{ active: !(data.isItMovie | async) }"
+      matTooltip="zobacz znalezione seriale"
+      aria-label="see found tv shows"
       (click)="data.isMovie = false"
       >Seriale <span>{{ numberOfShows }}</span></a
     >
