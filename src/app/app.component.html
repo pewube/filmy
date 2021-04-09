@@ -13,6 +13,15 @@
         <p>Filmoteka</p>
       </a>
     </figure>
+    <button
+      class="header__btn-info"
+      mat-icon-button
+      color="primary"
+      aria-label="read the information"
+      (click)="dialogOn()"
+    >
+      <mat-icon>info</mat-icon>
+    </button>
   </header>
   <app-search-bar [isReset]="isReset"></app-search-bar>
   <router-outlet class="router-outlet"></router-outlet>
@@ -28,4 +37,13 @@
 >
   <mat-icon>vertical_align_top</mat-icon>
 </button>
+<app-full-size-dialog
+  *ngIf="showDialog"
+  [width]="'90vw'"
+  [maxWidth]="'410px'"
+  [height]="'85vh'"
+  [maxHeight]="'620px'"
+  (dialogOff)="dialogOff($event)"
+  ><app-info-content-dialog></app-info-content-dialog
+></app-full-size-dialog>
 <app-spinner [ngClass]="{ hidden: !(spinner.isLoading | async) }"></app-spinner>

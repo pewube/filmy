@@ -1,16 +1,23 @@
 <article class="person-details">
   <aside class="person-details__header">
-    <figure
-      *ngIf="details?.profile_path"
-      class="person-details__header__poster"
-    >
+    <figure class="person-details__header__poster">
       <button
         class="person-details__header__poster__btn--enlarge"
-        (click)="enlargePicture(urlImg600 + details?.profile_path)"
+        (click)="
+          enlargePicture(
+            details?.profile_path
+              ? urlImg600 + details?.profile_path
+              : 'assets/img/cast600.jpg'
+          )
+        "
         aria-label="enlarge image"
       >
         <img
-          src="{{ posterPath + details?.profile_path }}"
+          src="{{
+            details?.profile_path
+              ? posterPath + details?.profile_path
+              : 'assets/img/cast220.jpg'
+          }}"
           alt="Zdjęcie {{ details?.name }}"
         />
       </button>
@@ -169,7 +176,7 @@
         </div>
       </header>
       <h3
-        *ngIf="selectedDepartment !== 'all'"
+        *ngIf="selectedDepartment && selectedDepartment !== 'all'"
         class="person-details__info__videos__list__header"
       >
         {{ translator.department(selectedDepartment) }}

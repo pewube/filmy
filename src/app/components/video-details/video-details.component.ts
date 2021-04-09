@@ -28,6 +28,7 @@ import localePl from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { MetaDefinition } from '@angular/platform-browser';
+import { TranslateService } from 'src/app/services/translate.service';
 registerLocaleData(localePl);
 
 @Component({
@@ -84,6 +85,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private gtranslator: GtranslateService,
+    private translator: TranslateService,
     private data: DataService,
     private seo: SeoService,
     private spinner: SpinnerService
@@ -247,7 +249,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   processData() {
     this.data.setVideoDetails(this.details);
 
-    this.translateStatus(this.details.status);
+    this.statusTranslated = this.translator.videoStatus(this.details.status);
 
     this.backdrops = [];
     this.createBackdropsArray(this.details.images, this.backdrops);
@@ -331,34 +333,6 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
       },
     ];
     this.seo.setMetaTags(tags);
-  }
-
-  translateStatus(input: string) {
-    switch (input.toLowerCase()) {
-      case 'released':
-        this.statusTranslated = 'wydany';
-        break;
-      case 'planned':
-        this.statusTranslated = 'planowany';
-        break;
-      case 'canceled':
-        this.statusTranslated = 'anulowany';
-        break;
-      case 'ended':
-        this.statusTranslated = 'zakończony';
-        break;
-      case 'returning series':
-        this.statusTranslated = 'planowany kolejny sezon';
-        break;
-      case 'post production':
-        this.statusTranslated = 'w postprodukcji';
-        break;
-      case 'in production':
-        this.statusTranslated = 'w produkcji';
-        break;
-      default:
-        this.statusTranslated = input.toLowerCase();
-    }
   }
 
   createScreenwritersArray(input, output: Array<VideoCrew>) {

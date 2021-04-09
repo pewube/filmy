@@ -31,6 +31,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 
 import { CreditsComponent } from './components/video-details/credits/credits.component';
 import { PhotoCollectionComponent } from './components/photo-collection/photo-collection.component';
+import { InfoContentDialogComponent } from './info-content-dialog/info-content-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { PhotoCollectionComponent } from './components/photo-collection/photo-co
     SpinnerComponent,
     CreditsComponent,
     PhotoCollectionComponent,
+    InfoContentDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -1,8 +1,69 @@
 @import "variables";
 
-@mixin main-box-shadow {
+@mixin main-box-shadow() {
   box-shadow: 0 2px 5px 0 $inactive-gray;
 }
-@mixin hover-box-shadow {
+@mixin hover-box-shadow() {
   box-shadow: 0 0 5px 3px $main-color;
+}
+
+@mixin selectInput() {
+  width: 188px;
+  padding: 15px 25px 5px 10px;
+  margin: -15px 0 0 0;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid $inactive-gray;
+  color: $note-gray;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: right;
+  line-height: inherit;
+  background-image: url("/assets/img/select-arrow-down.svg");
+  background-repeat: no-repeat;
+  background-position: right -3px top 12px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover,
+  &:focus {
+    color: #000;
+    border-bottom: 1px solid $main-color;
+  }
+}
+
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+
+    &-thumb {
+      background: #ddd;
+      border-radius: 5px;
+
+      &:hover {
+        background: $main-color;
+      }
+    }
+
+    &-track {
+      background: rgba(255, 255, 255, 0);
+      border-radius: 5px;
+      box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
+    }
+  }
+
+  scrollbar-color: #ddd rgba(255, 255, 255, 0);
+  scrollbar-width: thin;
+
+  &:hover,
+  &:focus-within {
+    &::-webkit-scrollbar {
+      &-thumb {
+        background: $main-color;
+      }
+    }
+    scrollbar-color: $main-color rgba(255, 255, 255, 0);
+  }
 }

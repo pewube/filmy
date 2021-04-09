@@ -1,0 +1,41 @@
+@import "src/variables";
+@import "src/mixins";
+.info {
+  h1 {
+    margin-bottom: 10px;
+    border-bottom: 1px solid $inactive-gray;
+    color: $main-color;
+  }
+
+  h2 {
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  ul {
+    margin-bottom: 15px;
+  }
+
+  a {
+    color: $note-gray;
+    text-decoration: none;
+
+    &:visited {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $main-color;
+    }
+  }
+
+  &__contact,
+  &__sources,
+  &__attribution {
+    margin-bottom: 30px;
+  }
+}

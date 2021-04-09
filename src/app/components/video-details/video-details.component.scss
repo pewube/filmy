@@ -35,7 +35,7 @@
       img {
         width: $poster-width-220;
         border-radius: 5px;
-        @include main-box-shadow;
+        @include main-box-shadow();
         font-size: 12px;
       }
     }
@@ -46,10 +46,6 @@
       &__restrictions {
         padding-top: 5px;
         border-top: 1px solid $inactive-gray;
-
-        &:focus-within {
-          background-color: $main-color-focus;
-        }
 
         button {
           padding: 0;
@@ -238,39 +234,7 @@
       justify-content: flex-start;
       overflow-x: scroll;
 
-      //scrollbar start
-      &::-webkit-scrollbar {
-        height: 5px;
-
-        &-thumb {
-          background: #ddd;
-          border-radius: 5px;
-
-          &:hover {
-            background: $main-color;
-          }
-        }
-
-        &-track {
-          background: rgba(255, 255, 255, 0);
-          border-radius: 5px;
-          box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
-        }
-      }
-
-      scrollbar-color: #ddd rgba(255, 255, 255, 0);
-      scrollbar-width: thin;
-
-      &:hover,
-      &:focus-within {
-        &::-webkit-scrollbar {
-          &-thumb {
-            background: $main-color;
-          }
-        }
-        scrollbar-color: $main-color rgba(255, 255, 255, 0);
-      }
-      //scrollbar end
+      @include scrollbar();
 
       &__item {
         padding-bottom: 10px;

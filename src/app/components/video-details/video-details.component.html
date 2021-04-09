@@ -1,13 +1,23 @@
 <article class="video-details">
   <aside class="video-details__header">
-    <figure *ngIf="details?.poster_path" class="video-details__header__poster">
+    <figure class="video-details__header__poster">
       <button
         class="video-details__header__poster__btn--enlarge"
-        (click)="enlargePicture(urlImg600 + details?.poster_path)"
+        (click)="
+          enlargePicture(
+            details?.poster_path
+              ? urlImg600 + details?.poster_path
+              : 'assets/img/movie600.jpg'
+          )
+        "
         aria-label="enlarge image"
       >
         <img
-          src="{{ posterPath + details?.poster_path }}"
+          src="{{
+            details?.poster_path
+              ? posterPath + details?.poster_path
+              : 'assets/img/movie220.jpg'
+          }}"
           alt="Plakat {{ details?.title ? details?.title : details?.name }}"
         />
       </button>

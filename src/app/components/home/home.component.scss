@@ -19,39 +19,7 @@
     justify-content: flex-start;
     overflow-x: scroll;
 
-    //scrollbar start
-    &::-webkit-scrollbar {
-      height: 5px;
-
-      &-thumb {
-        background: #ddd;
-        border-radius: 5px;
-
-        &:hover {
-          background: $main-color;
-        }
-      }
-
-      &-track {
-        background: rgba(255, 255, 255, 0);
-        border-radius: 5px;
-        box-shadow: inset 7px 10px 12px rgba(255, 255, 255, 0);
-      }
-    }
-
-    scrollbar-color: #ddd rgba(255, 255, 255, 0);
-    scrollbar-width: thin;
-
-    &:hover,
-    &:focus-within {
-      &::-webkit-scrollbar {
-        &-thumb {
-          background: $main-color;
-        }
-      }
-      scrollbar-color: $main-color rgba(255, 255, 255, 0);
-    }
-    //scrollbar end
+    @include scrollbar();
 
     &__header {
       color: $main-color;

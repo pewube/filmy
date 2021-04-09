@@ -7,7 +7,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class FullSizeDialogComponent implements OnInit {
   @Input() width: string;
+  @Input() maxWidth: string;
   @Input() height: string;
+  @Input() maxHeight: string;
   @Input() header: string;
   @Input() content: string;
   @Input() copyButtonOn: boolean = false;
@@ -25,14 +27,41 @@ export class FullSizeDialogComponent implements OnInit {
 
   setSize() {
     if (this.isOn) {
-      return {
-        width: this.width,
-        height: this.height,
-      };
+      if (!this.maxWidth && !this.maxHeight) {
+        return {
+          width: this.width,
+          'max-width': this.width,
+          height: this.height,
+          'max-height': this.height,
+        };
+      } else if (this.maxWidth && !this.maxHeight) {
+        return {
+          width: this.width,
+          'max-width': this.maxWidth,
+          height: this.height,
+          'max-height': this.height,
+        };
+      } else if (this.maxHeight && !this.maxWidth) {
+        return {
+          width: this.width,
+          'max-width': this.width,
+          height: this.height,
+          'max-height': this.maxHeight,
+        };
+      } else if (this.maxHeight && this.maxWidth) {
+        return {
+          width: this.width,
+          'max-width': this.maxWidth,
+          height: this.height,
+          'max-height': this.maxHeight,
+        };
+      }
     } else {
       return {
-        width: '0vw',
-        height: '0vh',
+        width: '0',
+        'max-width': '0',
+        height: '0',
+        'max-height': '0',
       };
     }
   }

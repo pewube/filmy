@@ -357,6 +357,8 @@ export class PersonDetailsComponent implements OnInit {
         }
         break;
     }
+
+    console.log(this.selectedDepartment);
   }
 
   goBack() {

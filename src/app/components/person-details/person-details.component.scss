@@ -35,7 +35,7 @@
       img {
         width: $poster-width-220;
         border-radius: 5px;
-        @include main-box-shadow;
+        @include main-box-shadow();
         font-size: 12px;
       }
     }
@@ -107,29 +107,7 @@
         }
 
         &__select {
-          width: 188px;
-          padding: 15px 25px 5px 10px;
-          margin: -15px 0 0 0;
-          appearance: none;
-          background-color: transparent;
-          border: none;
-          border-bottom: 1px solid $inactive-gray;
-          color: $note-gray;
-          font-family: inherit;
-          font-size: 14px;
-          text-align: right;
-          line-height: inherit;
-          background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="%233f51b5"%3E%3Cpath d="M0 0h24v24H0z" fill="none"/%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E');
-          background-repeat: no-repeat;
-          background-position: right -3px top 12px;
-          cursor: pointer;
-          transition: 0.3s;
-
-          &:hover,
-          &:focus {
-            color: #000;
-            border-bottom: 1px solid $main-color;
-          }
+          @include selectInput();
         }
 
         &__toggle__container {

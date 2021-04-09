@@ -20,6 +20,7 @@ import { SpinnerService } from './services/spinner.service';
 export class AppComponent implements OnInit, OnDestroy {
   btnUp: boolean = false;
   isReset: boolean = false;
+  showDialog: boolean = false;
   metaTagsSubscription: Subscription;
   metaTitleSubscription: Subscription;
   backdropPath: string = '';
@@ -86,6 +87,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setBackgroundSrc() {
     return this.backdropPath ? this.backdropPath : this.backdropDefault;
+  }
+
+  dialogOn() {
+    this.showDialog = true;
+  }
+
+  dialogOff(event) {
+    this.showDialog = !event;
   }
 
   goUp() {
