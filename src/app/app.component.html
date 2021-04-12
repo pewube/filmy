@@ -15,12 +15,10 @@
     </figure>
     <button
       class="header__btn-info"
-      mat-icon-button
-      color="primary"
       aria-label="read the information"
       (click)="dialogOn()"
     >
-      <mat-icon>info</mat-icon>
+      <p>i</p>
     </button>
   </header>
   <app-search-bar [isReset]="isReset"></app-search-bar>
@@ -40,9 +38,9 @@
 <app-full-size-dialog
   *ngIf="showDialog"
   [width]="'90vw'"
-  [maxWidth]="'410px'"
+  [maxWidth]="'400px'"
   [height]="'85vh'"
-  [maxHeight]="'620px'"
+  [maxHeight]="'560px'"
   (dialogOff)="dialogOff($event)"
   ><app-info-content-dialog></app-info-content-dialog
 ></app-full-size-dialog>

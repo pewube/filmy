@@ -143,6 +143,8 @@ export class PersonDetailsComponent implements OnInit {
       });
     }
 
+    // console.log(this.videosList);
+
     this.photos = [];
     this.createPhotosArray(
       this.details.images,
@@ -358,7 +360,7 @@ export class PersonDetailsComponent implements OnInit {
         break;
     }
 
-    console.log(this.selectedDepartment);
+    // console.log(this.selectedDepartment);
   }
 
   goBack() {

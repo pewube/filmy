@@ -52,11 +52,23 @@
     }
 
     &__btn-info {
-      padding-top: 15px;
+      width: 40px;
+      height: 40px;
+      padding-top: 20px;
       margin-right: 5px;
-      mat-icon {
-        background-color: #fff;
+      border: none;
+      background-color: transparent;
+
+      p {
+        width: 25px;
+        height: 25px;
+        margin-top: 4px;
+        margin-left: 1px;
+        border: 2px solid #f9f3d4;
         border-radius: 50%;
+        border-radius: 50%;
+        color: #f9f3d4;
+        line-height: 21px;
       }
     }
   }

@@ -11,13 +11,12 @@ import { VideoDetails } from '../models/video-details';
 export class DataService {
   defaultBackdropPath: string = 'assets/img/popcorn1280.jpg';
   defaultPosterPath: string = 'assets/img/movie220.jpg';
-
-  private popularMovies$ = new BehaviorSubject<TmdbResponse>(null);
-  private popularShows$ = new BehaviorSubject<TmdbResponse>(null);
-  private isMovie$ = new BehaviorSubject<boolean>(true);
   private backdropPath$ = new BehaviorSubject<string>(
     'assets/img/popcorn1280.jpg'
   );
+  private popularMovies$ = new BehaviorSubject<TmdbResponse>(null);
+  private popularShows$ = new BehaviorSubject<TmdbResponse>(null);
+  private isMovie$ = new BehaviorSubject<boolean>(true);
   private videoDetails$ = new BehaviorSubject<VideoDetails>(null);
   private videoDetailsEn$ = new BehaviorSubject<VideoDetails>(null);
   private personDetails$ = new BehaviorSubject<PersonDetails>(null);

@@ -59,55 +59,56 @@ export class ResultsComponent implements OnInit {
       this.query = params.get('query');
       this.year = params.get('year') ? params.get('year') : '';
 
-      if (this.isMovie) {
-        this.http
-          .getMovies(
-            params.get('query'),
-            params.get('page'),
-            params.get('year')
-          )
-          .toPromise()
-          .then((res) => {
-            this.movies = res;
-            this.length = res.total_results;
-            // console.log('http movies: ', this.movies);
-          })
-          .catch((error) => {
-            console.log(error);
-            this.router.navigate([`/page-not-found/${error.status}`], {
-              state: {
-                serverStatus: error.status,
-                apiStatus: error.error.status_code,
-                apiMessage: error.error.status_message,
-              },
-            });
-          });
-      } else {
-        this.http
-          .getShows(params.get('query'), params.get('page'), params.get('year'))
-          .toPromise()
-          .then((res) => {
-            this.shows = res;
-            this.length = res.total_results;
-            // console.log('http shows: ', this.shows);
-          })
-          .catch((error) => {
-            console.log(error);
-            this.router.navigate([`/page-not-found/${error.status}`], {
-              state: {
-                serverStatus: error.status,
-                apiStatus: error.error.status_code,
-                apiMessage: error.error.status_message,
-              },
-            });
-          });
-      }
+      this.getData(params.get('query'), params.get('page'), params.get('year'));
+
       this.setPaginatorPage(params.get('page'));
     });
 
     setTimeout(() => {
       this.data.setBackdropPath(this.defaultBackdropPath);
     }, 0);
+  }
+
+  getData(query: string, page: string = '1', year: string = '') {
+    if (this.isMovie) {
+      this.http
+        .getMovies(query, page, year)
+        .toPromise()
+        .then((res) => {
+          this.movies = res;
+          this.length = res.total_results;
+          // console.log('http movies: ', this.movies);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.router.navigate([`/page-not-found/${error.status}`], {
+            state: {
+              serverStatus: error.status,
+              apiStatus: error.error.status_code,
+              apiMessage: error.error.status_message,
+            },
+          });
+        });
+    } else {
+      this.http
+        .getShows(query, page, year)
+        .toPromise()
+        .then((res) => {
+          this.shows = res;
+          this.length = res.total_results;
+          // console.log('http shows: ', this.shows);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.router.navigate([`/page-not-found/${error.status}`], {
+            state: {
+              serverStatus: error.status,
+              apiStatus: error.error.status_code,
+              apiMessage: error.error.status_message,
+            },
+          });
+        });
+    }
   }
 
   setMetaTags() {
