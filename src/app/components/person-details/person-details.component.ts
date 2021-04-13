@@ -131,7 +131,7 @@ export class PersonDetailsComponent implements OnInit {
       this.videos
     );
     this.videosList = this.videos;
-    for (let department in this.videosList) {
+    for (const department in this.videosList) {
       this.videosList[department].sort((a, b) => {
         if (a.release_date > b.release_date) {
           return -1;
@@ -203,7 +203,7 @@ export class PersonDetailsComponent implements OnInit {
 
   createVideos(cast, crew, output: PersonVideoList): void {
     if (cast.length > 0) {
-      for (let video of cast) {
+      for (const video of cast) {
         video.department = 'Acting';
 
         if (!output[video.department]) {
@@ -232,7 +232,7 @@ export class PersonDetailsComponent implements OnInit {
       }
     }
     if (crew.length > 0) {
-      for (let video of crew) {
+      for (const video of crew) {
         if (!output[video.department]) {
           output[video.department] = [];
         }
@@ -263,7 +263,7 @@ export class PersonDetailsComponent implements OnInit {
     outputLength: number = 8
   ) {
     if (input.profiles.length < outputLength) {
-      for (let photo of input.profiles) {
+      for (const photo of input.profiles) {
         output.push(photo);
       }
     } else {
@@ -312,19 +312,19 @@ export class PersonDetailsComponent implements OnInit {
   toggleVideos() {
     this.videosList = {};
     if (this.checkedMovies && this.checkedShows) {
-      for (let department in this.videos) {
+      for (const department in this.videos) {
         this.videosList[department] = this.videos[department].filter(
           (video) => video
         );
       }
     } else if (this.checkedMovies && !this.checkedShows) {
-      for (let department in this.videos) {
+      for (const department in this.videos) {
         this.videosList[department] = this.videos[department].filter(
           (video) => video.media_type === 'movie'
         );
       }
     } else if (!this.checkedMovies && this.checkedShows) {
-      for (let department in this.videos) {
+      for (const department in this.videos) {
         this.videosList[department] = this.videos[department].filter(
           (video) => video.media_type === 'tv'
         );
@@ -333,7 +333,7 @@ export class PersonDetailsComponent implements OnInit {
 
     switch (this.checkedDescend) {
       case true:
-        for (let department in this.videosList) {
+        for (const department in this.videosList) {
           this.videosList[department].sort((a, b) => {
             if (a.release_date > b.release_date) {
               return -1;
@@ -346,7 +346,7 @@ export class PersonDetailsComponent implements OnInit {
         }
         break;
       case false:
-        for (let department in this.videosList) {
+        for (const department in this.videosList) {
           this.videosList[department].sort((a, b) => {
             if (a.release_date > b.release_date) {
               return 1;

@@ -167,7 +167,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoPosters: string = '';
 
     if (posters.length > 0) {
-      for (let poster of posters) {
+      for (const poster of posters) {
         kodiNfoPosters += poster.file_path
           ? `  <thumb aspect="poster" preview="https://image.tmdb.org/t/p/w500${poster.file_path}">https://image.tmdb.org/t/p/original${poster.file_path}</thumb>
     `
@@ -187,7 +187,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoSeasonsPosters: string = '';
 
     if (seasons.length > 0) {
-      for (let season of seasons) {
+      for (const season of seasons) {
         if (season.season_number > 0) {
           kodiNfoSeasonsPosters += season.poster_path
             ? ` <thumb aspect="poster" type="season" season="${season.season_number}">https://image.tmdb.org/t/p/original${season.poster_path}</thumb>
@@ -205,7 +205,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoBackdrops: string = '';
 
     if (backdrops.length > 0) {
-      for (let backdrop of backdrops) {
+      for (const backdrop of backdrops) {
         kodiNfoBackdrops += backdrop.file_path
           ? `  <thumb dim="${backdrop.width}x${backdrop.height}" preview="https://image.tmdb.org/t/p/w780${backdrop.file_path}">https://image.tmdb.org/t/p/original${backdrop.file_path}</thumb>
       `
@@ -225,7 +225,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoMpaa: string;
 
     function findCountryCertificate(iso: string) {
-      for (let el of certifications) {
+      for (const el of certifications) {
         if (el.country === iso) {
           kodiNfoMpaa = `${el.certification} (${el.country})`;
           break;
@@ -257,7 +257,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoGenres: string = '';
 
     if (genres.length > 0) {
-      for (let genre of genres) {
+      for (const genre of genres) {
         kodiNfoGenres += `
       <genre>${genre.name}</genre>`;
       }
@@ -271,7 +271,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoCountries: string = '';
 
     if (countries.length > 0) {
-      for (let country of countries) {
+      for (const country of countries) {
         kodiNfoCountries += `
       <country>${country.name}</country>`;
       }
@@ -285,7 +285,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoScreenwriters: string = '';
 
     if (screenwriters.length > 0) {
-      for (let screenwriter of screenwriters) {
+      for (const screenwriter of screenwriters) {
         kodiNfoScreenwriters += `
       <credits>${screenwriter.name}</credits>`;
       }
@@ -299,7 +299,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoDirectors: string = '';
 
     if (directors.length > 0) {
-      for (let director of directors) {
+      for (const director of directors) {
         kodiNfoDirectors += `
       <director>${director.name}</director>`;
       }
@@ -315,7 +315,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoStudios: string = '';
 
     if (studios.length > 0) {
-      for (let studio of studios) {
+      for (const studio of studios) {
         kodiNfoStudios += `
       <studio>${studio.name}</studio>`;
       }
@@ -352,7 +352,7 @@ export class KodiNfoComponent implements OnInit {
     let kodiNfoSeasonsNames: string = '';
 
     if (seasons.length > 0) {
-      for (let season of seasons) {
+      for (const season of seasons) {
         if (season.season_number > 0) {
           kodiNfoSeasonsNames += season.name
             ? ` <namedseason number="${season.season_number}">${season.name}</namedseason>

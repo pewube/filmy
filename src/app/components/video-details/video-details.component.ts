@@ -336,7 +336,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   createScreenwritersArray(input, output: Array<VideoCrew>) {
-    for (let el of input.crew) {
+    for (const el of input.crew) {
       if (
         el.job.toLowerCase() === 'screenplay' ||
         el.job.toLowerCase() === 'writer'
@@ -347,7 +347,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   createDirectorsArray(input, output: Array<VideoCrew>) {
-    for (let el of input.crew) {
+    for (const el of input.crew) {
       if (el.job.toLowerCase() === 'director') {
         output.push(el);
       }
@@ -356,14 +356,14 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
 
   createSeasonsArray(input, output: Array<VideoSeason>) {
     if (input.length > 0) {
-      for (let season of input) {
+      for (const season of input) {
         output.push(season);
       }
     }
   }
 
   createMovieActorsArray(input, output: Array<VideoActor>) {
-    for (let actor of input.cast) {
+    for (const actor of input.cast) {
       if (actor.character.toLowerCase().includes('self')) {
         actor.character = actor.name;
       }
@@ -374,9 +374,9 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   createShowActorsArray(input, output: Array<VideoActor>) {
     let character: Array<string>;
 
-    for (let actor of input.cast) {
+    for (const actor of input.cast) {
       character = [];
-      for (let role of actor.roles) {
+      for (const role of actor.roles) {
         if (role.character.toLowerCase().includes('self')) {
           role.character = actor.name;
         }
@@ -388,7 +388,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   createMovieCertificationsArray(input, output: Array<VideoCertification>) {
-    for (let el of input.results) {
+    for (const el of input.results) {
       if (
         (el.iso_3166_1 === 'US' ||
           el.iso_3166_1 === 'DE' ||
@@ -415,7 +415,7 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   createShowCertificationsArray(input, output: Array<VideoCertification>) {
-    for (let el of input.results) {
+    for (const el of input.results) {
       if (
         (el.iso_3166_1 === 'US' ||
           el.iso_3166_1 === 'DE' ||
@@ -442,13 +442,13 @@ export class VideoDetailsComponent implements OnInit, OnDestroy {
   }
 
   createBackdropsArray(input, output: Array<VideoImage>) {
-    for (let backdrop of input.backdrops) {
+    for (const backdrop of input.backdrops) {
       output.push(backdrop);
     }
   }
 
   createPostersArray(input, output: Array<VideoImage>) {
-    for (let poster of input.posters) {
+    for (const poster of input.posters) {
       output.push(poster);
     }
   }

@@ -32,6 +32,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { CreditsComponent } from './components/video-details/credits/credits.component';
 import { PhotoCollectionComponent } from './components/photo-collection/photo-collection.component';
 import { InfoContentDialogComponent } from './info-content-dialog/info-content-dialog.component';
+import { ImgLazyDirective } from './directives/img-lazy.directive';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { InfoContentDialogComponent } from './info-content-dialog/info-content-d
     CreditsComponent,
     PhotoCollectionComponent,
     InfoContentDialogComponent,
+    ImgLazyDirective,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

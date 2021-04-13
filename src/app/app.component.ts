@@ -18,6 +18,19 @@ import { SpinnerService } from './services/spinner.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @HostListener('window:scroll')
+  showBtnUp(): void {
+    if (window.scrollY > window.innerHeight) {
+      this.btnUp = true;
+    } else {
+      this.btnUp = false;
+    }
+  }
+  @HostListener('window:load')
+  loaded(): void {
+    this.spinner.loading = false;
+  }
+
   btnUp: boolean = false;
   isReset: boolean = false;
   showDialog: boolean = false;
@@ -30,20 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
   backgroundSrc: string = this.backdropPath
     ? this.backdropPath
     : this.backdropDefault;
-
-  @HostListener('window:scroll')
-  showBtnUp(): void {
-    if (window.scrollY > window.innerHeight) {
-      this.btnUp = true;
-    } else {
-      this.btnUp = false;
-    }
-  }
-
-  @HostListener('window:load')
-  loaded(): void {
-    this.spinner.loading = false;
-  }
 
   constructor(
     private data: DataService,
@@ -70,13 +69,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.backdropPath = path;
       });
 
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationStart) {
-    //     console.log('navigation start');
-    //   } else if (event instanceof NavigationEnd) {
-    //     console.log('navigation end');
-    //   }
-    // });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.spinner.loading = true;
+      } else if (event instanceof NavigationEnd) {
+        this.spinner.loading = false;
+      }
+    });
   }
 
   ngOnDestroy() {

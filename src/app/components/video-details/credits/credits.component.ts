@@ -166,7 +166,7 @@ export class CreditsComponent implements OnInit, OnDestroy {
   }
 
   createMovieActorsArray(input, output: Array<VideoActor>) {
-    for (let actor of input.cast) {
+    for (const actor of input.cast) {
       if (actor.character.toLowerCase().includes('self')) {
         actor.character = actor.name;
       }
@@ -177,9 +177,9 @@ export class CreditsComponent implements OnInit, OnDestroy {
   createShowActorsArray(input, output: Array<VideoActor>) {
     let character: Array<string>;
 
-    for (let actor of input.cast) {
+    for (const actor of input.cast) {
       character = [];
-      for (let role of actor.roles) {
+      for (const role of actor.roles) {
         if (role.character.toLowerCase().includes('self')) {
           role.character = actor.name;
         }
