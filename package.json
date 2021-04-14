@@ -7,11 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "dev:ssr": "ng run filmy:serve-ssr",
-    "serve:ssr": "node dist/filmy/server/main.js",
-    "build:ssr": "ng build --prod && ng run filmy:server:production",
-    "prerender": "ng run filmy:prerender"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -24,10 +20,7 @@
     "@angular/material": "^10.2.7",
     "@angular/platform-browser": "~10.1.2",
     "@angular/platform-browser-dynamic": "~10.1.2",
-    "@angular/platform-server": "^11.2.7",
     "@angular/router": "~10.1.2",
-    "@nguniversal/express-engine": "^10.1.0",
-    "express": "^4.15.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
