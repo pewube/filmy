@@ -129,12 +129,11 @@
             matTooltip="wybierz elementy listy"
             aria-label="select list items"
           >
-            <option [value]="''">wybierz zawartość listy</option>
             <option [value]="'all'">pokaż wszystkie</option>
             <option
               class="person-details__info__videos__header__select__option"
               *ngFor="let department of videosList | keyvalue"
-              [value]="department.key"
+              [ngValue]="department.key"
             >
               {{ translator.department(department.key) }}
             </option>
