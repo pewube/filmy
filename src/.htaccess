@@ -40,7 +40,7 @@
 # Security Headers
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-  Header set Content-Security-Policy "default-src 'self' 'unsafe-inline'; img-src 'self' https: *.themoviedb.org; style-src 'unsafe-inline' 'self' https: fonts.googleapis.com; font-src 'self' https://fonts.googleapis.com fonts.gstatic.com; connect-src 'self' https://api.themoviedb.org https://www.omdbapi.com https://translation.googleapis.com"
+  Header set Content-Security-Policy "default-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' https: *.themoviedb.org; style-src 'unsafe-inline' 'self' https: fonts.googleapis.com; font-src 'self' https://fonts.googleapis.com fonts.gstatic.com; connect-src 'self' https://api.themoviedb.org https://www.omdbapi.com https://translation.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com"
   Header set X-Frame-Options "SAMEORIGIN"
 	Header set X-Content-Type-Options "nosniff"
 	Header set X-XSS-Protection "1; mode=block"
